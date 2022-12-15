@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import LoginButton from "../components/LoginButton/LoginButton"
 import Head from "next/head";
 
 const Home: NextPage = () => {

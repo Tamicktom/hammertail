@@ -1,11 +1,20 @@
 import ContentEditable from 'react-contenteditable';
-import { useRef, createRef } from 'react';
-import { classes } from './utils';
-import type { BlockProps } from './utils';
+import { useRef, createRef, useState, useEffect } from 'react';
+import { classes, getBlocksContent } from './utils';
+import type { BlockProps } from '../../types/block';
 
-export const Block = ({ id, type, content }: BlockProps) => {
-
+export const Block = ({ id, type }: BlockProps) => {
+  const [content, setContent] = useState<string>('');
   const style = classes[type];
+
+  useEffect(() => {
+    const handleLoadContent = async () => {
+      const contentFromApi = await getBlocksContent(id);
+      if (contentFromApi)
+        setContent(contentFromApi.content);
+    };
+    handleLoadContent();
+  }, []);
 
   return (
     <>

@@ -1,5 +1,8 @@
+//* Libraries imports
 import ContentEditable from 'react-contenteditable';
-import { useRef, createRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+
+//* Local imports
 import { classes, getBlocksContent } from './utils';
 import type { BlockProps } from '../../types/block';
 
@@ -17,7 +20,7 @@ export const Block = ({ id, type }: BlockProps) => {
   }, []);
 
   return (
-    <>
+    <div className='w-full'>
       <ContentEditable
         className={style}
         id={id}
@@ -27,6 +30,6 @@ export const Block = ({ id, type }: BlockProps) => {
         onChange={(e) => console.log(JSON.stringify(e.target.value))} // handle innerHTML change
         tagName={type} // Use a custom HTML tag (uses a div by default)
       />
-    </>
+    </div>
   );
 };

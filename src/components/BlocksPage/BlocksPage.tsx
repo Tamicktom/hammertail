@@ -1,18 +1,31 @@
 //* Libraries imports
 import { useState, useEffect } from 'react';
-import { Cake, Skull } from 'phosphor-react';
+import { Cake, Skull, Plus } from 'phosphor-react';
 
 //* Component imports
 import { Block } from "../Block/Block";
 import { BlockProps } from "../../types/block";
+import SelectMenu from '../SelectMenu/SelectMenu';
+
+//* custom hooks
+import { useMousePosition } from '../../hooks/mouse';
 
 export const BlocksPage = () => {
   const [blocks, setBlocks] = useState<BlockProps[]>([]);
+  const spawnPosition = useMousePosition();
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLoadBlocks = async () => {
     const blocksFromApi = await getBlocksFromApi();
     setBlocks(blocksFromApi);
   };
+
+  const handleAddBlock = (index: number, block: BlockProps) => {
+    const newBlocks = [...blocks];
+    newBlocks.splice(index, 0, block);
+    setBlocks(newBlocks);
+  }
 
   useEffect(() => {
     handleLoadBlocks();
@@ -20,6 +33,13 @@ export const BlocksPage = () => {
 
   return (
     <div className="flex flex-row items-start justify-center w-full h-full px-4 py-20 overflow-y-scroll">
+
+      <SelectMenu
+        isOpen={isMenuOpen}
+        spawnPosition={menuPosition}
+        onMouseEnter={() => setIsMenuOpen(true)}
+        onMouseLeave={() => setIsMenuOpen(false)}
+      />
 
       {/* blocks */}
       <div className="flex flex-col w-full gap-8 p-2">
@@ -29,13 +49,23 @@ export const BlocksPage = () => {
           <h1 className="text-5xl font-bold text-white">Ana Magister</h1>
         </div>
 
-        <div className='flex flex-col w-full gap-1 bg-slate-700'>
-          {blocks.map((block) => (
-            <Block
-              key={block.id}
-              id={block.id}
-              type={block.type}
-            />
+        <div className='flex flex-col w-full bg-slate-700 gap-1'>
+          {blocks.map((block, index) => (
+            <div className='flex flex-row w-full justify-start items-start'>
+              <button
+                onClick={() => { setMenuPosition(spawnPosition); setIsMenuOpen(true) }}
+                onMouseEnter={() => setMenuPosition(spawnPosition)}
+                onMouseLeave={() => setIsMenuOpen(false)}
+                className='mt-2 text-white rounded-lg hover:bg-slate-900 p-1'
+              >
+                <Plus size={24} />
+              </button>
+              <Block
+                key={block.id}
+                id={block.id}
+                type={block.type}
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -6,6 +6,7 @@ import type { GetServerSideProps } from "next";
 import type { World } from "@prisma/client";
 
 //* Components imports
+import { WorldCard } from "../../components/WorldCard/WorldCard";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -58,9 +59,7 @@ export default function Worlds({ worlds }: WorldProps) {
           <h3>Lista com os mundos de {session?.user?.name}</h3>
           <div>
             {worlds.map((world) => (
-              <div key={world.id}>
-                <h4>{world.name}</h4>
-              </div>
+              <WorldCard key={world.id} world={world} />
             ))}
           </div>
         </div>

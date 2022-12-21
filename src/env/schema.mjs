@@ -21,6 +21,9 @@ export const serverSchema = z.object({
   ),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
+
+  SUPABASE_URL: z.string(),
+  SUPABASE_KEY: z.string(),
 });
 
 /**

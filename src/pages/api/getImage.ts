@@ -12,7 +12,7 @@ const examples = async (req: NextApiRequest, res: NextApiResponse) => {
   
   const { data, error } = await supabase.storage
     .from("blocks")
-    .upload(teste.title, JSON.stringify(teste));
+    .upload(teste.title + ".json" , JSON.stringify(teste));
 
   res.status(200).json({ data, error });
 };

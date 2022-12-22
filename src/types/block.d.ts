@@ -1,4 +1,4 @@
-export type BlockTypes = "p" | "h1" | "h2" | "h3" | "h4";
+export type BlockTypes = "p" | "h1" | "h2" | "h3" | "h4" | "img";
 
 export type BlockProps = {
   id: string;
@@ -15,4 +15,5 @@ export const classes = {
   h2: "text-xl font-bold",
   h3: "text-lg font-bold",
   h4: "text-base font-bold",
+  img: ""
 };

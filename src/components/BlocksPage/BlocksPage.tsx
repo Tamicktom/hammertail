@@ -103,12 +103,7 @@ export const BlocksPage = () => {
 
 const getBlocksFromApi = async () => {
   const blocks: BlockProps[] = [
-    { id: "1", type: "h1" },
-    { id: "2", type: "h2" },
-    { id: "3", type: "h3" },
-    { id: "4", type: "p" },
-    { id: "5", type: "p" },
-    { id: "6", type: "p" },
+    {id:"7", type:"img"},
   ];
   return blocks;
 };

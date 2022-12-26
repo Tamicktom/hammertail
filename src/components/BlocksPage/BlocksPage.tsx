@@ -39,6 +39,7 @@ export const BlocksPage = () => {
         spawnPosition={menuPosition}
         onMouseEnter={() => setIsMenuOpen(true)}
         onMouseLeave={() => setIsMenuOpen(false)}
+        onAddBlock={handleAddBlock}
       />
 
       {/* blocks */}
@@ -51,7 +52,7 @@ export const BlocksPage = () => {
 
         <div className='flex flex-col w-full bg-slate-700 gap-1'>
           {blocks.map((block, index) => (
-            <div className='flex flex-row w-full justify-start items-start'>
+            <div key={index} className='flex flex-row w-full justify-start items-start'>
               <button
                 onClick={() => { setMenuPosition(spawnPosition); setIsMenuOpen(true) }}
                 onMouseEnter={() => setMenuPosition(spawnPosition)}
@@ -108,7 +109,6 @@ const getBlocksFromApi = async () => {
     { id: "3", type: "h3" },
     { id: "4", type: "p" },
     { id: "5", type: "p" },
-    { id: "6", type: "p" },
   ];
   return blocks;
 };

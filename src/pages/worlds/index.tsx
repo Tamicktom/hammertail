@@ -48,16 +48,23 @@ export default function Worlds({ worlds }: WorldProps) {
   const [worldName, setWorldName] = useState("");
 
   return (
-    <div>
+    <div className="w-screen h-screen flex">
       <h1>Worlds</h1>
-      <div>
-        <input type="text" onChange={(e) => { setWorldName(e.target.value) }} />
-        <button onClick={() => { createWorld(worldName) }}>
-          <span>Criar um novo mundo</span>
-        </button>
-        <div>
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <div className="w-full h-1/6 flex  flex-col  justify-center items-center">
+          <input
+            className="border-2 border-black rounded-md"
+            type="text"
+            onChange={(e) => { setWorldName(e.target.value) }} />
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => { createWorld(worldName) }}>
+            <span>Criar um novo mundo</span>
+          </button>
+        </div>
+        <div className="w-full h-5/6 flex flex-col justify-start items-center">
           <h3>Lista com os mundos de {session?.user?.name}</h3>
-          <div>
+          <div className="w-full flex flex-row items-center justify-center flex-wrap">
             {worlds.map((world) => (
               <WorldCard key={world.id} world={world} />
             ))}

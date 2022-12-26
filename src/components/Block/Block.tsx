@@ -4,10 +4,14 @@ import { useRef, useState, useEffect } from 'react';
 
 //* Local imports
 import { classes, getBlocksContent } from './utils';
+import useDebounce from '../../hooks/useDebounce';
+import { saveBlock } from '../../utils/blockUtils';
 import type { BlockProps } from '../../types/block';
 
 export const Block = ({ id, type }: BlockProps) => {
   const [content, setContent] = useState<string>('');
+  const [newContent, setNewContent] = useState<string>('');
+  const debouncedContent = useDebounce(content, 1000);
   const style = classes[type];
 
   useEffect(() => {
@@ -19,6 +23,17 @@ export const Block = ({ id, type }: BlockProps) => {
     handleLoadContent();
   }, []);
 
+  useEffect(() => {
+    saveBlock(id, { content: debouncedContent });
+    console.info('saving....................');
+  }, [debouncedContent]);
+
+  useEffect(() => {
+    if (content !== newContent) {
+      setContent(newContent);
+    }
+  }, [newContent]);
+
   return (
     <div className='w-full'>
       <ContentEditable
@@ -27,7 +42,7 @@ export const Block = ({ id, type }: BlockProps) => {
         innerRef={useRef(null)} // innerRef is a reference to the inner div
         html={content} // innerHTML of the editable div
         disabled={false} // use true to disable editing
-        onChange={(e) => console.log(JSON.stringify(e.target.value))} // handle innerHTML change
+        onChange={(e) => { setNewContent(e.target.value) }} // handle innerHTML change
         tagName={type} // Use a custom HTML tag (uses a div by default)
       />
     </div>

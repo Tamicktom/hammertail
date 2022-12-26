@@ -1,21 +1,22 @@
 import { useRef, useEffect, useState } from 'react';
+import { BlockProps, BlockTypes } from '../../types/block';
 
-const menuItems = [
+type MenuItems = {
+  title: BlockTypes,
+}
+
+const menuItems: MenuItems[] = [
   {
     title: 'p',
-    onClick: () => console.log('p'),
   },
   {
     title: 'h2',
-    onClick: () => console.log('h2'),
   },
   {
     title: 'h3',
-    onClick: () => console.log('h3'),
   },
   {
     title: 'h4',
-    onClick: () => console.log('h4'),
   },
 ]
 
@@ -24,9 +25,10 @@ type Props = {
   isOpen: boolean,
   onMouseLeave: () => void,
   onMouseEnter: () => void,
+  onAddBlock: (index: number, block: BlockProps) => void,
 }
 
-export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMouseLeave }: Props) {
+export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMouseLeave, onAddBlock }: Props) {
   const menuOptions = menuItems;
   const menuRef = useRef<HTMLDivElement>(null);
   const [menuHeight, setMenuHeight] = useState<number>(0);
@@ -60,7 +62,17 @@ export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMous
               className='w-full h-12 bg-green-600 hover:bg-green-700 cursor-pointer'
               key={index}
             >
-              <button onClick={item.onClick}>{item.title}</button>
+              <button
+                className='w-full h-full text-white'
+                onClick={() => {
+                  onAddBlock(index, {
+                    id: crypto.randomUUID(),
+                    type: item.title,
+                  });
+                }}
+              >
+                {item.title}
+              </button>
             </div>
           )
         })

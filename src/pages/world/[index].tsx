@@ -1,4 +1,5 @@
 //* Libraries imports
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession, getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
@@ -101,15 +102,21 @@ export default function World({ world, pages }: Props) {
       </div>
 
 
-
-
       <div className="bg-green-200 flex flex-col justify-center items-center">
         <h2>Pages</h2>
         {
           pages?.map((page) => {
             return (
               <div key={page.id}>
-                <h3>{page.name}</h3>
+                <Link href={{
+                  pathname: `/page/${page.id}`,
+                  query: {
+                    worldId: world.id,
+                    pageId: page.id,
+                  },
+                }}>
+                  <h3>{page.name}</h3>
+                </Link>
               </div>
             )
           })

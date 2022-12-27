@@ -9,6 +9,7 @@ import SelectMenu from '../SelectMenu/SelectMenu';
 
 //* custom hooks
 import { useMousePosition } from '../../hooks/mouse';
+import { string } from 'zod';
 
 export const BlocksPage = () => {
   const [blocks, setBlocks] = useState<BlockProps[]>([]);
@@ -104,11 +105,8 @@ export const BlocksPage = () => {
 
 const getBlocksFromApi = async () => {
   const blocks: BlockProps[] = [
-    { id: "1", type: "h1" },
-    { id: "2", type: "h2" },
-    { id: "3", type: "h3" },
-    { id: "4", type: "p" },
-    { id: "5", type: "p" },
+    {id:"7", type:"img"},
+    {id:"8", type:"todo"},
   ];
   return blocks;
 };

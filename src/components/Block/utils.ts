@@ -6,6 +6,8 @@ export const classes = {
   h2: "py-1 px-2 text-white text-xl font-bold",
   h3: "py-1 px-2 text-white text-lg font-bold",
   h4: "py-1 px-2 text-white text-base font-bold",
+  img: "",
+  todo: "",
 };
 
 type TmpContent = {
@@ -28,8 +30,20 @@ export const getBlocksContent = async (blockId: string) => {
     "6": {
       content:
         "Donec sit amet aliquam tortor, sed ornare lacus. Integer ut mauris molestie, sodales mi ut, elementum urna. Curabitur eu dictum risus. Cras eget nulla orci. Maecenas augue nulla, semper vitae faucibus et, eleifend bibendum est. Mauris vitae nunc semper, feugiat magna non, consectetur mauris. Aenean malesuada pulvinar odio ac efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. ",
+
     },
+    "7": {
+
+      content: "/images/1671576095511_197.png"
+
+    },
+    "8": {
+      content: "Donec sit amet aliquam tortor, sed ornare lacus. Integer ut mauris molestie, sodales mi ut, elementum urna"
+
+    },
+
   };
+
 
   return content[blockId];
 };

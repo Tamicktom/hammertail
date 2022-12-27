@@ -6,6 +6,11 @@ import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
 import type { World, Page } from "@prisma/client";
 
+//* Component imports
+import { Navbar } from "../../components/Navbar/Navbar";
+import { Sidebar } from "../../components/Sidebar/Sidebar";
+import { BlocksPage } from "../../components/BlocksPage/BlocksPage";
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
@@ -57,8 +62,12 @@ export default function World({ page }: Props) {
 
 
   return (
-    <div>
-      <h1>{page.name}</h1>
+    <div className="w-screen h-screen bg-gray-500 flex flex-row justify-start items-center">
+      <div className="h-full w-full">
+        <Navbar />
+        <BlocksPage />
+      </div>
+      <Sidebar />
     </div>
   );
 }

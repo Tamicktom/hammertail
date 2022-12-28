@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { BlockProps, BlockTypes } from '../../types/block';
+import type { Block } from '@prisma/client';
 
 type MenuItems = {
   title: BlockTypes,
@@ -18,6 +19,12 @@ const menuItems: MenuItems[] = [
   {
     title: 'h4',
   },
+  {
+    title: 'img',
+  },
+  {
+    title: 'todo',
+  }
 ]
 
 type Props = {
@@ -25,7 +32,7 @@ type Props = {
   isOpen: boolean,
   onMouseLeave: () => void,
   onMouseEnter: () => void,
-  onAddBlock: (index: number, block: BlockProps) => void,
+  onAddBlock: (index: number, block: Block) => void,
 }
 
 export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMouseLeave, onAddBlock }: Props) {
@@ -65,10 +72,7 @@ export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMous
               <button
                 className='w-full h-full text-white'
                 onClick={() => {
-                  onAddBlock(index, {
-                    id: crypto.randomUUID(),
-                    type: item.title,
-                  });
+                  
                 }}
               >
                 {item.title}

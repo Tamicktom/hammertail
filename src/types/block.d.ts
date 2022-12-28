@@ -1,12 +1,6 @@
-export type BlockTypes = "p" | "h1" | "h2" | "h3" | "h4" | "img" | "todo";
-
 export type BlockProps = {
   id: string;
   type: BlockTypes;
-};
-
-export type BlockContent = {
-  content: string;
 };
 
 export const classes = {
@@ -16,5 +10,20 @@ export const classes = {
   h3: "text-lg font-bold",
   h4: "text-base font-bold",
   img: "",
-  todo:"",
+  todo: "",
+};
+
+type Page = {
+  id: string;
+  title: string;
+  blocks: Block[];
+}
+
+export type BlockTypes = "p" | "h1" | "h2" | "h3" | "h4" | "img" | "todo";
+
+type Block = {
+  id: string;
+  path: string;
+  type: BlockTypes;
+  content: string;
 };

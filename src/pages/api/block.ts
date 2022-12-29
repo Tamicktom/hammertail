@@ -1,7 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import sanitizeHtml from "sanitize-html";
 import { prisma, supabase } from "../../server/db/client";
-
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 
 const block = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,12 +9,46 @@ const block = async (req: NextApiRequest, res: NextApiResponse) => {
     // const { id, blockContent } = req.body;
     // const sanitizedBlockContent = await sanitizeHtml(blockContent.content);
     // res.send(JSON.stringify({ id, sanitizedBlockContent, blockContent }));
-    const { pageId, comand, type, blockId } = req.body;
+    const { pageId, comand, blockType, blockId, content } = req.body;
     if (comand === "add") {
     }
     if (comand === "delete") {
     }
     if (comand === "update") {
+      //verify if block exists on prisma
+      const block = await prisma.block.findUnique({
+        where: {
+          id: blockId,
+        },
+        include: {
+          page: true,
+        },
+      });
+      if (!block) {
+        console.log("block not found");
+        return res.send(JSON.stringify({ error: "block not found" }));
+      }
+
+      //update block on supabase
+      const { data, error } = await supabase.storage.from("pages").update(
+        `${pageId}/${blockId}.json`,
+        JSON.stringify({
+          id: blockId,
+          content: content,
+          blockType: blockType,
+        })
+      );
+      if (error) {
+        console.log(error);
+        return res.send(JSON.stringify({ error: error }));
+      }
+
+      console.log(
+        "block updated on supabase --------------------------------------------"
+      );
+      return res.send(
+        JSON.stringify({ data: data, mensage: "block updated", id: blockId })
+      );
     }
     if (comand === "get") {
       //get block from prisma
@@ -50,6 +83,7 @@ const block = async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           path: "",
           pageId: pageId,
+          blockType: "p",
         },
       });
 
@@ -58,7 +92,7 @@ const block = async (req: NextApiRequest, res: NextApiResponse) => {
         .from("pages")
         .upload(
           `${pageId}/${newBlock.id}.json`,
-          JSON.stringify({ type: type, content: "" })
+          JSON.stringify({ id: newBlock.id, content: "", blockType: "p" })
         );
       if (error) {
         console.log(error);
@@ -77,7 +111,7 @@ const block = async (req: NextApiRequest, res: NextApiResponse) => {
       //return updated block
       return res.send(JSON.stringify(updatedBlock));
     }
-    res.send(JSON.stringify({ pageId, comand, type }));
+    res.send(JSON.stringify({ pageId, comand, blockType }));
   } else {
     res.send({
       error:

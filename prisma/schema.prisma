@@ -87,6 +87,7 @@ model World {
 model Page {
   id        String   @id @default(cuid())
   name      String
+  pageType  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   world     World    @relation(fields: [worldId], references: [id])
@@ -99,6 +100,7 @@ model Page {
 model Block {
   id        String   @id @default(cuid())
   path      String
+  blockType String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   page      Page     @relation(fields: [pageId], references: [id])

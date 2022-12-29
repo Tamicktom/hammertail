@@ -57,6 +57,7 @@ erDiagram
   Page {
     String id PK 
     String name  
+    String pageType  
     DateTime createdAt  
     DateTime updatedAt  
     }
@@ -65,6 +66,7 @@ erDiagram
   Block {
     String id PK 
     String path  
+    String blockType  
     DateTime createdAt  
     DateTime updatedAt  
     }

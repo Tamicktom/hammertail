@@ -32,7 +32,7 @@ export const BlockComponent = ({ block }: Props) => {
       innerRef={useRef(null)} // innerRef is a reference to the inner div
       html={content} // innerHTML of the editable div
       disabled={false} // use true to disable editing
-      onChange={(e) => console.log(JSON.stringify(e.target.value))} // handle innerHTML change
+      onChange={(e) => { setNewContent(e.target.value) }} // handle innerHTML change
       tagName={type} // Use a custom HTML tag (uses a div by default)
     />
 
@@ -40,7 +40,7 @@ export const BlockComponent = ({ block }: Props) => {
 
   useEffect(() => {
     const handleLoadContent = async () => {
-      const newContent = await fetch("/api/block", {
+      const loadContent = await fetch("/api/block", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,16 +49,37 @@ export const BlockComponent = ({ block }: Props) => {
           pageId: block.pageId,
           comand: "get",
           blockId: block.id,
+          blockType: block.blockType,
         }),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => setNewContent(data.content));
     };
     handleLoadContent();
   }, []);
 
   useEffect(() => {
-
+    if (debouncedContent) {
+      const handleSaveContent = async () => {
+        const saveContent = await fetch("/api/block", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pageId: block.pageId,
+            comand: "update",
+            blockId: block.id,
+            content: debouncedContent === "" ? " " : debouncedContent,
+            blockType: block.blockType,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.log(err));
+      };
+      handleSaveContent();
+    }
   }, [debouncedContent]);
 
   useEffect(() => {

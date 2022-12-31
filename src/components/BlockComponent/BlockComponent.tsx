@@ -4,13 +4,10 @@ import { useRef, useState, useEffect } from 'react';
 import type { Block } from '@prisma/client';
 
 //* Local imports
-import { classes, getBlocksContent } from './utils';
+import { classes } from './utils';
 import useDebounce from '../../hooks/useDebounce';
-import { saveBlock } from '../../utils/blockUtils';
-import type { BlockProps } from '../../types/block';
 import { ImageBlock } from './Blocks/ImageBlock/ImageBlock';
 import { TodoBlock } from './Blocks/TodoBlock/TodoBlock';
-import { validateHeaderValue } from 'http';
 
 type Props = {
   block: Block,
@@ -35,7 +32,6 @@ export const BlockComponent = ({ block }: Props) => {
       onChange={(e) => { setNewContent(e.target.value) }} // handle innerHTML change
       tagName={type} // Use a custom HTML tag (uses a div by default)
     />
-
   }
 
   useEffect(() => {

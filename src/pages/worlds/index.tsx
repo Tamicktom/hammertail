@@ -1,17 +1,25 @@
 //* Libraries imports
+import { MagnifyingGlass, Plus } from "phosphor-react";
 import { useState } from "react";
 import { useSession, getSession } from "next-auth/react";
+
+//* Local imports
 import { prisma } from "../../server/db/client";
+
+//* type imports
 import type { GetServerSideProps } from "next";
 import type { World } from "@prisma/client";
 
 //* Components imports
+import WorldCreationModal from "../../components/WorldCreationModal/WorldCreationModal";
+import WorldHeader from "../../components/WorldHeader/WorldHeader";
 import { WorldCard } from "../../components/WorldCard/WorldCard";
 
+//* Server side code -----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
-  if (!session) {
+  if (!session) { //* if user is not logged in, redirect to login page
     return {
       redirect: {
         destination: "/api/auth/signin",
@@ -20,17 +28,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const userId = session?.user?.id;
+  const userId = session?.user?.id; //* get user id from session
 
   const worlds = await prisma.world.findMany({
     where: {
       owner: {
-        id: userId,
+        id: userId, //* get worlds from user id
       },
     },
   });
-
-  console.log(worlds);
 
   return {
     props: {
@@ -39,55 +45,37 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+//* Client side code -----------------------------------------------------------
 type WorldProps = {
   worlds: World[];
 }
 
 export default function Worlds({ worlds }: WorldProps) {
-  const { data: session, status } = useSession();
-  const [worldName, setWorldName] = useState("");
+  const [showModal, setShowModal] = useState(false); //* world creation modal
+  const [filteredWorlds, setFilteredWorlds] = useState<World[]>(worlds);
+
+  //* filter world list by name
+  const handleWorldFilter = (filter: string) => {
+    if (filter === "") return setFilteredWorlds(worlds);
+    const filtered = worlds.filter((world) => {
+      return world.name.toLowerCase().includes(filter.toLowerCase());
+    });
+    setFilteredWorlds(filtered);
+  };
 
   return (
-    <div className="w-screen h-screen flex">
-      <h1>Worlds</h1>
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <div className="w-full h-1/6 flex  flex-col  justify-center items-center">
-          <input
-            className="border-2 border-black rounded-md"
-            type="text"
-            onChange={(e) => { setWorldName(e.target.value) }} />
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => { createWorld(worldName) }}>
-            <span>Criar um novo mundo</span>
-          </button>
-        </div>
-        <div className="w-full h-5/6 flex flex-col justify-start items-center">
-          <h3>Lista com os mundos de {session?.user?.name}</h3>
-          <div className="w-full flex flex-row items-center justify-center flex-wrap">
-            {worlds.map((world) => (
-              <WorldCard key={world.id} world={world} />
-            ))}
-          </div>
+    <div className="relative flex flex-col w-screen min-h-screen bg-slate-600">
+      <WorldCreationModal display={showModal} setDisplay={setShowModal} />
+      <WorldHeader display={showModal} setDisplay={setShowModal} filterHandler={handleWorldFilter} />
+
+      {/* worldsCards */}
+      <div className="flex flex-col items-center justify-start w-full p-4">
+        <div className="flex flex-col items-center justify-start w-full max-w-lg">
+          {filteredWorlds.map((world) => (
+            <WorldCard key={world.id} world={world} />
+          ))}
         </div>
       </div>
     </div>
   );
-}
-
-const createWorld = async (name: string) => {
-  const body = {
-    name
-  }
-  const header = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  }
-
-  const response = await fetch("/api/worlds", header);
-  const data = await response.json();
-  console.log(data);
 }

@@ -1,7 +1,7 @@
 //* Type imports
-import type { BlockContent } from "../types/block";
+import type { Block } from "@prisma/client";
 
-export const saveBlock = async (id: string, blockContent: BlockContent) => {
+export const saveBlock = async (id: string, blockContent: Block) => {
   const block = { id, blockContent };
   const res = await fetch("/api/block", {
     method: "POST",

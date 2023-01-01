@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { BlockProps, BlockTypes } from '../../types/block';
+import { BlockTypes } from '../../types/block';
 import type { Block } from '@prisma/client';
 
 type MenuItems = {
@@ -71,9 +71,6 @@ export default function SelectMenu({ spawnPosition, isOpen, onMouseEnter, onMous
             >
               <button
                 className='w-full h-full text-white'
-                onClick={() => {
-                  
-                }}
               >
                 {item.title}
               </button>

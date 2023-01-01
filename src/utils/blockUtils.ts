@@ -3,7 +3,7 @@ import type { Block } from "@prisma/client";
 
 export const saveBlock = async (id: string, blockContent: Block) => {
   const block = { id, blockContent };
-  const res = await fetch("/api/block", {
+  await fetch("/api/block", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

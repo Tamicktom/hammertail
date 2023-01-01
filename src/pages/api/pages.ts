@@ -8,7 +8,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (session) {
     const reqType = req.method;
-    let { name, worldId } = req.body;
+    const { name, worldId } = req.body;
 
     if (reqType === "GET") {
     }

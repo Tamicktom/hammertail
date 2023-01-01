@@ -5,6 +5,7 @@ import { env } from "../../env/server.mjs";
 declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
+  // eslint-disable-next-line no-var
   var supabase: SupabaseClient | undefined;
 }
 

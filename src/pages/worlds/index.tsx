@@ -1,7 +1,6 @@
 //* Libraries imports
-import { MagnifyingGlass, Plus } from "phosphor-react";
 import { useState } from "react";
-import { useSession, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 //* Local imports
 import { prisma } from "../../server/db/client";

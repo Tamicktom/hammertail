@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // get the user id from the session
   const userId = session?.user?.id;
-  const { pageId, worldId, index } = ctx?.query;
+  const { pageId } = ctx?.query;
 
   const page = await prisma.page.findUnique({
     where: {
@@ -98,12 +98,7 @@ const PageHeader = ({ title, pageType }: PageHeaderProps) => {
   );
 }
 
-
-
-type PageInfoProps = {
-
-}
-const PageInfo = ({ }: PageInfoProps) => {
+const PageInfo = () => {
   return (
     <>
       {/* character info */}

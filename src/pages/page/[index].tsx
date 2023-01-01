@@ -5,11 +5,12 @@ import type { GetServerSideProps } from "next";
 import type { World, Page, Block } from "@prisma/client";
 
 //* Component imports
-import { Navbar } from "../../components/Navbar/Navbar";
-import { Sidebar } from "../../components/Sidebar/Sidebar";
-import { BlocksHolder } from "../../components/BlocksHolder/BlocksHolder";
+import { Navbar } from "../../components/specific/Navbar/Navbar";
+import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
+import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { Cake, Skull } from "phosphor-react";
 
+//* Server side code ----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
@@ -58,6 +59,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   };
 };
+
+//* Client side code ----------------------------------------------------------
 
 type Props = {
   page: Page;

@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { Plus } from 'phosphor-react';
 
 //* Component imports
-import { BlockComponent } from "../BlockComponent/BlockComponent";
-import SelectMenu from '../SelectMenu/SelectMenu';
+import { BlockComponent } from "../../BlockComponent/BlockComponent";
+import SelectMenu from '../../specific/SelectMenu/SelectMenu';
 
 //* custom hooks
-import { useMousePosition } from '../../hooks/mouse';
+import { useMousePosition } from '../../../hooks/mouse';
 import type { Block } from '@prisma/client';
 
 type Props = {

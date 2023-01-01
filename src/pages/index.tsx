@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import LoginButton from "../components/LoginButton/LoginButton";
+import LoginButton from "../components/common/LoginButton/LoginButton";
 import Head from "next/head";
 import Link from "next/link";
 

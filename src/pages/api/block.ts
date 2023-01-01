@@ -1,5 +1,4 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import sanitizeHtml from "sanitize-html";
 import { prisma, supabase } from "../../server/db/client";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 

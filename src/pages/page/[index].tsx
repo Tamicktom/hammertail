@@ -74,7 +74,7 @@ export default function World({ page, blocks }: Props) {
     <div className="w-screen h-screen bg-gray-500 flex flex-row justify-start items-center">
       <div className="h-full w-full">
         <Navbar />
-        <PageHeader title={page.name} pageType="Character" />
+        <PageHeader title={page.name} pageType={page.pageType} />
         <BlocksHolder pageId={page.id} startBlocks={blocks} />
         <PageInfo />
       </div>

@@ -1,0 +1,163 @@
+{
+  "main": {
+    "id": "cf2f907cbe23bea1",
+    "type": "split",
+    "children": [
+      {
+        "id": "8b78bbbec5d241f3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "36b93fa0fd0024f0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Blocks/Block.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "50dbd50c40f268b9",
+    "type": "split",
+    "children": [
+      {
+        "id": "9d44347f385194aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0c3298f777419014",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "cc7c9df84e707731",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a150527ee998a4f4",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "92b8b9538f987180",
+    "type": "split",
+    "children": [
+      {
+        "id": "1eb502a28daf1154",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cbcbc95a37d605d5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Blocks/Block.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "e07a515d5acafbc4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Blocks/Block.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "1561ecd7d9483222",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9f0f2b13ab7569da",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Blocks/Block.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-excalidraw-plugin:New Excalidraw drawing": false
+    }
+  },
+  "active": "36b93fa0fd0024f0",
+  "lastOpenFiles": [
+    "World/World.md",
+    "Index.md",
+    "Mapa.canvas",
+    "World/World Timeline.md",
+    "Pages/Page.md",
+    "Pages/Event.md",
+    "Blocks/Paragraph.md",
+    "Blocks/Heading.md",
+    "Blocks/Block.md",
+    "Pages/Character.md"
+  ]
+}

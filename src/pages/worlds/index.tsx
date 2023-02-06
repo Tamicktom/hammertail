@@ -10,9 +10,9 @@ import type { GetServerSideProps } from "next";
 import type { World } from "@prisma/client";
 
 //* Components imports
-import WorldCreationModal from "../../components/WorldCreationModal/WorldCreationModal";
-import WorldHeader from "../../components/WorldHeader/WorldHeader";
-import { WorldCard } from "../../components/WorldCard/WorldCard";
+import WorldCreationModal from "../../components/specific/WorldCreationModal/WorldCreationModal";
+import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+import { WorldCard } from "../../components/specific/WorldCard/WorldCard";
 
 //* Server side code -----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -63,7 +63,7 @@ export default function Worlds({ worlds }: WorldProps) {
   };
 
   return (
-    <div className="relative flex flex-col w-screen min-h-screen bg-slate-600">
+    <div className="relative flex flex-col w-screen min-h-screen bg-tertiary-800">
       <WorldCreationModal display={showModal} setDisplay={setShowModal} />
       <WorldHeader display={showModal} setDisplay={setShowModal} filterHandler={handleWorldFilter} />
 

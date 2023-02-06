@@ -1,16 +1,30 @@
 //* Libraries imports
 import Link from "next/link";
+import { useState } from "react";
 
-//* Type imports
+//* Type, styles, utils imports
 import type { World } from "@prisma/client";
+import colorPirate from "../../../utils/getPallet";
 
 type WorldCardProps = {
   world: World;
 }
 
 export const WorldCard = ({ world }: WorldCardProps) => {
+  const [color, setColor] = useState<string>('white');
+  const generateColor = async () => {
+    const color = new colorPirate('https://picsum.photos/200');
+    const colorHex = await color.getRGBPalletColors();
+    if (colorHex) setColor(colorHex[0] || "black");
+  }
+
+  generateColor();
+
   return (
-    <div className="flex flex-row items-center justify-center w-full h-24 my-2 overflow-hidden rounded-lg bg-gradient-to-b from-black/20 to-black/30 hover:from-purple-700/20 hover:to-purple-800/30">
+    <div
+      style={{ borderColor: color }}
+      className="flex flex-row items-center justify-center w-full h-24 my-2 overflow-hidden rounded-lg border-2"
+    >
       <Link href={{
         pathname: "/world/[index]",
         query: {

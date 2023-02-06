@@ -9,7 +9,7 @@ type Props = {
 
 const WorldHeader = ({ display, setDisplay, filterHandler }: Props) => {
   return (
-    <div className="w-full h-[200px] flex flex-col  justify-center items-center bg-slate-700 gap-4 p-4">
+    <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4">
       <h1 className="font-bold text-white text-7xl">Mundos</h1>
       <div className="flex flex-row items-center justify-center gap-4">
         <div className="relative flex flex-row items-center justify-center w-64 px-4 py-1 bg-white rounded-lg">

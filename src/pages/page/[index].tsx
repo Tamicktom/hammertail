@@ -5,14 +5,16 @@ import type { GetServerSideProps } from "next";
 import type { World, Page, Block } from "@prisma/client";
 
 //* Component imports
-import { Navbar } from "../../components/Navbar/Navbar";
-import { Sidebar } from "../../components/Sidebar/Sidebar";
-import { BlocksHolder } from "../../components/BlocksHolder/BlocksHolder";
+import { Navbar } from "../../components/specific/Navbar/Navbar";
+import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
+import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { Cake, Skull } from "phosphor-react";
 
+//* Server side code ----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  
+  //if the user is not logged in, redirect to the login page
   const session = await getSession(ctx);
-
   if (!session) {
     return {
       redirect: {
@@ -35,6 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   });
 
+  //if the page doesn't exist or the user is not the owner of the world
   if (page?.world.ownerId !== userId) {
     return {
       redirect: {
@@ -59,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+//* Client side code ----------------------------------------------------------
 type Props = {
   page: Page;
   blocks: Block[];
@@ -71,7 +75,7 @@ export default function World({ page, blocks }: Props) {
     <div className="w-screen h-screen bg-gray-500 flex flex-row justify-start items-center">
       <div className="h-full w-full">
         <Navbar />
-        <PageHeader title={page.name} pageType="Character" />
+        <PageHeader title={page.name} pageType={page.pageType} />
         <BlocksHolder pageId={page.id} startBlocks={blocks} />
         <PageInfo />
       </div>

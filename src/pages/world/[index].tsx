@@ -6,6 +6,7 @@ import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
 import type { World, Page } from "@prisma/client";
 
+//* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
@@ -59,11 +60,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+//* Client side ----------------------------------------------
 type Props = {
   world: World;
   pages: Page[];
 }
-
 export default function World({ world, pages }: Props) {
   const [newPageName, setNewPageName] = useState("");
 

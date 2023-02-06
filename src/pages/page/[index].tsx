@@ -12,8 +12,9 @@ import { Cake, Skull } from "phosphor-react";
 
 //* Server side code ----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  
+  //if the user is not logged in, redirect to the login page
   const session = await getSession(ctx);
-
   if (!session) {
     return {
       redirect: {
@@ -36,6 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   });
 
+  //if the page doesn't exist or the user is not the owner of the world
   if (page?.world.ownerId !== userId) {
     return {
       redirect: {
@@ -61,7 +63,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 //* Client side code ----------------------------------------------------------
-
 type Props = {
   page: Page;
   blocks: Block[];

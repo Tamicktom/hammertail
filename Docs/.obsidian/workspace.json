@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "8b78bbbec5d241f3",
+        "id": "c56839fc7b868c08",
         "type": "tabs",
         "children": [
           {
-            "id": "36b93fa0fd0024f0",
+            "id": "41e99d49ea19eb3b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Blocks/Block.md",
+                "file": "Pages/Page.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Blocks/Block.md",
+                "file": "Pages/Page.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Blocks/Block.md",
+                "file": "Pages/Page.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Blocks/Block.md"
+                "file": "Pages/Page.md"
               }
             }
           }
@@ -147,17 +147,17 @@
       "obsidian-excalidraw-plugin:New Excalidraw drawing": false
     }
   },
-  "active": "36b93fa0fd0024f0",
+  "active": "41e99d49ea19eb3b",
   "lastOpenFiles": [
-    "World/World.md",
-    "Index.md",
     "Mapa.canvas",
+    "Index.md",
+    "Excalidraw/Drawing 2023-01-02 20.57.33.excalidraw.md",
+    "Blocks/Block.md",
+    "World/World.md",
     "World/World Timeline.md",
     "Pages/Page.md",
     "Pages/Event.md",
     "Blocks/Paragraph.md",
-    "Blocks/Heading.md",
-    "Blocks/Block.md",
-    "Pages/Character.md"
+    "Blocks/Heading.md"
   ]
 }

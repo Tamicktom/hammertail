@@ -1,4 +1,4 @@
-import { NextApiHandler, NextApiRequest } from "next";
+import type { NextApiHandler, NextApiRequest } from "next";
 import formidable from "formidable";
 import path from "path";
 import fs from "fs/promises";
@@ -16,7 +16,7 @@ const readFile = (
   const options: formidable.Options = {};
   if (saveLocally) {
     options.uploadDir = path.join(process.cwd(), "/public/images");
-    options.filename = (name, ext, path, form) => {
+    options.filename = (name, ext, path) => {
       return Date.now().toString() + "_" + path.originalFilename;
     };
   }

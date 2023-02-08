@@ -1,4 +1,5 @@
 //* Libraries imports
+import Image from "next/image";
 import { getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
@@ -10,9 +11,11 @@ import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { Cake, Skull } from "phosphor-react";
 
+import { parseWorld } from "../../utils/parseWorld";
+
 //* Server side code ----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  
+
   //if the user is not logged in, redirect to the login page
   const session = await getSession(ctx);
   if (!session) {
@@ -47,6 +50,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  if (page?.world) {
+    page.world = JSON.parse(JSON.stringify(parseWorld(page.world)));
+  }
+
   //get blocks from the page
   const blocks = await prisma.block.findMany({
     where: {
@@ -69,13 +76,11 @@ type Props = {
 }
 
 export default function World({ page, blocks }: Props) {
-
-
   return (
     <div className="w-screen h-screen bg-gray-500 flex flex-row justify-start items-center">
       <div className="h-full w-full">
         <Navbar />
-        <PageHeader title={page.name} pageType={page.pageType} />
+        <PageHeader title={page.name} pageType="" />
         <BlocksHolder pageId={page.id} startBlocks={blocks} />
         <PageInfo />
       </div>
@@ -83,9 +88,6 @@ export default function World({ page, blocks }: Props) {
     </div>
   );
 }
-
-
-
 
 
 type PageHeaderProps = {
@@ -108,11 +110,13 @@ const PageInfo = () => {
       {/* character info */}
       <div className="p-2 w-72" >
         <div className='flex items-center justify-center w-full'>
-          <img
+          <Image
             src="https://i.pinimg.com/564x/bb/14/18/bb1418129cfc0b35f874d249bb5ff9e6.jpg"
             alt="Imagem do personagem"
             className="w-full rounded-lg"
             loading='lazy'
+            width={100}
+            height={100}
           />
         </div>
         <div className='flex flex-col w-full gap-2'>

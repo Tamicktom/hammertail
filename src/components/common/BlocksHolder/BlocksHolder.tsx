@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Plus } from 'phosphor-react';
 
 //* Component imports

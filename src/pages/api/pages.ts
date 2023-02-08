@@ -58,7 +58,6 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           name: name,
           worldId: worldId,
-          pageType: "character",
         },
       });
 

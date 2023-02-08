@@ -36,7 +36,7 @@ export const Heading = ({ block }: Props) => {
         .then((data) => setNewContent(data.content));
     };
     handleLoadContent();
-  }, []);
+  });
 
   useEffect(() => {
     if (debouncedContent) {

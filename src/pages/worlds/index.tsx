@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react";
 
 //* Local imports
 import { prisma } from "../../server/db/client";
+import { parseWorlds } from "../../utils/parseWorld";
 
 //* type imports
 import type { GetServerSideProps } from "next";
@@ -39,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      worlds: JSON.parse(JSON.stringify(worlds)),
+      worlds: JSON.parse(JSON.stringify(parseWorlds(worlds))),
     },
   };
 };

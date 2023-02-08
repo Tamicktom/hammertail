@@ -13,5 +13,19 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "pinimg.com",
+        pathname: "/**",
+      },
+    ]
+  }
 };
 export default config;

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { BlockTypes } from '../../../types/block';
+import type { BlockTypes } from '../../../types/block';
 import type { Block } from '@prisma/client';
 
 type MenuItems = {

@@ -12,6 +12,11 @@ export function parseWorlds(worlds: World[]) {
   return updatedWorlds;
 }
 
+/**
+ * Parse the bigint from worlds to number.
+ * @param world World to parse.
+ */
+
 export function parseWorld(world: World) {
   const updatedWorld = {
     ...world,

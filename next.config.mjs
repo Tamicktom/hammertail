@@ -22,7 +22,7 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "pinimg.com",
+        hostname: "*.pinimg.com",
         pathname: "/**",
       },
     ]

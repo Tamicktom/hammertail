@@ -44,7 +44,7 @@ export const BlocksHolder = ({ pageId, startBlocks }: Props) => {
   }
 
   return (
-    <div className="flex flex-row items-start justify-center w-full h-full px-4 py-20 overflow-y-scroll">
+    <div className="flex flex-row items-start justify-center w-full h-full px-4 py-20">
 
       <SelectMenu
         isOpen={isMenuOpen}
@@ -56,11 +56,11 @@ export const BlocksHolder = ({ pageId, startBlocks }: Props) => {
 
       {/* blocks */}
       <div className="flex flex-col w-full gap-8 p-2">
-        <div className='flex flex-col w-full bg-slate-700 gap-1'>
+        <div className='flex flex-col w-full gap-1'>
           {
             blocks.length > 0
               ? blocks.map((block, index) => (
-                <div key={index} className='flex flex-row w-full justify-start items-start'>
+                <div key={index} className='flex flex-row items-start justify-start w-full'>
                   <button
                     onClick={() => {
                       setMenuPosition(spawnPosition);
@@ -68,7 +68,7 @@ export const BlocksHolder = ({ pageId, startBlocks }: Props) => {
                     }}
                     onMouseEnter={() => setMenuPosition(spawnPosition)}
                     onMouseLeave={() => setIsMenuOpen(false)}
-                    className='mt-2 text-white rounded-lg hover:bg-slate-900 p-1'
+                    className='p-1 mt-2 text-white rounded-lg hover:bg-slate-900'
                   >
                     <Plus size={24} />
                   </button>
@@ -76,11 +76,11 @@ export const BlocksHolder = ({ pageId, startBlocks }: Props) => {
                 </div>
               ))
               : <>
-                <div className='flex flex-col w-full justify-start items-start'>
+                <div className='flex flex-col items-start justify-start w-full'>
                   <p>Não há blocos, adicione o primeiro</p>
                   <button
                     onClick={handleFirstAddBlock}
-                    className='mt-2 text-white rounded-lg hover:bg-slate-900 p-1'
+                    className='p-1 mt-2 text-white rounded-lg hover:bg-slate-900'
                   >
                     <span>Adicionar</span>
                   </button>

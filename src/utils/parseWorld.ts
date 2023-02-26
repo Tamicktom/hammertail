@@ -9,7 +9,7 @@ export function parseWorlds(worlds: World[]) {
       end: Number(item.end.toString()),
     };
   });
-  return updatedWorlds;
+  return updatedWorlds as unknown as World[];
 }
 
 /**

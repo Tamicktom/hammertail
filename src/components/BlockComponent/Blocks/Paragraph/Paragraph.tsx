@@ -6,6 +6,7 @@ import { TextBolder, TextItalic, TextUnderline } from "phosphor-react"
 //* Type, utils imports
 import { classes } from '../../utils';
 import useDebounce from '../../../../hooks/useDebounce';
+import { useParagraph } from '../../../../hooks/useBlockHooks';
 import type { Block } from '@prisma/client';
 
 type Props = {
@@ -14,61 +15,65 @@ type Props = {
 
 export const Paragraph = ({ block }: Props) => {
   const style = classes[block.blockType as keyof typeof classes];
-  const [content, setContent] = useState<string>('');
-  const [newContent, setNewContent] = useState<string>('');
-  const debouncedContent = useDebounce(content, 1250);
+  // const [content, setContent] = useState<string>('');
+  // const [newContent, setNewContent] = useState<string>('');
+  // const debouncedContent = useDebounce(content, 1250);
   const reference = useRef(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  useEffect(() => {
-    const handleLoadContent = async () => {
-      await fetch("/api/block", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pageId: block?.pageId,
-          comand: "get",
-          blockId: block?.id,
-          blockType: block?.blockType,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => setNewContent(data.content));
-    };
-    handleLoadContent();
-  });
+  const { loading, error, content, newContent, setNewContent } = useParagraph(block);
 
-  useEffect(() => {
-    if (debouncedContent) {
-      const handleSaveContent = async () => {
-        await fetch("/api/block", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pageId: block.pageId,
-            comand: "update",
-            blockId: block.id,
-            content: debouncedContent === "" ? " " : debouncedContent,
-            blockType: block.blockType,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log(err));
-      };
-      handleSaveContent();
-    }
-  }, [debouncedContent]);
+  // //* Load content
+  // useEffect(() => {
+  //   const handleLoadContent = async () => {
+  //     await fetch("/api/block", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         pageId: block?.pageId,
+  //         comand: "get",
+  //         blockId: block?.id,
+  //         blockType: block?.blockType,
+  //       }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => setNewContent(data.content));
+  //   };
+  //   handleLoadContent();
+  // });
 
-  useEffect(() => {
-    if (content !== newContent) {
-      setContent(newContent);
-    }
-  }, [newContent]);
+  // //* Save content
+  // useEffect(() => {
+  //   if (debouncedContent) {
+  //     const handleSaveContent = async () => {
+  //       await fetch("/api/block", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           pageId: block.pageId,
+  //           comand: "update",
+  //           blockId: block.id,
+  //           content: debouncedContent === "" ? " " : debouncedContent,
+  //           blockType: block.blockType,
+  //         }),
+  //       })
+  //         .then((res) => res.json())
+  //         .then((data) => console.log(data))
+  //         .catch((err) => console.log(err));
+  //     };
+  //     handleSaveContent();
+  //   }
+  // }, [debouncedContent]);
+
+  // useEffect(() => {
+  //   if (content !== newContent) {
+  //     setContent(newContent);
+  //   }
+  // }, [newContent]);
 
   return (
     <>

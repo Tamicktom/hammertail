@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { getSession } from "next-auth/react";
 
 //* Local imports
@@ -11,9 +11,11 @@ import type { GetServerSideProps } from "next";
 import type { World } from "@prisma/client";
 
 //* Components imports
-import WorldCreationModal from "../../components/specific/WorldCreationModal/WorldCreationModal";
 import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
 import { WorldCard } from "../../components/specific/WorldCard/WorldCard";
+
+//* Hooks imports
+import { useWorldList } from "../../hooks/specific/useWorldList";
 
 //* Server side code -----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -30,29 +32,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const userId = session?.user?.id; //* get user id from session
 
-  const worlds = await prisma.world.findMany({
-    where: {
-      owner: {
-        id: userId, //* get worlds from user id
-      },
-    },
-  });
-
   return {
     props: {
-      worlds: JSON.parse(JSON.stringify(parseWorlds(worlds))),
+      userId
     },
   };
 };
 
 //* Client side code -----------------------------------------------------------
-type WorldProps = {
-  worlds: World[];
+
+type WorldsProps = {
+  userId: string;
 }
 
-export default function Worlds({ worlds }: WorldProps) {
-  const [showModal, setShowModal] = useState(false); //* world creation modal
-  const [filteredWorlds, setFilteredWorlds] = useState<World[]>(worlds);
+export default function Worlds({ userId }: WorldsProps) {
+  const { error, loading, worlds } = useWorldList(userId);
+  const [filteredWorlds, setFilteredWorlds] = useState<World[]>([]);
 
   //* filter world list by name
   const handleWorldFilter = (filter: string) => {
@@ -63,11 +58,13 @@ export default function Worlds({ worlds }: WorldProps) {
     setFilteredWorlds(filtered);
   };
 
+  useEffect(() => {
+    setFilteredWorlds(worlds);
+  }, [worlds]);
+
   return (
     <div className="relative flex flex-col w-screen min-h-screen bg-tertiary-800">
-      <WorldCreationModal display={showModal} setDisplay={setShowModal} />
-      <WorldHeader display={showModal} setDisplay={setShowModal} filterHandler={handleWorldFilter} />
-
+      <WorldHeader filterHandler={handleWorldFilter} />
       {/* worldsCards */}
       <div className="flex flex-col items-center justify-start w-full p-4">
         <div className="flex flex-col items-center justify-start w-full max-w-lg">

@@ -7,7 +7,7 @@ import { BlockComponent } from "../../BlockComponent/BlockComponent";
 import SelectMenu from '../../specific/SelectMenu/SelectMenu';
 
 //* custom hooks
-import { useMousePosition } from '../../../hooks/mouse';
+import { useMousePosition } from '../../../hooks/common/mouse';
 import type { Block } from '@prisma/client';
 
 type Props = {

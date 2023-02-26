@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getSession } from "next-auth/react";
 
 //* type imports
@@ -45,6 +45,8 @@ type WorldsProps = {
 export default function Worlds({ userId }: WorldsProps) {
   const { error, loading, worlds } = useWorldList(userId);
   const [filteredWorlds, setFilteredWorlds] = useState<World[]>([]);
+  const divHolder = useRef<HTMLDivElement>(null);
+  const [bgColor, setBgColor] = useState<[number, number, number]>([0, 0, 0]);
 
   //* filter world list by name
   const handleWorldFilter = (filter: string) => {
@@ -59,8 +61,23 @@ export default function Worlds({ userId }: WorldsProps) {
     setFilteredWorlds(worlds);
   }, [worlds]);
 
+  useEffect(() => {
+    //get the computed bg color of the div
+    if (divHolder?.current) {
+      const computedBgColor = window.getComputedStyle(divHolder.current).backgroundColor;
+      //convert the rgb string to an array of numbers
+      const rgb = computedBgColor.replace(/[^\d,]/g, '').split(',').map(Number);
+      if (typeof rgb[0] === "number" && typeof rgb[1] === "number" && typeof rgb[2] === "number") {
+        setBgColor(rgb as [number, number, number]);
+      }
+    }
+  }, []);
+
   return (
-    <div className="relative flex flex-col w-screen min-h-screen bg-tertiary-800">
+    <div
+      ref={divHolder}
+      className="relative flex flex-col w-screen min-h-screen bg-tertiary-800"
+    >
       <WorldHeader filterHandler={handleWorldFilter} />
 
       {/* worldsCards */}
@@ -71,7 +88,7 @@ export default function Worlds({ userId }: WorldsProps) {
             <div className="flex flex-col items-center justify-start w-full max-w-lg">
               {
                 filteredWorlds?.map((world) => (
-                  <WorldCard key={world.id} world={world} />
+                  <WorldCard key={world.id} world={world} backgroundColor={bgColor} />
                 ))
               }
             </div>

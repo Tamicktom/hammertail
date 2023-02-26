@@ -14,6 +14,8 @@ const config = {
     defaultLocale: "en",
   },
   images: {
+    //5 minutes cache
+    minimumCacheTTL: 300,
     remotePatterns: [
       {
         protocol: "https",

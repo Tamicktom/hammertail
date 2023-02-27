@@ -1,5 +1,9 @@
 //* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
+import { createClient } from "@supabase/supabase-js";
+import { env } from "../../../env/server.mjs";
+
+const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_KEY);
 
 //* Local imports
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
@@ -9,12 +13,16 @@ import { prisma } from "../../../server/db/client";
 import type { World } from "@prisma/client";
 import type { APIResponse } from "../../../types/api";
 
+type APIRes = {
+  imageUrl: string;
+};
+
 /**
  * This function is used to get the owner of the world
  */
 const getOwner = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
-  const Response: APIResponse<World> = {
+  const Response: APIResponse<APIRes> = {
     status: "error",
     errors: [],
   };
@@ -46,30 +54,24 @@ const getOwner = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "POST") {
-    const { worldId } = req.body; // Get the world id from the request body
+    const { image } = req.body; // Get the image from the request body
+    //this image comes from the client as a base64 string
+    //we need to convert it to a blob
+    const blob = await fetch(image).then((r) => r.blob());
 
-    // Get the world from the database
-    const world = await prisma.world.findUnique({
-      where: {
-        id: worldId,
-      },
-    });
-
-    //verify if the world exists
-    if (!world) {
-      Response.errors?.push("World not found.");
+    //verify if the image is valid
+    if (!blob || blob.type !== "image/jpeg") {
+      Response.errors?.push("Invalid image.");
       return res.json(Response);
     }
 
-    //verify if the user is the owner of the world
-    if (world.ownerId !== dbUser.id) {
-      Response.errors?.push("You are not the owner of this world.");
-      return res.json(Response);
-    }
+    //verify if there is a bucket of images
+    const { data: bucket, error: bucketError } =
+      await supabase.storage.listBuckets();
+
+    console.log(bucket, bucketError);
 
     Response.status = "success";
-    Response.data = world;
-
     return res.json(Response);
   }
 };

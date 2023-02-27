@@ -3,6 +3,9 @@ import { Root, Content, Overlay, Portal, Description, Close, Trigger, Title } fr
 import { Pen, Plus, X } from 'phosphor-react';
 import { useState } from 'react';
 
+//* Components imports
+import WorldImage from '../WorldImage/WorldImage';
+
 const WorldCreationModal = () => {
   const [worldName, setWorldName] = useState('');
   const [worldStartYear, setWorldStartYear] = useState(0);
@@ -67,6 +70,13 @@ const WorldCreationModal = () => {
                 onChange={(e) => { setWorldEndYear(Number(e.target.value)); }}
               />
             </fieldset>
+          </div>
+
+          <div className='w-full flex flex-col justify-start items-start'>
+            <span className='font-bold text-black text-lg w-full'>
+              Imagem do mundo
+            </span>
+            <WorldImage />
           </div>
 
           <button

@@ -9,8 +9,13 @@ export function parseWorlds(worlds: World[]) {
       end: Number(item.end.toString()),
     };
   });
-  return updatedWorlds;
+  return updatedWorlds as unknown as World[];
 }
+
+/**
+ * Parse the bigint from worlds to number.
+ * @param world World to parse.
+ */
 
 export function parseWorld(world: World) {
   const updatedWorld = {

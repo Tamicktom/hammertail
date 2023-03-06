@@ -4,7 +4,7 @@ import ContentEditable from 'react-contenteditable';
 
 //* Type, utils imports
 import { classes } from '../../utils';
-import useDebounce from '../../../../hooks/useDebounce';
+import useDebounce from '../../../../hooks/common/useDebounce';
 import type { Block } from '@prisma/client';
 
 type Props = {

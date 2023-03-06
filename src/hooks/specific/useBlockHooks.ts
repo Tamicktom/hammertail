@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 import type { Block } from "@prisma/client";
 
 //* Custom hooks
-import useDebounce from "./useDebounce";
+import useDebounce from "../common/useDebounce";
+
+/**
+ * Hook to manage the paragraph block
+ */
 
 export function useParagraph(block: Block) {
   const [loading, setLoading] = useState(true);
@@ -13,15 +17,25 @@ export function useParagraph(block: Block) {
   const [content, setContent] = useState("");
   const [newContent, setNewContent] = useState("");
   const debouncedContent = useDebounce(newContent, 1250);
+  const [isEditing, setIsEditing] = useState(false);
 
   //* when loads, get the content from the API
   useEffect(() => {
     getParagraphContent(block).then((data) => {
-      console.log(data);
+      setContent(data);
     });
   }, []);
 
-  return { loading, error, content, newContent, setNewContent };
+  return {
+    loading,
+    error,
+    content,
+    setContent,
+    newContent,
+    setNewContent,
+    isEditing,
+    setIsEditing,
+  };
 }
 
 /**
@@ -32,7 +46,7 @@ export function useParagraph(block: Block) {
 
 async function getParagraphContent(Paragraph: Block) {
   //fetch the content from the API
-  let data = await fetch("/api/block", {
+  const data = await fetch("/api/block", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,12 +1,11 @@
 //* Libraries imports
-import { useRef, useState, useEffect } from 'react';
-import ContentEditable from 'react-contenteditable';
-import { TextBolder, TextItalic, TextUnderline } from "phosphor-react"
+import { createRef } from 'react';
+import ContentEditable, { type ContentEditableEvent } from 'react-contenteditable';
+// import { TextBolder, TextItalic, TextUnderline } from "phosphor-react"
 
 //* Type, utils imports
 import { classes } from '../../utils';
-import useDebounce from '../../../../hooks/useDebounce';
-import { useParagraph } from '../../../../hooks/useBlockHooks';
+import { useParagraph } from '../../../../hooks/specific/useBlockHooks';
 import type { Block } from '@prisma/client';
 
 type Props = {
@@ -18,10 +17,18 @@ export const Paragraph = ({ block }: Props) => {
   // const [content, setContent] = useState<string>('');
   // const [newContent, setNewContent] = useState<string>('');
   // const debouncedContent = useDebounce(content, 1250);
-  const reference = useRef(null);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const ref = createRef<HTMLDivElement>();
 
-  const { loading, error, content, newContent, setNewContent } = useParagraph(block);
+  const {
+    loading,
+    error,
+    content,
+    setContent,
+    newContent,
+    setNewContent,
+    isEditing,
+    setIsEditing
+  } = useParagraph(block);
 
   // //* Load content
   // useEffect(() => {
@@ -75,9 +82,13 @@ export const Paragraph = ({ block }: Props) => {
   //   }
   // }, [newContent]);
 
+  const handleChange = (e: ContentEditableEvent) => {
+    setContent(e.target.value);
+  }
+
   return (
     <>
-      <div
+      {/* <div
         style={{
           height: isEditing ? '32px' : '0px',
           opacity: isEditing ? 1 : 0,
@@ -87,18 +98,18 @@ export const Paragraph = ({ block }: Props) => {
         <button onClick={() => { formatSelection("bold") }}><TextBolder className='text-white w-8 h-8' /></button>
         <button onClick={() => { formatSelection("italic") }}><TextItalic className='text-white w-8 h-8' /></button>
         <button onClick={() => { formatSelection("underline") }}><TextUnderline className='text-white w-8 h-8' /></button>
-      </div>
+      </div> */}
       <ContentEditable
         className={style}
         id={block.id}
-        innerRef={reference} // innerRef is a reference to the inner div
+        innerRef={ref} // innerRef is a reference to the inner div
         html={content} // innerHTML of the editable div
         disabled={false} // use true to disable editing
-        onChange={(e) => { setNewContent(e.target.value) }} // handle innerHTML change
+        onChange={handleChange} // handle innerHTML change
         tagName={block.blockType} // Use a custom HTML tag (uses a div by default)
-        spellCheck
         onFocus={() => setIsEditing(true)}
         onBlur={() => setIsEditing(false)}
+        spellCheck
       />
     </>
   );

@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import type { World } from "@prisma/client";
 import type { APIResponse } from "../../types/api";
 
+//* Import store
+import worldStore from "../../store/common/world";
+
 /**
  * Get the worlds that the user owns
  * @param userId The user id
@@ -12,17 +15,21 @@ import type { APIResponse } from "../../types/api";
  */
 
 export const useWorldList = (userId: string) => {
+  const worldList = worldStore((state) => state.worlds);
+  const updateWorlds = worldStore((state) => state.updateWorlds);
+
   const [loading, setLoading] = useState(false);
-  const [worlds, setWorlds] = useState<World[]>([]);
+  const [worlds, setWorlds] = useState<World[]>(worldList);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
     getWorldList(userId)
       .then((response) => {
-        if (response && response.status === "success" && response.data)
+        if (response && response.status === "success" && response.data) {
           setWorlds(response.data);
-        else setError("An error occurred while getting the worlds.");
+          updateWorlds(response.data);
+        } else setError("An error occurred while getting the worlds.");
       })
       .finally(() => setLoading(false));
   }, []);

@@ -14,6 +14,9 @@ import LocalLoading from "../../components/common/LocalLoading/LocalLoading";
 //* Hooks imports
 import { useWorldList } from "../../hooks/specific/useWorldList";
 
+//* Store imports
+import worldStore from "../../store/common/world";
+
 //* Server side code -----------------------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -43,23 +46,25 @@ type WorldsProps = {
 }
 
 export default function Worlds({ userId }: WorldsProps) {
-  const { error, loading, worlds } = useWorldList(userId);
+  const { loading } = useWorldList(userId);
   const [filteredWorlds, setFilteredWorlds] = useState<World[]>([]);
   const divHolder = useRef<HTMLDivElement>(null);
   const [bgColor, setBgColor] = useState<[number, number, number]>([0, 0, 0]);
 
+  const worldList = worldStore((state) => state.worlds);
+
   //* filter world list by name
   const handleWorldFilter = (filter: string) => {
-    if (filter === "") return setFilteredWorlds(worlds);
-    const filtered = worlds.filter((world) => {
+    if (filter === "") return setFilteredWorlds(worldList);
+    const filtered = worldList.filter((world) => {
       return world.name.toLowerCase().includes(filter.toLowerCase());
     });
     setFilteredWorlds(filtered);
   };
 
   useEffect(() => {
-    setFilteredWorlds(worlds);
-  }, [worlds]);
+    setFilteredWorlds(worldList);
+  }, [worldList]);
 
   useEffect(() => {
     //get the computed bg color of the div

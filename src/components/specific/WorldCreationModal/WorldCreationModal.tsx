@@ -3,13 +3,32 @@ import { Root, Content, Overlay, Portal, Description, Close, Trigger, Title } fr
 import { Pen, Plus, X } from 'phosphor-react';
 import { useState } from 'react';
 
+//* Types
+import type { World } from '@prisma/client';
+
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
+
+//* Store imports
+import worldStore from '../../../store/common/world';
 
 const WorldCreationModal = () => {
   const [worldName, setWorldName] = useState('');
   const [worldStartYear, setWorldStartYear] = useState(0);
   const [worldEndYear, setWorldEndYear] = useState(0);
+
+  const worldList = worldStore((state) => state.worlds);
+  const updateWorldList = worldStore((state) => state.updateWorlds);
+
+  const handleWorldCreation = () => {
+    createWorld(worldName, worldStartYear, worldEndYear)
+      .then((world) => {
+        if (world) {
+          console.log("Mundo criado com sucesso!");
+          updateWorldList([...worldList, world]);
+        }
+      });
+  }
 
   return (
     <Root>
@@ -81,7 +100,7 @@ const WorldCreationModal = () => {
 
           <button
             className="flex flex-row items-center justify-center gap-2 px-2 py-1 rounded-lg bg-gradient-to-b from-purple-500 to-purple-700"
-            onClick={() => { createWorld(worldName, worldStartYear, worldEndYear) }}
+            onClick={handleWorldCreation}
           >
             <Pen className='w-5 h-5 text-white' />
             <span className='font-bold text-white uppercase'>Criar</span>
@@ -100,6 +119,14 @@ const WorldCreationModal = () => {
   );
 }
 
+
+
+
+type ApiResponse = {
+  message: "World created successfully";
+  world: World;
+}
+
 //* API code ------------------------------------------------------------------
 const createWorld = async (name: string, startYear: number, endYear: number) => {
   const body = {
@@ -114,8 +141,10 @@ const createWorld = async (name: string, startYear: number, endYear: number) => 
   }
 
   const response = await fetch("/api/worlds", header);
-  const data = await response.json();
-  console.log(data);
+  const data: ApiResponse = await response.json();
+  if (data.message === "World created successfully") {
+    return data.world;
+  }
 }
 
 export default WorldCreationModal

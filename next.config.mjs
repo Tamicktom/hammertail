@@ -13,8 +13,6 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-<<<<<<< Updated upstream
-=======
   images: {
     remotePatterns: [
       {
@@ -24,11 +22,10 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "*.pinimg.com/*",
+        hostname: "pinimg.com",
         pathname: "/**",
       },
     ]
   }
->>>>>>> Stashed changes
 };
 export default config;

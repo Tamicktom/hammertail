@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
 import axios from "axios";
 import fs from "fs/promises";
@@ -61,7 +61,7 @@ const Home: NextPage<Props> = ({ dirs }) => {
       <div className="mt-20 flex flex-col space-y-3">
         {dirs.map((item) => (
           <Link key={item} href={"/images/" + item} >
-           {item}
+            {item}
           </Link>
         ))}
       </div>

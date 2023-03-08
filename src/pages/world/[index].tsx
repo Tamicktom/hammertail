@@ -1,11 +1,13 @@
 //* Libraries imports
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useSession, getSession } from "next-auth/react";
+import { useState } from "react";
+import { getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
 import type { World, Page } from "@prisma/client";
+import { parseWorld } from "../../utils/parseWorld";
 
+//* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
@@ -53,19 +55,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      world: JSON.parse(JSON.stringify(world)),
+      world: JSON.parse(JSON.stringify(parseWorld(world as World))),
       pages: JSON.parse(JSON.stringify(pages)),
     },
   };
 };
 
+//* Client side ----------------------------------------------
 type Props = {
   world: World;
   pages: Page[];
 }
-
 export default function World({ world, pages }: Props) {
-  const { data: session, status } = useSession();
   const [newPageName, setNewPageName] = useState("");
 
   const handleAddPage = async () => {
@@ -79,10 +80,6 @@ export default function World({ world, pages }: Props) {
     const data = await response.json();
     console.log(data);
   }
-
-  useEffect(() => {
-    console.log(pages);
-  }, []);
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">

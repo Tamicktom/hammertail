@@ -2,10 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../docs/diagrama.md"
-}
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../docs/diagrama.md"
+// }
 
 datasource db {
   provider     = "mysql"
@@ -80,25 +80,39 @@ model World {
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   String
   Pages     Page[]
+  start     BigInt   @default(0)
+  end       BigInt   @default(0)
 
   @@index([ownerId], name: "owner_id") //* planetscale index
 }
 
 model Page {
+  id         String    @id @default(cuid())
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  world      World     @relation(fields: [worldId], references: [id])
+  worldId    String
+  Blocks     Block[]
+  PageType   PageType? @relation(fields: [pageTypeId], references: [id])
+  pageTypeId String?
+
+  @@index([pageTypeId], name: "page_type_id") //* planetscale index
+  @@index([worldId], name: "world_id") //* planetscale index
+}
+
+model PageType {
   id        String   @id @default(cuid())
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  world     World    @relation(fields: [worldId], references: [id])
-  worldId   String
-  Blocks    Block[]
-
-  @@index([worldId], name: "world_id") //* planetscale index
+  Pages     Page[]
 }
 
 model Block {
   id        String   @id @default(cuid())
   path      String
+  blockType String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   page      Page     @relation(fields: [pageId], references: [id])

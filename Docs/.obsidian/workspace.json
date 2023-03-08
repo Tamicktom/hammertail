@@ -1,0 +1,163 @@
+{
+  "main": {
+    "id": "cf2f907cbe23bea1",
+    "type": "split",
+    "children": [
+      {
+        "id": "c56839fc7b868c08",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "41e99d49ea19eb3b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Pages/Page.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "50dbd50c40f268b9",
+    "type": "split",
+    "children": [
+      {
+        "id": "9d44347f385194aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0c3298f777419014",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "cc7c9df84e707731",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a150527ee998a4f4",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "92b8b9538f987180",
+    "type": "split",
+    "children": [
+      {
+        "id": "1eb502a28daf1154",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cbcbc95a37d605d5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Pages/Page.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "e07a515d5acafbc4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Pages/Page.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "1561ecd7d9483222",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9f0f2b13ab7569da",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Pages/Page.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-excalidraw-plugin:New Excalidraw drawing": false
+    }
+  },
+  "active": "41e99d49ea19eb3b",
+  "lastOpenFiles": [
+    "Mapa.canvas",
+    "Index.md",
+    "Excalidraw/Drawing 2023-01-02 20.57.33.excalidraw.md",
+    "Blocks/Block.md",
+    "World/World.md",
+    "World/World Timeline.md",
+    "Pages/Page.md",
+    "Pages/Event.md",
+    "Blocks/Paragraph.md",
+    "Blocks/Heading.md"
+  ]
+}

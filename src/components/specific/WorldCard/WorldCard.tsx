@@ -1,18 +1,33 @@
 //* Libraries imports
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 //* Type, styles, utils imports
+import { contrast, arrayToRGBString, getRGBPalletteFromImage, type RGB } from "../../../utils/colorUtils";
 import type { World } from "@prisma/client";
 
 type WorldCardProps = {
   world: World;
+  backgroundColor: [number, number, number];
 }
 
-export const WorldCard = ({ world }: WorldCardProps) => {
+export const WorldCard = ({ world, backgroundColor }: WorldCardProps) => {
+  const [borderColor, setBorderColor] = useState<RGB>("rgb(255, 255, 255)");
+
+  useEffect(() => {
+    const image = `https://picsum.photos/200`;
+    getRGBPalletteFromImage(image)?.then((color) => {
+      const colorContrast = contrast(color, backgroundColor);
+      if (colorContrast > 4.5)
+        setBorderColor(arrayToRGBString(color));
+    });
+  }, []);
+
   return (
     <div
-      className="flex flex-row items-center justify-center w-full h-24 my-2 overflow-hidden rounded-lg border-2 border-white"
+      className="flex flex-row items-center justify-center w-full h-24 my-2 overflow-hidden rounded-lg border-2"
+      style={{ borderColor }}
     >
       <Link href={{
         pathname: "/world/[index]",

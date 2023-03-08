@@ -14,6 +14,8 @@ const config = {
     defaultLocale: "en",
   },
   images: {
+    //5 minutes cache
+    minimumCacheTTL: 300,
     remotePatterns: [
       {
         protocol: "https",
@@ -22,7 +24,7 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "pinimg.com",
+        hostname: "*.pinimg.com",
         pathname: "/**",
       },
     ]

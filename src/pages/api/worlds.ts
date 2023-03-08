@@ -5,6 +5,7 @@ import { prisma } from "../../server/db/client";
 const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
+  //verify if the user is logged in
   if (!session) {
     return res.send({
       content: "Login to view the protected content on this page.",
@@ -18,6 +19,7 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
+  //verify if the user exists
   if (!dbUser) {
     return res.send({
       content: "User not found.",

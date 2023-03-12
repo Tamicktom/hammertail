@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        primary: "var(--primary-font)",
+      },
       colors: {
         primary: {
           100: "hsl(var(--color-primary-100) / <alpha-value>)",

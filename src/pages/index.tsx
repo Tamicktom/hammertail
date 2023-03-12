@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import LoginButton from "../components/common/LoginButton/LoginButton";
 import Head from "next/head";
 import Image from "next/image";
 import { signIn } from "next-auth/react";

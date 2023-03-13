@@ -1,8 +1,10 @@
+//* Libraries imports
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 
+//* Assets imports
 import logo from "../assets/logo.svg";
 
 const Home: NextPage = () => {

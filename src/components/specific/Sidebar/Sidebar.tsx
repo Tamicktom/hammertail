@@ -26,25 +26,6 @@ const content1 = [
   }
 ]
 
-const content2 = [
-  {
-    text: "Item 1",
-    link: "/"
-  },
-  {
-    text: "Item 2",
-    link: "/"
-  },
-  {
-    text: "Item 3",
-    link: "/"
-  },
-  {
-    text: "Item 4",
-    link: "/"
-  }
-]
-
 const content3 = [
   {
     text: "Evento 1",
@@ -79,6 +60,21 @@ const content4 = [
   }
 ]
 
+const content5 = [
+  {
+    text: "Objeto 1",
+    link: "/"
+  },
+  {
+    text: "Objeto 2",
+    link: "/"
+  },
+  {
+    text: "Objeto 3",
+    link: "/"
+  }
+];
+
 export const Sidebar = () => {
   return (
     <Root
@@ -88,9 +84,9 @@ export const Sidebar = () => {
     >
 
       <AccordionItem title="Personagens" content={content1} />
-      <AccordionItem title="Itens" content={content2} />
       <AccordionItem title="Eventos" content={content3} />
       <AccordionItem title="Lugares" content={content4} />
+      <AccordionItem title="Objetos" content={content5} />
 
     </Root>
   );

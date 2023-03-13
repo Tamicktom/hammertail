@@ -22,9 +22,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  // get the page id from url
+  const pageId = ctx?.query.index;
+
   // get the user id from the session
   const userId = session?.user?.id;
-  const { pageId } = ctx?.query;
 
   const page = await prisma.page.findUnique({
     where: {

@@ -107,10 +107,9 @@ export default function World({ world, pages }: Props) {
               <div key={page.id}>
                 <Link href={{
                   pathname: `/page/${page.id}`,
-                  query: {
-                    worldId: world.id,
-                    pageId: page.id,
-                  },
+                  // query: {
+                  //   world: world.id,
+                  // },
                 }}>
                   <h3>{page.name}</h3>
                 </Link>

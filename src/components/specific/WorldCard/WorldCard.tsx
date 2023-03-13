@@ -1,10 +1,10 @@
 //* Libraries imports
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 //* Type, styles, utils imports
-import { contrast, arrayToRGBString, getRGBPalletteFromImage, type RGB } from "../../../utils/colorUtils";
+import { contrast, arrayToRGBAString, getRGBAPalletteFromImage, type RGBA_String, type RGBA_Array } from "../../../utils/colorUtils";
 import type { World } from "@prisma/client";
 
 type WorldCardProps = {
@@ -13,14 +13,15 @@ type WorldCardProps = {
 }
 
 export const WorldCard = ({ world, backgroundColor }: WorldCardProps) => {
-  const [borderColor, setBorderColor] = useState<RGB>("rgb(255, 255, 255)");
+  const [borderColor, setBorderColor] = useState<RGBA_String>("rgba(255, 255, 255, 0.3)");
+  const image = world.image || "/images/default_world.jpg";
 
   useEffect(() => {
-    const image = `https://picsum.photos/200`;
-    getRGBPalletteFromImage(image)?.then((color) => {
-      const colorContrast = contrast(color, backgroundColor);
-      if (colorContrast > 4.5)
-        setBorderColor(arrayToRGBString(color));
+    getRGBAPalletteFromImage(image)?.then((color) => {
+      const newColor: RGBA_Array = [...color];
+      newColor[3] = 0.2;
+      if (contrast(newColor, backgroundColor) > 5.5)
+        setBorderColor(arrayToRGBAString(newColor));
     });
   }, []);
 
@@ -41,15 +42,19 @@ export const WorldCard = ({ world, backgroundColor }: WorldCardProps) => {
       >
         <Image
           alt="World Image"
-          src='https://picsum.photos/200'
-          loading="eager"
+          src={image}
+          loading="lazy"
           width={96}
           height={96}
           className="w-24 h-24 rounded-lg"
         />
         <div className="w-full h-full px-2 py-1">
-          <h1 className="text-xl font-bold text-white">{world.name}</h1>
-          <p className="text-xs font-normal text-white/80">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde at totam repellat. Dolore, possimus sequi ad nobis itaque ratione rem minus impedit quaerat molestiae cum id aspernatur alias soluta! Aliquid!</p>
+          <h1 className="text-xl font-bold text-white font-primary">{world.name}</h1>
+          <p className="text-xs font-normal text-white/80 font-primary">
+            {
+              world.description ? world.description : "No description"
+            }
+          </p>
         </div>
       </Link>
     </div>

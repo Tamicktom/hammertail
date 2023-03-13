@@ -1,26 +1,27 @@
 //* Libraries imports
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 //* Type, styles, utils imports
-import { contrast, arrayToRGBString, getRGBPalletteFromImage, type RGB } from "../../../utils/colorUtils";
+import { contrast, arrayToRGBAString, getRGBAPalletteFromImage, type RGBA_String, type RGBA_Array } from "../../../utils/colorUtils";
 import type { World } from "@prisma/client";
 
 type WorldCardProps = {
   world: World;
   backgroundColor: [number, number, number];
-  index: number;
 }
 
-export const WorldCard = ({ world, backgroundColor, index }: WorldCardProps) => {
-  const [borderColor, setBorderColor] = useState<RGB>("rgb(255, 255, 255)");
+export const WorldCard = ({ world, backgroundColor }: WorldCardProps) => {
+  const [borderColor, setBorderColor] = useState<RGBA_String>("rgba(255, 255, 255, 0.3)");
+  const image = world.image || "/images/default_world.jpg";
 
   useEffect(() => {
-    const image = `https://picsum.photos/20${index}`;
-    getRGBPalletteFromImage(image)?.then((color) => {
-      const colorContrast = contrast(color, backgroundColor);
-      if (colorContrast > 4.5)
-        setBorderColor(arrayToRGBString(color));
+    getRGBAPalletteFromImage(image)?.then((color) => {
+      const newColor: RGBA_Array = [...color];
+      newColor[3] = 0.2;
+      if (contrast(newColor, backgroundColor) > 5.5)
+        setBorderColor(arrayToRGBAString(newColor));
     });
   }, []);
 
@@ -39,9 +40,9 @@ export const WorldCard = ({ world, backgroundColor, index }: WorldCardProps) => 
         as={`/world/${world.id}`}
         className="flex flex-row items-center justify-center w-full h-full"
       >
-        <img
+        <Image
           alt="World Image"
-          src={world.image || `https://picsum.photos/20${index}`}
+          src={image}
           loading="lazy"
           width={96}
           height={96}

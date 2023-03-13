@@ -97,7 +97,6 @@ export default function Worlds({ userId }: WorldsProps) {
                     key={world.id}
                     world={world}
                     backgroundColor={bgColor}
-                    index={index}
                   />
                 ))
               }

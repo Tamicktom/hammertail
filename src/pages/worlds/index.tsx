@@ -92,8 +92,13 @@ export default function Worlds({ userId }: WorldsProps) {
           : <div className="flex flex-col items-center justify-start w-full p-4">
             <div className="flex flex-col items-center justify-start w-full max-w-lg">
               {
-                filteredWorlds?.map((world) => (
-                  <WorldCard key={world.id} world={world} backgroundColor={bgColor} />
+                filteredWorlds?.map((world, index) => (
+                  <WorldCard
+                    key={world.id}
+                    world={world}
+                    backgroundColor={bgColor}
+                    index={index}
+                  />
                 ))
               }
             </div>

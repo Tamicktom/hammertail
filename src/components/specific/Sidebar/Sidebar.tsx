@@ -79,6 +79,21 @@ const content4 = [
   }
 ]
 
+const content5 = [
+  {
+    text: "Objeto 1",
+    link: "/"
+  },
+  {
+    text: "Objeto 2",
+    link: "/"
+  },
+  {
+    text: "Objeto 3",
+    link: "/"
+  }
+];
+
 export const Sidebar = () => {
   return (
     <Root
@@ -91,6 +106,7 @@ export const Sidebar = () => {
       <AccordionItem title="Itens" content={content2} />
       <AccordionItem title="Eventos" content={content3} />
       <AccordionItem title="Lugares" content={content4} />
+      <AccordionItem title="Objetos" content={content5} />
 
     </Root>
   );

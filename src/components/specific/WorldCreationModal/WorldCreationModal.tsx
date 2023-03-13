@@ -8,6 +8,7 @@ import type { World } from '@prisma/client';
 
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
+import { WorldModalButton } from '../../common/Buttons/WorldModalButton';
 
 //* Store imports
 import worldStore from '../../../store/common/world';
@@ -44,8 +45,8 @@ const WorldCreationModal = () => {
       <Portal>
         <Overlay className='fixed inset-0 flex items-center justify-center DialogOverlay' />
 
-        <Content className='DialogContent bg-white rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md px-4 py-8 flex flex-col justify-start items-center gap-4'>
-          <Title className='w-full text-center text-black font-bold text-2xl'>
+        <Content className='DialogContent bg-tertiary-800 border-tertiary-600 border-solid border-2 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md px-4 py-8 flex flex-col justify-start items-center text-white gap-4'>
+          <Title className='w-full text-center font-bold text-2xl'>
             Criar novo mundo
           </Title>
           <Description>
@@ -53,9 +54,9 @@ const WorldCreationModal = () => {
           </Description>
 
           <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
-            <label htmlFor="worldName" className='font-bold text-lg text-black'>Nome do mundo*</label>
+            <label htmlFor="worldName" className='font-bold text-lg  text-white'>Nome do mundo*</label>
             <input
-              className='w-full px-2 py-1 bg-gray-100 rounded-lg'
+              className='w-full px-2 py-1 rounded-lg bg-tertiary-600'
               onChange={(e) => { setWorldName(e.target.value); }}
               id="worldName"
               type="text"
@@ -63,16 +64,26 @@ const WorldCreationModal = () => {
             />
           </fieldset>
 
-          <div className='w-full flex flex-row justify-start items-center flex-wrap'>
-            <div className='w-full'>
-              <span className='font-bold text-black text-lg w-full text-center'>
+          <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
+            <label htmlFor="worldDrscription" className='font-bold text-lg  text-white'>Descrição do mundo</label>
+            <textarea rows={1} maxLength={1000}
+              className='w-full px-2 py-1 rounded-lg bg-tertiary-600'
+              placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
+            />
+          </fieldset>
+
+          
+
+          <div className='w-full flex flex-row  text-white justify-start items-center flex-wrap'>
+            <div className='w-full text-white'>
+              <span className='font-bold  text-lg w-full text-center'>
                 Timeline
               </span>
             </div>
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
-              <label htmlFor="worldStartYear" className='font-bold text-base text-black'>Ano de inicio*</label>
+              <label htmlFor="worldStartYear" className='font-bold text-base   text-white'>Ano de inicio*</label>
               <input
-                className='w-28 px-2 py-1 bg-gray-100 rounded-lg'
+                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg'
                 id="worldStartYear"
                 type="number"
                 placeholder="0"
@@ -80,9 +91,9 @@ const WorldCreationModal = () => {
               />
             </fieldset>
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
-              <label htmlFor="worldEndYear" className='font-bold text-base text-black'>Ano de fim*</label>
+              <label htmlFor="worldEndYear" className='font-bold text-base  text-white'>Ano de fim*</label>
               <input
-                className='w-28 px-2 py-1 bg-gray-100 rounded-lg'
+                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg'
                 id="worldEndYear"
                 type="number"
                 placeholder="1000"
@@ -92,19 +103,13 @@ const WorldCreationModal = () => {
           </div>
 
           <div className='w-full flex flex-col justify-start items-start'>
-            <span className='font-bold text-black text-lg w-full'>
+            <span className='font-bold  text-white text-lg w-full'>
               Imagem do mundo
             </span>
             <WorldImage />
           </div>
 
-          <button
-            className="flex flex-row items-center justify-center gap-2 px-2 py-1 rounded-lg bg-gradient-to-b from-purple-500 to-purple-700"
-            onClick={handleWorldCreation}
-          >
-            <Pen className='w-5 h-5 text-white' />
-            <span className='font-bold text-white uppercase'>Criar</span>
-          </button>
+          <WorldModalButton />
 
           <Close asChild className='absolute top-0 right-0'>
             <button

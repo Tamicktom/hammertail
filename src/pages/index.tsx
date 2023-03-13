@@ -1,11 +1,19 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 
 import logo from "../assets/logo.svg";
 
 const Home: NextPage = () => {
+  const { status } = useSession()
+
+  if (status === "authenticated") {
+    // Redirect to dashboard if user is logged in
+    window.location.href = "/worlds"
+  }
+
   return (
     <>
       <Head>
@@ -35,6 +43,7 @@ const Home: NextPage = () => {
               alt="HammerTail Logo"
               width={481}
               height={516}
+              priority
             />
           </div>
         </div>

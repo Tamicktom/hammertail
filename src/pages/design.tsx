@@ -4,9 +4,7 @@ import Danger from "../components/Toasts/Danger";
 import Info from '../components/Toasts/Info';
 import Alert from '../components/Toasts/Alert';
 
-type Props = {}
-
-export default function Design({ }: Props) {
+export default function Design() {
   return (
     <div className="bg-tertiary-800 w-screen h-screen flex justify-center items-center">
       <button

@@ -27,16 +27,20 @@ const WorldCreationModal = () => {
     createWorld(worldName, worldStartYear, worldEndYear)
       .then((world) => {
         if (world) {
-          console.log("Mundo criado com sucesso!");
-          setIsModalOpen(false);
+          updateWorldList([...worldList, world]);
           toast.custom((t) => (
             <Sucess
               t={t}
               topMsg='Mundo criado com sucesso!'
               bottomMsg='Comece a criar suas histórias!'
             />
-          ));
-          updateWorldList([...worldList, world]);
+          ), {
+            duration: 1000,
+            position: 'top-center',
+          });
+          setTimeout(() => {
+            setIsModalOpen(false);
+          }, 1000);
         }
       });
   }

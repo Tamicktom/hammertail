@@ -7,6 +7,22 @@ module.exports = {
         primary: "var(--primary-font)",
       },
       colors: {
+        sucess: {
+          100: "#E7F8F0",
+          500: "#25BF60",
+        },
+        alert: {
+          100: "#faf8c4",
+          500: "#e6df33",
+        },
+        danger: {
+          100: "#f8bebe",
+          500: "#e04444",
+        },
+        info: {
+          100: "#bbdaf7",
+          500: "#2575bf",
+        },
         primary: {
           100: "hsl(var(--color-primary-100) / <alpha-value>)",
           200: "hsl(var(--color-primary-200) / <alpha-value>)",

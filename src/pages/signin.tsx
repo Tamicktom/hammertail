@@ -37,6 +37,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
           {
             providerList.map((provider) => (
               <button
+                key={provider.id}
                 className="bg-gradient-to-b from-primary-500 to-primary-700 rounded-md flex flex-row gap-4 justify-center items-center p-2"
                 onClick={() => signIn(provider.id)}
               >

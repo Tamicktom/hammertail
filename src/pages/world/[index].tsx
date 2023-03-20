@@ -1,18 +1,15 @@
 //* Libraries imports
-import Link from "next/link";
-import { useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
-import { MagnifyingGlass } from "phosphor-react";
 import type { GetServerSideProps } from "next";
 
 //* Utils imports
-import type { World, Page } from "@prisma/client";
+import type { World } from "@prisma/client";
 import { prisma } from "../../server/db/client";
 import { parseWorld } from "../../utils/parseWorld";
 
 //* Components imports
-import PageCreationModal from "../../components/specific/PageCreationModal/PageCreationModal";
 import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+import PageList from "../../components/specific/PageList/PageList";
 
 //* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -95,60 +92,3 @@ export default function World(props: Props) {
   )
 }
 
-type PageTypes = "characters" | "places" | "items" | "events";
-
-type ApiPageListing = {
-  listing: PageTypes;
-  pages: Page[];
-}
-type PageListProps = {
-  content: PageTypes;
-  worldId: string;
-}
-
-function PageList(props: PageListProps) {
-  const title = props.content.charAt(0).toUpperCase() + props.content.slice(1);
-  const [data, setData] = useState<ApiPageListing | null>(null);
-
-  useEffect(() => {
-    getPagesByType(props.worldId, props.content)
-      .then(res => setData(res))
-  }, []);
-
-  return (
-    <div className="w-full h-full flex flex-col justify-start items-center border-2 border-tertiary-600 rounded-lg">
-      <div>{title}</div>
-      <div>
-        {
-          data?.pages?.map(page => (
-            <div key={page.id}>
-              <Link href={`/page/${page.id}`}>
-                <span>{page.name}</span>
-              </Link>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  );
-}
-
-async function getPagesByType(worldId: string, pageType: PageTypes) {
-  const body = {
-    worldId,
-    listing: pageType,
-    action: "ListPages"
-  }
-
-  const res = await fetch("/api/pages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  const data = await res.json();
-  console.log(data);
-  return data as ApiPageListing;
-}

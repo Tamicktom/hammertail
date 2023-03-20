@@ -68,9 +68,6 @@ const PageCreationModal = () => {
   );
 }
 
-
-
-
 type ApiResponse = {
   message: "World created successfully";
   world: World;

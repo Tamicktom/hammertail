@@ -33,8 +33,8 @@ export default function PageList(props: PageListProps) {
       <div className="w-full h-full max-h-full min-h-full overflow-x-hidden overflow-y-scroll">
         {
           data?.pages?.map(page => (
-            <Link href={`/page/${page.id}`}>
-              <button key={page.id} className="w-full px-1 py-2 bg-none hover:bg-tertiary-700 flex flex-row justify-start items-center">
+            <Link key={page.id} href={`/page/${page.id}`}>
+              <button className="w-full px-1 py-2 bg-none hover:bg-tertiary-700 flex flex-row justify-start items-center">
                 <span className="text-tertiary-200 font-bold">{page.name}</span>
               </button>
             </Link>

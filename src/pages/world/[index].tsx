@@ -64,7 +64,9 @@ type Props = {
 //* Client side ----------------------------------------------
 export default function World(props: Props) {
 
-  const filterHandler = (filter: string) => { };
+  const filterHandler = (filter: string) => {
+    console.log(filter);
+  };
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">

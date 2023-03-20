@@ -1,11 +1,15 @@
 //* Libraries imports
-import Link from "next/link";
-import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
-import type { World, Page } from "@prisma/client";
+
+//* Utils imports
+import type { World } from "@prisma/client";
+import { prisma } from "../../server/db/client";
 import { parseWorld } from "../../utils/parseWorld";
+
+//* Components imports
+import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+import PageList from "../../components/specific/PageList/PageList";
 
 //* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -45,18 +49,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const pages = await prisma.page.findMany({
-    where: {
-      worldId: JSON.parse(JSON.stringify(id)),
-    },
-  });
-
-  console.log(world);
-
   return {
     props: {
       world: JSON.parse(JSON.stringify(parseWorld(world as World))),
-      pages: JSON.parse(JSON.stringify(pages)),
     },
   };
 };
@@ -64,60 +59,36 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //* Client side ----------------------------------------------
 type Props = {
   world: World;
-  pages: Page[];
 }
-export default function World({ world, pages }: Props) {
-  const [newPageName, setNewPageName] = useState("");
 
-  const handleAddPage = async () => {
-    const response = await fetch("/api/pages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newPageName, worldId: world.id }),
-    })
-    const data = await response.json();
-    console.log(data);
-  }
+//* Client side ----------------------------------------------
+export default function World(props: Props) {
+
+  const filterHandler = (filter: string) => { };
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <div>
-        <h1>{world.name}</h1>
-        <div className="flex flex-col justify-center items-center">
-          <p>Criar nova página:</p>
-          <input
-            onChange={(e) => setNewPageName(e.target.value)}
-            className="border-2 border-black rounded-md"
-            type="text" />
-          <button
-            onClick={handleAddPage}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >Adicionar</button>
-        </div>
-      </div>
+    <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
+      <WorldHeader filterHandler={filterHandler} />
 
-
-      <div className="bg-green-200 flex flex-col justify-center items-center">
-        <h2>Pages</h2>
-        {
-          pages?.map((page) => {
-            return (
-              <div key={page.id}>
-                <Link href={{
-                  pathname: `/page/${page.id}`,
-                  // query: {
-                  //   world: world.id,
-                  // },
-                }}>
-                  <h3>{page.name}</h3>
-                </Link>
-              </div>
-            )
-          })
-        }
+      <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full gap-4 p-4">
+        <PageList
+          content="characters"
+          worldId={props.world.id}
+        />
+        <PageList
+          content="places"
+          worldId={props.world.id}
+        />
+        <PageList
+          content="items"
+          worldId={props.world.id}
+        />
+        <PageList
+          content="events"
+          worldId={props.world.id}
+        />
       </div>
     </div>
   )
 }
+

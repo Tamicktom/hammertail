@@ -7,7 +7,7 @@ import type { GetServerSideProps } from "next";
 import type { World } from "@prisma/client";
 
 //* Components imports
-import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+import WorldHeader from "../../components/specific/WorldsHeader/WorldsHeader";
 import { WorldCard } from "../../components/specific/WorldCard/WorldCard";
 import LocalLoading from "../../components/common/LocalLoading/LocalLoading";
 

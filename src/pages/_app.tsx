@@ -1,6 +1,7 @@
 //* Libraries imports
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from '@vercel/analytics/react';
 
 //* Styles
 import "../styles/globals.css";
@@ -19,6 +20,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <Toaster
         position="top-center"
       />
+      <Analytics />
     </SessionProvider>
   );
 };

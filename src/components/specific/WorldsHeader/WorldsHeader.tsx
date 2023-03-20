@@ -2,7 +2,7 @@
 import { MagnifyingGlass, Plus } from "phosphor-react";
 
 //* Components imports
-import PageCreationModal from "../../specific/PageCreationModal/PageCreationModal";
+import WorldCreationModal from "../WorldCreationModal/WorldCreationModal";
 
 type Props = {
   filterHandler: (filter: string) => void;
@@ -22,7 +22,7 @@ const WorldsHeader = ({ filterHandler }: Props) => {
           />
           <MagnifyingGlass className="w-5 h-5" />
         </div>
-        <PageCreationModal />
+        <WorldCreationModal />
       </div>
     </div>
   );

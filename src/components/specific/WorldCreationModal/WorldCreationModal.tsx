@@ -124,6 +124,7 @@ const WorldCreationModal = () => {
 
           <Close asChild className='absolute top-0 right-0'>
             <button
+              onClick={() => { setIsModalOpen(false) }}
               className="flex flex-row items-center justify-center p-2 rounded-full hover:bg-purple-200 mr-2 mt-2"
             >
               <X className="w-5 h-5 text-black" />

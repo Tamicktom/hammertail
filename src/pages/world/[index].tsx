@@ -2,14 +2,17 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
-import { prisma } from "../../server/db/client";
+import { MagnifyingGlass } from "phosphor-react";
 import type { GetServerSideProps } from "next";
+
+//* Utils imports
 import type { World, Page } from "@prisma/client";
+import { prisma } from "../../server/db/client";
 import { parseWorld } from "../../utils/parseWorld";
 
-interface PageWithPageTypeName extends Page {
-  pageTypeName?: string;
-}
+//* Components imports
+import PageCreationModal from "../../components/specific/PageCreationModal/PageCreationModal";
+import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
 
 //* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -64,19 +67,13 @@ type Props = {
 //* Client side ----------------------------------------------
 export default function World(props: Props) {
 
-  return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800">
-      <header className="w-full flex flex-col h-fit bg-red-500 justify-start items-center">
-        <h1>{props.world.name}</h1>
-        <div className="w-full flex flex-row h-fit justify-center items-center">
-          <input type="text" placeholder="Search" />
-          <button>
-            Create new page
-          </button>
-        </div>
-      </header>
+  const filterHandler = (filter: string) => { };
 
-      <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full bg-green-300 gap-4 p-4">
+  return (
+    <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
+      <WorldHeader filterHandler={filterHandler} />
+
+      <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full gap-4 p-4">
         <PageList
           content="characters"
           worldId={props.world.id}
@@ -125,7 +122,7 @@ function PageList(props: PageListProps) {
         {
           data?.pages?.map(page => (
             <div key={page.id}>
-              <Link href={`/world/${props.worldId}/${page.id}`}>
+              <Link href={`/page/${page.id}`}>
                 <span>{page.name}</span>
               </Link>
             </div>

@@ -88,8 +88,6 @@ const WorldCreationModal = () => {
             />
           </fieldset>
 
-
-
           <div className='w-full flex flex-row  text-white justify-start items-center flex-wrap'>
             <div className='w-full text-white'>
               <span className='font-bold  text-lg w-full text-center'>
@@ -140,9 +138,6 @@ const WorldCreationModal = () => {
     </Root>
   );
 }
-
-
-
 
 type ApiResponse = {
   message: "World created successfully";

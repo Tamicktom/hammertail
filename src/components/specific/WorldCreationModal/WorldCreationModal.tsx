@@ -13,6 +13,7 @@ import { WorldModalButton } from '../../common/Buttons/WorldModalButton';
 
 //* Store imports
 import worldStore from '../../../store/common/world';
+import Sucess from '../../Toasts/Sucess';
 
 const WorldCreationModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +88,7 @@ const WorldCreationModal = () => {
             />
           </fieldset>
 
-          
+
 
           <div className='w-full flex flex-row  text-white justify-start items-center flex-wrap'>
             <div className='w-full text-white'>

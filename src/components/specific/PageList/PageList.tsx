@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UsersThree } from "phosphor-react";
 import type { Page } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 type PageTypes = "characters" | "places" | "items" | "events";
 
@@ -19,9 +20,13 @@ export default function PageList(props: PageListProps) {
   const title = props.content.charAt(0).toUpperCase() + props.content.slice(1);
   const [data, setData] = useState<ApiPageListing | null>(null);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    getPagesByType(props.worldId, props.content)
-      .then(res => setData(res))
+    if (session?.user?.id) {
+      getPagesByType(props.worldId, props.content)
+        .then(res => setData(res))
+    }
   }, []);
 
   return (

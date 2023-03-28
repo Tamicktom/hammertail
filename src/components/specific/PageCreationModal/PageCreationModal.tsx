@@ -1,7 +1,7 @@
 //* Libraries imports
 import { Root, Content, Overlay, Portal, Description, Close, Trigger, Title } from '@radix-ui/react-dialog';
 import { Pen, Plus, X } from 'phosphor-react';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
 
 //* Types
@@ -10,12 +10,20 @@ import type { World } from '@prisma/client';
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
 import Sucess from '../../Toasts/Sucess';
+import CreateCharacterForm from './components/CreateCharacterForm';
 
 //* Store imports
 import worldStore from '../../../store/common/world';
 
-const PageCreationModal = () => {
+type PageTypes = 'characters' | 'places' | 'events' | 'items';
+
+type Props = {
+  worldId: string;
+}
+
+const PageCreationModal = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [typeOfPage, setTypeOfPage] = useState<PageTypes>('characters');
 
   const handlePageCreation = () => {
     console.log("creating page");
@@ -44,15 +52,24 @@ const PageCreationModal = () => {
             Para criar uma nova página, primeiro escolha o tipo de página que deseja criar.
           </Description>
 
+          <div>
+            <select
+              name=""
+              id=""
+              onChange={(e) => { setTypeOfPage(e.target.value as PageTypes) }}
+              className='w-full px-4 py-2 rounded-lg bg-gray-100'
+            >
+              <option value="characters">Character</option>
+              <option value="places">Place</option>
+              <option value="events">Event</option>
+              <option value="items">Item</option>
+            </select>
+          </div>
 
-
-          <button
-            className="flex flex-row items-center justify-center gap-2 px-2 py-1 rounded-lg bg-gradient-to-b from-purple-500 to-purple-700"
-            onClick={handlePageCreation}
-          >
-            <Pen className='w-5 h-5 text-white' />
-            <span className='font-bold text-white uppercase'>Criar</span>
-          </button>
+          {typeOfPage === 'characters' && <CreateCharacterForm worldId={props.worldId} />}
+          {typeOfPage === 'places' && <div>Places</div>}
+          {typeOfPage === 'events' && <div>Events</div>}
+          {typeOfPage === 'items' && <div>Items</div>}
 
           <Close asChild className='absolute top-0 right-0'>
             <button

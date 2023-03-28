@@ -89,15 +89,19 @@ model World {
 }
 
 model Page {
-  id         String    @id @default(uuid())
-  name       String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  world      World     @relation(fields: [worldId], references: [id])
-  worldId    String
-  Blocks     Block[]
-  PageType   PageType? @relation(fields: [pageTypeId], references: [id])
-  pageTypeId String?
+  id          String    @id @default(uuid())
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  world       World     @relation(fields: [worldId], references: [id])
+  worldId     String
+  Blocks      Block[]
+  PageType    PageType? @relation(fields: [pageTypeId], references: [id])
+  pageTypeId  String?
+  start       Int       @default(0)
+  end         Int       @default(0)
+  description String?
+  other       Json?
 
   @@index([pageTypeId], name: "page_type_id") //* planetscale index
   @@index([worldId], name: "world_id") //* planetscale index

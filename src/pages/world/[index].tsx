@@ -70,7 +70,10 @@ export default function World(props: Props) {
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
-      <WorldHeader filterHandler={filterHandler} />
+      <WorldHeader
+        filterHandler={filterHandler}
+        worldId={props.world.id}
+      />
 
       <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full gap-4 p-4">
         <PageList

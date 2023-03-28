@@ -2,6 +2,7 @@
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from '@vercel/analytics/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 //* Styles
 import "../styles/globals.css";
@@ -16,11 +17,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
-      <Toaster
-        position="top-center"
-      />
-      <Analytics />
+      <QueryClientProvider client={new QueryClient()}>
+        <Component {...pageProps} />
+        <Toaster
+          position="top-center"
+        />
+        <Analytics />
+      </QueryClientProvider>
     </SessionProvider>
   );
 };

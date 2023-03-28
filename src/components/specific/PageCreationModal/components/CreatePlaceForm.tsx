@@ -8,14 +8,14 @@ import { useGetPagesByType } from "../../../../hooks/specific/useGetPagesByType"
 //* Utis imports
 import Sucess from "../../../Toasts/Sucess";
 import Danger from "../../../Toasts/Danger";
-import type { Character } from "../../../../types/page";
+import type { Place } from "../../../../types/page";
 
 type Props = {
   worldId: string;
 }
 
-export default function CreateCharacterForm(props: Props) {
-  const [character, setCharacter] = useState<Character>({
+export default function CreatePlaceForm(props: Props) {
+  const [place, setPlace] = useState<Place>({
     name: "",
     description: "",
     birthYear: 0,
@@ -23,14 +23,14 @@ export default function CreateCharacterForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "characters");
+  const data = useGetPagesByType(props.worldId, "places");
 
-  const handleCharacterCreation = () => {
+  const handlePlaceCreation = () => {
     const body = {
       worldId: props.worldId,
       action: "createPage",
-      typeOfPage: "characters",
-      pageData: character,
+      typeOfPage: "places",
+      pageData: place,
     }
 
     fetch("/api/pages", {
@@ -44,7 +44,7 @@ export default function CreateCharacterForm(props: Props) {
         toast.custom((t) => (
           <Sucess
             t={t}
-            topMsg="Character created successfully"
+            topMsg="Place created successfully"
             bottomMsg="You can now add it to your world"
           />
         ));
@@ -54,7 +54,7 @@ export default function CreateCharacterForm(props: Props) {
       toast.custom((t) => (
         <Danger
           t={t}
-          topMsg="Error while creating character"
+          topMsg="Error while creating place"
           bottomMsg={error.error || "Please try again later"}
         />
       ));
@@ -68,7 +68,7 @@ export default function CreateCharacterForm(props: Props) {
         type="text"
         name="name"
         id="name"
-        onChange={(e) => { setCharacter({ ...character, name: e.target.value }) }}
+        onChange={(e) => { setPlace({ ...place, name: e.target.value }) }}
       />
 
       <label htmlFor="description">Description</label>
@@ -76,15 +76,15 @@ export default function CreateCharacterForm(props: Props) {
         type="text"
         name="description"
         id="description"
-        onChange={(e) => { setCharacter({ ...character, description: e.target.value }) }}
+        onChange={(e) => { setPlace({ ...place, description: e.target.value }) }}
       />
 
-      <label htmlFor="birthYear">Birth year</label>
+      <label htmlFor="birthYear">Fundation year</label>
       <input
         type="number"
         name="birthYear"
         id="birthYear"
-        onChange={(e) => { setCharacter({ ...character, birthYear: Number(e.target.value) }) }}
+        onChange={(e) => { setPlace({ ...place, birthYear: Number(e.target.value) }) }}
       />
 
       <label htmlFor="deathYear">Death year</label>
@@ -92,13 +92,13 @@ export default function CreateCharacterForm(props: Props) {
         type="number"
         name="deathYear"
         id="deathYear"
-        onChange={(e) => { setCharacter({ ...character, deathYear: Number(e.target.value) }) }}
+        onChange={(e) => { setPlace({ ...place, deathYear: Number(e.target.value) }) }}
       />
 
       <button
-        onClick={handleCharacterCreation}
+        onClick={handlePlaceCreation}
       >
-        Create character
+        Create Place
       </button>
     </div>
   );

@@ -4,19 +4,12 @@ import { getServerAuthSession } from "../../server/common/get-server-auth-sessio
 import { prisma } from "../../server/db/client";
 import { z } from "zod";
 
-type Character = {
-  name: string;
-  description: string;
-  birthYear: number;
-  deathYear: number;
-};
-
 const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
   if (session) {
     const reqType = req.method;
-    const { name, worldId, action, listing, typeOfPage, character } = req.body;
+    const { name, worldId, action, listing, typeOfPage, pageData } = req.body;
 
     if (action === undefined) {
       return res.status(401).send({
@@ -24,19 +17,20 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
     const possibleActions = z.enum(["createPage", "DeletePage", "ListPages"]);
-    const possibleListing = z.enum(["characters", "items", "events", "places"]);
+    const possibleListing = z.enum(["characters", "places", "items", "events"]);
     const schema = z.object({
       name: z.string().optional(),
       worldId: z.string(),
       action: possibleActions,
       listing: possibleListing.optional(),
       typeOfPage: possibleListing.optional(),
-      character: z
+      pageData: z
         .object({
           name: z.string(),
           description: z.string().optional(),
           birthYear: z.number(),
           deathYear: z.number(),
+          other: z.unknown().optional(),
         })
         .optional(),
     });
@@ -47,7 +41,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
       action,
       listing,
       typeOfPage,
-      character,
+      pageData,
     });
 
     //  verify if  the user is owner of the world
@@ -131,7 +125,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
         select: {
           Pages: {
             where: {
-              name: tmp.character?.name,
+              name: tmp.pageData?.name,
               PageType: {
                 name: tmp.typeOfPage,
               },
@@ -149,21 +143,27 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // create the page
-      if (tmp.typeOfPage === "characters") {
-        if (tmp.character === undefined) {
+      if (
+        tmp.typeOfPage === "characters" ||
+        tmp.typeOfPage === "places" ||
+        tmp.typeOfPage === "items" ||
+        tmp.typeOfPage === "events"
+      ) {
+        if (tmp.pageData === undefined) {
           return res.status(401).send({
-            error: "You must provide a character",
+            error: "You must provide page data",
           });
         }
 
         const page = await prisma.page.create({
           data: {
-            name: tmp.character?.name || "No name",
+            name: tmp.pageData?.name || "No name",
             worldId: tmp.worldId,
             pageTypeId: pageType?.id,
-            start: tmp.character?.birthYear || 0,
-            end: tmp.character?.deathYear || 0,
-            description: tmp.character?.description || "No description",
+            start: tmp.pageData?.birthYear || 0,
+            end: tmp.pageData?.deathYear || 0,
+            description: tmp.pageData?.description || "No description",
+            other: tmp.pageData?.other || "No other",
           },
         });
 

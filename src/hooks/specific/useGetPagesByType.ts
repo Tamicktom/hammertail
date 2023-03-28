@@ -17,10 +17,7 @@ async function getPagesByType(worldId: string, pageType: PageTypes) {
     listing: pageType,
     action: "ListPages",
   };
-
   const res = await axios.post<ApiPageListing>("/api/pages", body);
-
-  console.log(`Listing ${pageType}:`, res);
   return res;
 }
 

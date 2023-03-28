@@ -8,14 +8,14 @@ import { useGetPagesByType } from "../../../../hooks/specific/useGetPagesByType"
 //* Utis imports
 import Sucess from "../../../Toasts/Sucess";
 import Danger from "../../../Toasts/Danger";
-import type { Character } from "../../../../types/page";
+import type { Item } from "../../../../types/page";
 
 type Props = {
   worldId: string;
 }
 
-export default function CreateCharacterForm(props: Props) {
-  const [character, setCharacter] = useState<Character>({
+export default function CreateItemForm(props: Props) {
+  const [item, setItems] = useState<Item>({
     name: "",
     description: "",
     birthYear: 0,
@@ -23,14 +23,14 @@ export default function CreateCharacterForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "characters");
+  const data = useGetPagesByType(props.worldId, "items");
 
-  const handleCharacterCreation = () => {
+  const handleItemCreation = () => {
     const body = {
       worldId: props.worldId,
       action: "createPage",
-      typeOfPage: "characters",
-      pageData: character,
+      typeOfPage: "items",
+      pageData: item,
     }
 
     fetch("/api/pages", {
@@ -68,7 +68,7 @@ export default function CreateCharacterForm(props: Props) {
         type="text"
         name="name"
         id="name"
-        onChange={(e) => { setCharacter({ ...character, name: e.target.value }) }}
+        onChange={(e) => { setItems({ ...item, name: e.target.value }) }}
       />
 
       <label htmlFor="description">Description</label>
@@ -76,7 +76,7 @@ export default function CreateCharacterForm(props: Props) {
         type="text"
         name="description"
         id="description"
-        onChange={(e) => { setCharacter({ ...character, description: e.target.value }) }}
+        onChange={(e) => { setItems({ ...item, description: e.target.value }) }}
       />
 
       <label htmlFor="birthYear">Birth year</label>
@@ -84,7 +84,7 @@ export default function CreateCharacterForm(props: Props) {
         type="number"
         name="birthYear"
         id="birthYear"
-        onChange={(e) => { setCharacter({ ...character, birthYear: Number(e.target.value) }) }}
+        onChange={(e) => { setItems({ ...item, birthYear: Number(e.target.value) }) }}
       />
 
       <label htmlFor="deathYear">Death year</label>
@@ -92,11 +92,11 @@ export default function CreateCharacterForm(props: Props) {
         type="number"
         name="deathYear"
         id="deathYear"
-        onChange={(e) => { setCharacter({ ...character, deathYear: Number(e.target.value) }) }}
+        onChange={(e) => { setItems({ ...item, deathYear: Number(e.target.value) }) }}
       />
 
       <button
-        onClick={handleCharacterCreation}
+        onClick={handleItemCreation}
       >
         Create character
       </button>

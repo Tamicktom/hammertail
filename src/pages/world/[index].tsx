@@ -1,6 +1,7 @@
 //* Libraries imports
 import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
+import Head from "next/head";
 
 //* Utils imports
 import type { World } from "@prisma/client";
@@ -69,31 +70,36 @@ export default function World(props: Props) {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
-      <WorldHeader
-        filterHandler={filterHandler}
-        worldId={props.world.id}
-      />
+    <>
+      <Head>
+        <title>{props.world.name}</title>
+      </Head>
+      <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
+        <WorldHeader
+          filterHandler={filterHandler}
+          worldId={props.world.id}
+        />
 
-      <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full gap-4 p-4">
-        <PageList
-          content="characters"
-          worldId={props.world.id}
-        />
-        <PageList
-          content="places"
-          worldId={props.world.id}
-        />
-        <PageList
-          content="items"
-          worldId={props.world.id}
-        />
-        <PageList
-          content="events"
-          worldId={props.world.id}
-        />
+        <div className="w-full max-w-7xl flex flex-row justify-center items-center h-full gap-4 p-4">
+          <PageList
+            content="characters"
+            worldId={props.world.id}
+          />
+          <PageList
+            content="places"
+            worldId={props.world.id}
+          />
+          <PageList
+            content="items"
+            worldId={props.world.id}
+          />
+          <PageList
+            content="events"
+            worldId={props.world.id}
+          />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

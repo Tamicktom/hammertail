@@ -11,6 +11,9 @@ import type { World } from '@prisma/client';
 import WorldImage from '../WorldImage/WorldImage';
 import Sucess from '../../Toasts/Sucess';
 import CreateCharacterForm from './components/CreateCharacterForm';
+import CreatePlaceForm from './components/CreatePlaceForm';
+import CreateEventForm from './components/CreateEventForm';
+import CreateItemForm from './components/CreateItemForm';
 
 //* Store imports
 import worldStore from '../../../store/common/world';
@@ -24,10 +27,6 @@ type Props = {
 const PageCreationModal = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typeOfPage, setTypeOfPage] = useState<PageTypes>('characters');
-
-  const handlePageCreation = () => {
-    console.log("creating page");
-  }
 
   return (
     <Root open={isModalOpen}>
@@ -67,9 +66,9 @@ const PageCreationModal = (props: Props) => {
           </div>
 
           {typeOfPage === 'characters' && <CreateCharacterForm worldId={props.worldId} />}
-          {typeOfPage === 'places' && <div>Places</div>}
-          {typeOfPage === 'events' && <div>Events</div>}
-          {typeOfPage === 'items' && <div>Items</div>}
+          {typeOfPage === 'places' && <CreatePlaceForm worldId={props.worldId} />}
+          {typeOfPage === 'events' && <CreateEventForm worldId={props.worldId} />}
+          {typeOfPage === 'items' && <CreateItemForm worldId={props.worldId} />}
 
           <Close asChild className='absolute top-0 right-0'>
             <button
@@ -83,31 +82,6 @@ const PageCreationModal = (props: Props) => {
       </Portal>
     </Root>
   );
-}
-
-type ApiResponse = {
-  message: "World created successfully";
-  world: World;
-}
-
-//* API code ------------------------------------------------------------------
-const createWorld = async (name: string, startYear: number, endYear: number) => {
-  const body = {
-    name, startYear, endYear
-  }
-  const header = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  }
-
-  const response = await fetch("/api/worlds", header);
-  const data: ApiResponse = await response.json();
-  if (data.message === "World created successfully") {
-    return data.world;
-  }
 }
 
 export default PageCreationModal;

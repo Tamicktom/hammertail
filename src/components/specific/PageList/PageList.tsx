@@ -6,7 +6,7 @@ import type { Page } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 //* Local imports
-import { useGetPagesByType } from "../../../hooks/specific/useGetPagesByType"
+import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType"
 import type { PageTypes } from "../../../types/page";
 
 type PageListProps = {

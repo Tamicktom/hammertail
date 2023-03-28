@@ -3,90 +3,34 @@ import Link from "next/link";
 import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
 import { CaretDown } from 'phosphor-react';
 
-const content1 = [
-  {
-    text: "Personagem 1",
-    link: "/"
-  },
-  {
-    text: "Personagem 2",
-    link: "/"
-  },
-  {
-    text: "Personagem 3",
-    link: "/"
-  },
-  {
-    text: "Personagem 4",
-    link: "/"
-  },
-  {
-    text: "Personagem 5",
-    link: "/"
-  }
-]
+//* Hook imports
+import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
 
-const content3 = [
-  {
-    text: "Evento 1",
-    link: "/"
-  },
-  {
-    text: "Evento 2",
-    link: "/"
-  },
-  {
-    text: "Evento 3",
-    link: "/"
-  },
-  {
-    text: "Evento 4",
-    link: "/"
-  }
-]
+//* Type imports
+import type { Page } from "@prisma/client";
 
-const content4 = [
-  {
-    text: "Lugar 1",
-    link: "/"
-  },
-  {
-    text: "Lugar 2",
-    link: "/"
-  },
-  {
-    text: "Lugar 3",
-    link: "/"
-  }
-]
+type Props = {
+  worldId: string;
+}
 
-const content5 = [
-  {
-    text: "Objeto 1",
-    link: "/"
-  },
-  {
-    text: "Objeto 2",
-    link: "/"
-  },
-  {
-    text: "Objeto 3",
-    link: "/"
-  }
-];
+export const Sidebar = (props: Props) => {
 
-export const Sidebar = () => {
+  const characters = useGetPagesByType(props.worldId, "characters");
+  const events = useGetPagesByType(props.worldId, "events");
+  const places = useGetPagesByType(props.worldId, "places");
+  const items = useGetPagesByType(props.worldId, "items");
+
   return (
     <Root
       type="multiple"
-      defaultValue={["Personagens"]}
+      defaultValue={["Characters"]}
       className='container flex flex-col w-full h-full bg-tertiary-700'
     >
 
-      <AccordionItem title="Personagens" content={content1} />
-      <AccordionItem title="Eventos" content={content3} />
-      <AccordionItem title="Lugares" content={content4} />
-      <AccordionItem title="Objetos" content={content5} />
+      <AccordionItem title="Characters" content={characters.data?.data.pages || []} />
+      <AccordionItem title="Events" content={events.data?.data.pages || []} />
+      <AccordionItem title="Places" content={places.data?.data.pages || []} />
+      <AccordionItem title="Items" content={items.data?.data.pages || []} />
 
     </Root>
   );
@@ -94,10 +38,7 @@ export const Sidebar = () => {
 
 type AccordionItemProps = {
   title: string;
-  content: {
-    text: string;
-    link: string;
-  }[];
+  content: Page[];
 }
 
 const AccordionItem = (props: AccordionItemProps) => {
@@ -110,7 +51,7 @@ const AccordionItem = (props: AccordionItemProps) => {
       <Content className='w-full overflow-hidden AccordionContent'>
         {
           props.content.map((item, index) => {
-            return <Button key={index} text={item.text} link={item.link} />
+            return <Button key={index} text={item.name} link={item.id} />
           })
         }
       </Content>

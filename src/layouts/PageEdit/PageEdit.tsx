@@ -2,7 +2,7 @@
 import { Allotment } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block } from '@prisma/client';
-import { useEffect, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -12,15 +12,12 @@ import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo"
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
 type Props = {
+  worldId: string;
   page: Page;
   blocks: Block[];
 }
 
 export default function PageEdit(props: Props) {
-
-  useEffect(() => {
-    //change css variables
-  });
 
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
@@ -38,7 +35,7 @@ export default function PageEdit(props: Props) {
           </Scrollable>
         </Allotment.Pane>
         <Allotment.Pane minSize={60} maxSize={480}>
-          <Sidebar />
+          <Sidebar worldId={props.worldId} />
         </Allotment.Pane>
       </Allotment>
     </div>

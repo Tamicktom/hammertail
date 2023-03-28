@@ -1,5 +1,5 @@
 //* Libraries imports
-import { type NextApiRequest, type NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 import { prisma } from "../../server/db/client";
 import { z } from "zod";
@@ -9,16 +9,40 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (session) {
     const reqType = req.method;
-    const { name, worldId, action, listing } = req.body;
+    const { name, worldId, action, listing, typeOfPage, pageData } = req.body;
+
+    if (action === undefined) {
+      return res.status(401).send({
+        error: "You must provide an action",
+      });
+    }
     const possibleActions = z.enum(["createPage", "DeletePage", "ListPages"]);
-    const possibleListing = z.enum(["characters", "items", "events", "places"]);
+    const possibleListing = z.enum(["characters", "places", "items", "events"]);
     const schema = z.object({
       name: z.string().optional(),
       worldId: z.string(),
       action: possibleActions,
       listing: possibleListing.optional(),
+      typeOfPage: possibleListing.optional(),
+      pageData: z
+        .object({
+          name: z.string(),
+          description: z.string().optional(),
+          birthYear: z.number(),
+          deathYear: z.number(),
+          other: z.unknown().optional(),
+        })
+        .optional(),
     });
-    const tmp = schema.parse({ name, worldId, action, listing });
+
+    const tmp = schema.parse({
+      name,
+      worldId,
+      action,
+      listing,
+      typeOfPage,
+      pageData,
+    });
 
     //  verify if  the user is owner of the world
     const isOwner = await prisma.world.findUnique({
@@ -76,7 +100,24 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //  create a page
     if (reqType === "POST" && tmp.action === "createPage") {
-      //  verify if the page already exists
+      //get page type name from typeOfPage
+      const pageType = await prisma.pageType.findFirst({
+        where: {
+          name: tmp.typeOfPage,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (pageType === null) {
+        return res.status(401).send({
+          error: "This page type does not exist",
+          typeOfPage: tmp.typeOfPage,
+        });
+      }
+
+      //  verify if the page already exists, using the name and the page type
       const pageExists = await prisma.world.findUnique({
         where: {
           id: tmp.worldId,
@@ -84,32 +125,53 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
         select: {
           Pages: {
             where: {
-              name: tmp.name,
+              name: tmp.pageData?.name,
+              PageType: {
+                name: tmp.typeOfPage,
+              },
             },
           },
         },
       });
 
-      if (
-        pageExists?.Pages.length !== 0 ||
-        pageExists?.Pages.length === undefined
-      ) {
+      console.log(pageExists);
+
+      if (pageExists?.Pages.length !== 0) {
         return res.status(401).send({
           error: "This page already exists",
         });
       }
 
-      //  create the page
-      const page = await prisma.page.create({
-        data: {
-          name: tmp.name || "New Page",
-          worldId: tmp.worldId,
-        },
-      });
+      // create the page
+      if (
+        tmp.typeOfPage === "characters" ||
+        tmp.typeOfPage === "places" ||
+        tmp.typeOfPage === "items" ||
+        tmp.typeOfPage === "events"
+      ) {
+        if (tmp.pageData === undefined) {
+          return res.status(401).send({
+            error: "You must provide page data",
+          });
+        }
 
-      return res.status(200).send({
-        page: page,
-      });
+        const page = await prisma.page.create({
+          data: {
+            name: tmp.pageData?.name || "No name",
+            worldId: tmp.worldId,
+            pageTypeId: pageType?.id,
+            start: tmp.pageData?.birthYear || 0,
+            end: tmp.pageData?.deathYear || 0,
+            description: tmp.pageData?.description || "No description",
+            other: tmp.pageData?.other || "No other",
+          },
+        });
+
+        return res.status(200).send({
+          page: page,
+          status: "created",
+        });
+      }
     }
 
     res.send({

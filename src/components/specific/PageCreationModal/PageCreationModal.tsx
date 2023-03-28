@@ -1,7 +1,7 @@
 //* Libraries imports
 import { Root, Content, Overlay, Portal, Description, Close, Trigger, Title } from '@radix-ui/react-dialog';
 import { Pen, Plus, X } from 'phosphor-react';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
 
 //* Types
@@ -10,16 +10,23 @@ import type { World } from '@prisma/client';
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
 import Sucess from '../../Toasts/Sucess';
+import CreateCharacterForm from './components/CreateCharacterForm';
+import CreatePlaceForm from './components/CreatePlaceForm';
+import CreateEventForm from './components/CreateEventForm';
+import CreateItemForm from './components/CreateItemForm';
 
 //* Store imports
 import worldStore from '../../../store/common/world';
 
-const PageCreationModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+type PageTypes = 'characters' | 'places' | 'events' | 'items';
 
-  const handlePageCreation = () => {
-    console.log("creating page");
-  }
+type Props = {
+  worldId: string;
+}
+
+const PageCreationModal = (props: Props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [typeOfPage, setTypeOfPage] = useState<PageTypes>('characters');
 
   return (
     <Root open={isModalOpen}>
@@ -44,15 +51,24 @@ const PageCreationModal = () => {
             Para criar uma nova página, primeiro escolha o tipo de página que deseja criar.
           </Description>
 
+          <div>
+            <select
+              name=""
+              id=""
+              onChange={(e) => { setTypeOfPage(e.target.value as PageTypes) }}
+              className='w-full px-4 py-2 rounded-lg bg-gray-100'
+            >
+              <option value="characters">Character</option>
+              <option value="places">Place</option>
+              <option value="events">Event</option>
+              <option value="items">Item</option>
+            </select>
+          </div>
 
-
-          <button
-            className="flex flex-row items-center justify-center gap-2 px-2 py-1 rounded-lg bg-gradient-to-b from-purple-500 to-purple-700"
-            onClick={handlePageCreation}
-          >
-            <Pen className='w-5 h-5 text-white' />
-            <span className='font-bold text-white uppercase'>Criar</span>
-          </button>
+          {typeOfPage === 'characters' && <CreateCharacterForm worldId={props.worldId} />}
+          {typeOfPage === 'places' && <CreatePlaceForm worldId={props.worldId} />}
+          {typeOfPage === 'events' && <CreateEventForm worldId={props.worldId} />}
+          {typeOfPage === 'items' && <CreateItemForm worldId={props.worldId} />}
 
           <Close asChild className='absolute top-0 right-0'>
             <button
@@ -66,31 +82,6 @@ const PageCreationModal = () => {
       </Portal>
     </Root>
   );
-}
-
-type ApiResponse = {
-  message: "World created successfully";
-  world: World;
-}
-
-//* API code ------------------------------------------------------------------
-const createWorld = async (name: string, startYear: number, endYear: number) => {
-  const body = {
-    name, startYear, endYear
-  }
-  const header = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  }
-
-  const response = await fetch("/api/worlds", header);
-  const data: ApiResponse = await response.json();
-  if (data.message === "World created successfully") {
-    return data.world;
-  }
 }
 
 export default PageCreationModal;

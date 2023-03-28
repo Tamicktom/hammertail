@@ -2,7 +2,7 @@
 import { getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
-import type { Page, Block } from "@prisma/client";
+import type { Page, Block, World } from "@prisma/client";
 
 //* Component imports
 import PageEdit from "../../layouts/PageEdit/PageEdit";
@@ -58,16 +58,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   });
 
+  //get the world of the page
+  const world = await prisma.world.findUnique({
+    where: {
+      id: page?.world.id,
+    },
+  });
+
   return {
     props: {
       page: JSON.parse(JSON.stringify(page)),
       blocks: JSON.parse(JSON.stringify(blocks)),
+      world: JSON.parse(JSON.stringify(world)),
     },
   };
 };
 
 //* Client side code ----------------------------------------------------------
 type Props = {
+  world: World;
   page: Page;
   blocks: Block[];
 }
@@ -75,6 +84,7 @@ type Props = {
 export default function Page(props: Props) {
   return (
     <PageEdit
+      worldId={props.world.id}
       page={props.page}
       blocks={props.blocks}
     />

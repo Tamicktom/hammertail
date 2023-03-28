@@ -6,9 +6,10 @@ import PageCreationModal from "../../specific/PageCreationModal/PageCreationModa
 
 type Props = {
   filterHandler: (filter: string) => void;
+  worldId: string;
 }
 
-const WorldsHeader = ({ filterHandler }: Props) => {
+const WorldsHeader = (props: Props) => {
   return (
     <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4">
       <h1 className="font-bold text-white text-7xl">Mundos</h1>
@@ -18,11 +19,11 @@ const WorldsHeader = ({ filterHandler }: Props) => {
             className="w-full outline-none"
             type="text"
             placeholder="Pesquisar"
-            onChange={(e) => { filterHandler(e.target.value); }}
+            onChange={(e) => { props.filterHandler(e.target.value); }}
           />
           <MagnifyingGlass className="w-5 h-5" />
         </div>
-        <PageCreationModal />
+        <PageCreationModal worldId={props.worldId} />
       </div>
     </div>
   );

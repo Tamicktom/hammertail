@@ -28,7 +28,7 @@ export default function PageEdit(props: Props) {
             <div className="w-full h-full flex flex-row justify-center items-start pt-40">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start">
                 <PageHeader title={props.page.name} pageType="" />
-                <BlocksHolder pageId={props.page.id} startBlocks={props.blocks} />
+                {/* <BlocksHolder pageId={props.page.id} startBlocks={props.blocks} /> */}
               </div>
               <PageInfo />
             </div>

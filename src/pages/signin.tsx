@@ -4,7 +4,7 @@ import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "nex
 import { getProviders, signIn, getSession } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
-import { GoogleLogo, DiscordLogo, GithubLogo } from "phosphor-react";
+import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
 
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {

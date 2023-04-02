@@ -1,5 +1,5 @@
 //* Libraries imports
-import { Globe } from "phosphor-react";
+import { Globe } from "@phosphor-icons/react";
 
 export function WorldModalButton() {
     return (

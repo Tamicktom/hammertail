@@ -1,4 +1,5 @@
 //* Libraries imports
+import Head from "next/head";
 import { getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
@@ -6,7 +7,6 @@ import type { Page, Block, World } from "@prisma/client";
 
 //* Component imports
 import PageEdit from "../../layouts/PageEdit/PageEdit";
-
 import { parseWorld } from "../../utils/parseWorld";
 
 //* Server side code ----------------------------------------------------------
@@ -83,10 +83,15 @@ type Props = {
 
 export default function Page(props: Props) {
   return (
-    <PageEdit
-      worldId={props.world.id}
-      page={props.page}
-      blocks={props.blocks}
-    />
+    <>
+      <Head>
+        <title>Character - {props.page.name}</title>
+      </Head>
+      <PageEdit
+        worldId={props.world.id}
+        page={props.page}
+        blocks={props.blocks}
+      />
+    </>
   );
 }

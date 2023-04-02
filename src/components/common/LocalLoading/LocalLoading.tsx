@@ -1,5 +1,5 @@
 //* Libraies imports
-import { CircleNotch } from "phosphor-react"
+import { CircleNotch } from "@phosphor-icons/react"
 
 export default function LocalLoading() {
   return (

@@ -1,8 +1,15 @@
 //* Libraries imports
 import Image from "next/image";
-import { Cake, Skull } from "phosphor-react";
+import { Cake, Skull } from "@phosphor-icons/react";
 
-export const PageInfo = () => {
+//* Types imports
+import type { Page } from "@prisma/client";
+
+type Props = {
+  page: Page;
+}
+
+export const PageInfo = (props: Props) => {
   return (
     <div className="p-2 w-60">
       <div className='flex items-center justify-center w-full'>

@@ -12,5 +12,4 @@ export const PageHeader = ({ title, pageType }: PageHeaderProps) => {
       <h1 className="text-5xl font-bold text-white">{title}</h1>
     </div>
   );
-}
-
+};

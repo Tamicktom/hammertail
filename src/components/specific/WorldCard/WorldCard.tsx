@@ -44,8 +44,8 @@ export const WorldCard = ({ world, backgroundColor }: WorldCardProps) => {
           alt="World Image"
           src={image}
           loading="lazy"
-          width={96}
-          height={96}
+          width={256}
+          height={256}
           className="w-24 h-24 rounded-lg"
         />
         <div className="w-full h-full px-2 py-1">

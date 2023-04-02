@@ -1,7 +1,7 @@
 //* Libraries imports
 import { createRef } from 'react';
 import ContentEditable, { type ContentEditableEvent } from 'react-contenteditable';
-// import { TextBolder, TextItalic, TextUnderline } from "phosphor-react"
+// import { TextBolder, TextItalic, TextUnderline } from "@phosphor-icons/react"
 
 //* Type, utils imports
 import { classes } from '../../utils';

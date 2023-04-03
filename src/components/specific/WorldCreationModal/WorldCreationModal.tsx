@@ -1,6 +1,6 @@
 //* Libraries imports
 import { Root, Content, Overlay, Portal, Description, Close, Trigger, Title } from '@radix-ui/react-dialog';
-import { Pen, Plus, X } from 'phosphor-react';
+import { Pen, Plus, X } from '@phosphor-icons/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 

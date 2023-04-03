@@ -1,6 +1,6 @@
 //* Libraries imports
 import { useState } from 'react';
-import { Plus } from 'phosphor-react';
+import { Plus } from '@phosphor-icons/react';
 
 //* Component imports
 import { BlockComponent } from "../../BlockComponent/BlockComponent";

@@ -1,5 +1,5 @@
 //* Libraries imports
-import { Info as PhosphorInfo, X } from 'phosphor-react';
+import { Info as PhosphorInfo, X } from '@phosphor-icons/react';
 import { useState, useEffect } from 'react';
 import toast, { type Toast } from 'react-hot-toast';
 

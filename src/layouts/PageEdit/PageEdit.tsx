@@ -2,7 +2,7 @@
 import { Allotment } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block } from '@prisma/client';
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -18,24 +18,38 @@ type Props = {
 }
 
 export default function PageEdit(props: Props) {
+  const [sidebarCollapse, setSidebarCollapse] = useState(true);
 
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
-      <Allotment>
+      <Allotment
+        onVisibleChange={(visible) => console.log(visible)}
+        onChange={(sizes) => {
+          if (sizes[1] && sizes[1] <= 90) setSidebarCollapse(false);
+          else setSidebarCollapse(true);
+        }}
+      >
         <Allotment.Pane>
           <Scrollable>
-            <Navbar />
+            <Navbar worldId={props.worldId} />
             <div className="w-full h-full flex flex-row justify-center items-start pt-40">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start">
                 <PageHeader title={props.page.name} pageType="" />
                 {/* <BlocksHolder pageId={props.page.id} startBlocks={props.blocks} /> */}
               </div>
-              <PageInfo />
+              <PageInfo page={props.page} />
             </div>
           </Scrollable>
         </Allotment.Pane>
-        <Allotment.Pane minSize={60} maxSize={480}>
-          <Sidebar worldId={props.worldId} />
+        <Allotment.Pane
+          snap
+          minSize={80}
+          maxSize={480}
+        >
+          <Sidebar
+            worldId={props.worldId}
+            collapsed={sidebarCollapse}
+          />
         </Allotment.Pane>
       </Allotment>
     </div>

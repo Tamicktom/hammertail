@@ -1,5 +1,5 @@
 //* Libraries imports
-import { MagnifyingGlass, Plus } from "phosphor-react";
+import { MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
 //* Components imports
 import WorldCreationModal from "../WorldCreationModal/WorldCreationModal";

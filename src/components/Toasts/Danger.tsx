@@ -1,5 +1,5 @@
 //* Libraries imports
-import { XCircle, X } from 'phosphor-react';
+import { XCircle, X } from '@phosphor-icons/react';
 import { useState, useEffect } from 'react';
 import toast, { type Toast } from 'react-hot-toast';
 

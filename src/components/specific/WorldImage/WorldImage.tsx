@@ -1,7 +1,7 @@
 //* Libraries imports
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FileImage, X } from 'phosphor-react';
+import { FileImage, X } from '@phosphor-icons/react';
 
 import default_world_image from '../../../assets/default_world.jpg';
 

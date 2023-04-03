@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckSquare, Square } from "phosphor-react";
+import { CheckSquare, Square } from "@phosphor-icons/react";
 import type { Dispatch, SetStateAction } from "react";
 
 

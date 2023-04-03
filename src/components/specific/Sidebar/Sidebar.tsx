@@ -1,7 +1,8 @@
 //* Libraries imports
 import Link from "next/link";
 import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
-import { CaretDown } from 'phosphor-react';
+import { CaretDown } from "@phosphor-icons/react";
+import { useEffect } from "react";
 
 //* Hook imports
 import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
@@ -11,6 +12,7 @@ import type { Page } from "@prisma/client";
 
 type Props = {
   worldId: string;
+  collapsed: boolean;
 }
 
 export const Sidebar = (props: Props) => {
@@ -20,18 +22,20 @@ export const Sidebar = (props: Props) => {
   const places = useGetPagesByType(props.worldId, "places");
   const items = useGetPagesByType(props.worldId, "items");
 
+  useEffect(() => {
+    console.log(props.collapsed);
+  }, [props.collapsed]);
+
   return (
     <Root
       type="multiple"
       defaultValue={["Characters"]}
       className='container flex flex-col w-full h-full bg-tertiary-700'
     >
-
       <AccordionItem title="Characters" content={characters.data?.data.pages || []} />
       <AccordionItem title="Events" content={events.data?.data.pages || []} />
       <AccordionItem title="Places" content={places.data?.data.pages || []} />
       <AccordionItem title="Items" content={items.data?.data.pages || []} />
-
     </Root>
   );
 };

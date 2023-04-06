@@ -1,5 +1,6 @@
 //* Libraries imports
-import { useState, useRef, type ReactNode } from "react";
+import { useState, useRef, type ReactNode, useEffect } from "react";
+import { DotsSixVertical } from "@phosphor-icons/react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { DndProvider, DragObjectFactory, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -13,6 +14,10 @@ interface Block {
 export default function Edit() {
   const [blocks, setBlocks] = useState<Block[]>([{ id: crypto.randomUUID(), html: "Teste", order: 0 }]);
   const refs = useRef<Record<string, HTMLElement>>({});
+
+  useEffect(() => {
+    console.log(blocks);
+  }, [blocks]);
 
   const addBlockAfter = (id: string) => {
     const newBlock: Block = { id: crypto.randomUUID(), html: "", order: 0 };
@@ -92,24 +97,32 @@ export default function Edit() {
 
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="w-full bg-tertiary-800 h-screen flex flex-col justify-center items-center">
-        {blocks.map((block) => (
-          <DraggableBlock key={block.id} block={block} moveBlock={moveBlock}>
-            <ContentEditable
-              key={block.id}
-              html={block.html}
-              onChange={(e: ContentEditableEvent) => onBlockChange(block.id, e.target.value)}
-              onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, block.id)}
-              className="w-1/2 bg-tertiary-700 text-white text-2xl"
-              innerRef={(node: HTMLElement) => {
-                refs.current[block.id] = node;
-              }}
-            />
-          </DraggableBlock>
-        ))}
+    <div className="bg-tertiary-800 w-full h-screen flex justify-center pt-12">
+      <div className="w-full max-w-7xl">
+        <DndProvider backend={HTML5Backend}>
+          <div className="w-full flex flex-col justify-center items-center">
+            {blocks.map((block) => (
+              <DraggableBlock
+                key={block.id}
+                block={block}
+                moveBlock={moveBlock}
+                >
+                <ContentEditable
+                  key={block.id}
+                  html={block.html}
+                  onChange={(e: ContentEditableEvent) => onBlockChange(block.id, e.target.value)}
+                  onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, block.id)}
+                  className="w-full text-white text-base focus:outline-tertiary-700 ring-0 rounded shadow-none outline-none border-none focus:border-tertiary-700 active:border-tertiary-700 px-2 py-1"
+                  innerRef={(node: HTMLElement) => {
+                    refs.current[block.id] = node;
+                  }}
+                />
+              </DraggableBlock>
+            ))}
+          </div>
+        </DndProvider>
       </div>
-    </DndProvider>
+    </div>
   );
 }
 
@@ -131,6 +144,7 @@ type DragItem = {
 
 function DraggableBlock({ block, moveBlock, children }: DraggableBlockProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const [, drop] = useDrop({
     accept: "block",
@@ -163,8 +177,26 @@ function DraggableBlock({ block, moveBlock, children }: DraggableBlockProps) {
   drag(drop(ref));
 
   return (
-    <div ref={preview} style={{ opacity: isDragging ? 0 : 1 }}>
-      <div ref={ref}>{children}</div>
+    <div
+      ref={preview}
+      style={{ opacity: isDragging ? 0 : 1 }}
+      className="w-full flex justify-center items-center flex-col"
+      onMouseEnter={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
+    >
+      <div
+        className="pl-2 w-full flex flex-row gap-1"
+        ref={ref}
+      >
+        <DotsSixVertical
+          className="w-7 h-7 text-gray-500"
+          style={{
+            cursor: "grab",
+            opacity: isMouseOver ? 1 : 0,
+          }}
+        />
+        {children}
+      </div>
     </div>
   );
 };

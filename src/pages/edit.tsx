@@ -82,18 +82,34 @@ export default function Edit() {
 
   const moveBlock = (dragOrder: number, hoverOrder: number) => {
     setBlocks((prevBlocks) => {
-      const updatedBlocks = prevBlocks.slice();
-      const draggedBlock = updatedBlocks.find((block) => block.order === dragOrder);
-      const hoverBlock = updatedBlocks.find((block) => block.order === hoverOrder);
+      const draggedBlock = prevBlocks.find((block) => block.order === dragOrder);
 
-      if (!draggedBlock || !hoverBlock) return prevBlocks;
+      if (!draggedBlock) return prevBlocks;
 
-      draggedBlock.order = hoverOrder;
-      hoverBlock.order = dragOrder;
+      const updatedBlocks = prevBlocks
+        .filter((block) => block.order !== dragOrder)
+        .map((block) =>
+          dragOrder < hoverOrder
+            ? block.order > dragOrder && block.order <= hoverOrder
+              ? { ...block, order: block.order - 1 }
+              : block
+            : block.order >= hoverOrder && block.order < dragOrder
+              ? { ...block, order: block.order + 1 }
+              : block
+        );
 
-      return updatedBlocks.sort((a, b) => a.order - b.order);
+      const index = updatedBlocks.findIndex(
+        (block) => block.order === (dragOrder < hoverOrder ? hoverOrder - 1 : hoverOrder)
+      );
+
+      return [
+        ...updatedBlocks.slice(0, index + 1),
+        { ...draggedBlock, order: hoverOrder },
+        ...updatedBlocks.slice(index + 1),
+      ];
     });
   };
+
 
 
   return (
@@ -106,7 +122,7 @@ export default function Edit() {
                 key={block.id}
                 block={block}
                 moveBlock={moveBlock}
-                >
+              >
                 <ContentEditable
                   key={block.id}
                   html={block.html}

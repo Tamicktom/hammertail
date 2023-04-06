@@ -110,8 +110,6 @@ export default function Edit() {
     });
   };
 
-
-
   return (
     <div className="bg-tertiary-800 w-full h-screen flex justify-center pt-12">
       <div className="w-full max-w-7xl">
@@ -122,6 +120,7 @@ export default function Edit() {
                 key={block.id}
                 block={block}
                 moveBlock={moveBlock}
+                contentEditableRef={refs.current[block.id] || null}
               >
                 <ContentEditable
                   key={block.id}
@@ -142,10 +141,17 @@ export default function Edit() {
   );
 }
 
+const isMouseDownOnContentEditable = (event: MouseEvent, contentEditableRef: HTMLElement | null) => {
+  if (!contentEditableRef) return false;
+  const target = event.target as HTMLElement;
+  return contentEditableRef.contains(target);
+};
+
 interface DraggableBlockProps {
   block: Block;
   moveBlock: (dragOrder: number, hoverOrder: number) => void;
   children: ReactNode;
+  contentEditableRef: HTMLElement | null;
 }
 
 type DragCollect = {
@@ -158,8 +164,9 @@ type DragItem = {
   order: number;
 };
 
-function DraggableBlock({ block, moveBlock, children }: DraggableBlockProps) {
+function DraggableBlock({ block, moveBlock, children, contentEditableRef }: DraggableBlockProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isDragEnabled, setIsDragEnabled] = useState(true);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const [, drop] = useDrop({
@@ -177,9 +184,32 @@ function DraggableBlock({ block, moveBlock, children }: DraggableBlockProps) {
     },
   });
 
+  useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) => {
+      if (isMouseDownOnContentEditable(event, contentEditableRef)) {
+        setIsDragEnabled(false);
+      } else {
+        setIsDragEnabled(true);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [contentEditableRef]);
+
+
+
   const [{ isDragging }, drag, preview] = useDrag<DragItem, never, DragCollect>({
+    canDrag: () => isDragEnabled,
     type: "block",
-    item: (() => ({ type: "block", id: block.id, order: block.order })) as DragObjectFactory<DragItem>,
+    item: (() => {
+      return {
+        type: "block",
+        id: block.id,
+        order: block.order,
+      };
+    }) as DragObjectFactory<DragItem>,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

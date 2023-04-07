@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState, useRef, type ReactNode, useEffect } from "react";
+import { useState, useRef, type ReactNode, useEffect, Fragment } from "react";
 import { DotsSixVertical } from "@phosphor-icons/react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { DndProvider, DragObjectFactory, useDrag, useDrop } from "react-dnd";
@@ -13,6 +13,7 @@ interface Block {
 
 export default function Edit() {
   const [blocks, setBlocks] = useState<Block[]>([{ id: crypto.randomUUID(), html: "Teste", order: 0 }]);
+  const [linePosition, setLinePosition] = useState<number | null>(null);
   const refs = useRef<Record<string, HTMLElement>>({});
 
   useEffect(() => {
@@ -112,6 +113,7 @@ export default function Edit() {
   };
 
   const moveBlock = (dragOrder: number, hoverOrder: number) => {
+    setLinePosition(hoverOrder);
     setBlocks((prevBlocks) => {
       const draggedBlock = prevBlocks.find((block) => block.order === dragOrder);
 
@@ -146,24 +148,27 @@ export default function Edit() {
       <div className="w-full max-w-7xl">
         <DndProvider backend={HTML5Backend}>
           <div className="w-full flex flex-col justify-center items-center">
-            {blocks.map((block) => (
-              <DraggableBlock
-                key={block.id}
-                block={block}
-                moveBlock={moveBlock}
-                contentEditableRef={refs.current[block.id] || null}
-              >
-                <ContentEditable
-                  key={block.id}
-                  html={block.html}
-                  onChange={(e: ContentEditableEvent) => onBlockChange(block.id, e.target.value)}
-                  onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, block.id)}
-                  className="w-full text-white text-base focus:outline-tertiary-700 ring-0 rounded shadow-none outline-none border-none focus:border-tertiary-700 active:border-tertiary-700 px-2 py-1"
-                  innerRef={(node: HTMLElement) => {
-                    refs.current[block.id] = node;
-                  }}
-                />
-              </DraggableBlock>
+            {blocks.map((block, index) => (
+              <Fragment key={block.id}>
+                {linePosition === index && <DropLine />}
+                <DraggableBlock
+                  block={block}
+                  moveBlock={moveBlock}
+                  contentEditableRef={refs.current[block.id] || null}
+                  setLinePosition={setLinePosition}
+                >
+                  <ContentEditable
+                    key={block.id}
+                    html={block.html}
+                    onChange={(e: ContentEditableEvent) => onBlockChange(block.id, e.target.value)}
+                    onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, block.id)}
+                    className="w-full text-white text-base focus:outline-tertiary-700 ring-0 rounded shadow-none outline-none border-none focus:border-tertiary-700 active:border-tertiary-700 px-2 py-1"
+                    innerRef={(node: HTMLElement) => {
+                      refs.current[block.id] = node;
+                    }}
+                  />
+                </DraggableBlock>
+              </Fragment>
             ))}
           </div>
         </DndProvider>
@@ -183,6 +188,7 @@ interface DraggableBlockProps {
   moveBlock: (dragOrder: number, hoverOrder: number) => void;
   children: ReactNode;
   contentEditableRef: HTMLElement | null;
+  setLinePosition: (position: number | null) => void;
 }
 
 type DragCollect = {
@@ -195,7 +201,7 @@ type DragItem = {
   order: number;
 };
 
-function DraggableBlock({ block, moveBlock, children, contentEditableRef }: DraggableBlockProps) {
+function DraggableBlock({ block, moveBlock, children, contentEditableRef, setLinePosition }: DraggableBlockProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isDragEnabled, setIsDragEnabled] = useState(true);
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -229,8 +235,6 @@ function DraggableBlock({ block, moveBlock, children, contentEditableRef }: Drag
     };
   }, [contentEditableRef]);
 
-
-
   const [{ isDragging }, drag, preview] = useDrag<DragItem, never, DragCollect>({
     canDrag: () => isDragEnabled,
     type: "block",
@@ -245,6 +249,7 @@ function DraggableBlock({ block, moveBlock, children, contentEditableRef }: Drag
       isDragging: !!monitor.isDragging(),
     }),
     end: (item, monitor) => {
+      setLinePosition(null);
       if (!monitor.didDrop()) {
         item.order = block.order;
       }
@@ -277,3 +282,16 @@ function DraggableBlock({ block, moveBlock, children, contentEditableRef }: Drag
     </div>
   );
 };
+
+function DropLine() {
+  return (
+    <div
+      style={{
+        height: "2px",
+        width: "100%",
+        backgroundColor: "white",
+        marginBottom: "12px",
+      }}
+    />
+  );
+}

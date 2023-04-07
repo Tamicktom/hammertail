@@ -284,14 +284,5 @@ function DraggableBlock({ block, moveBlock, children, contentEditableRef, setLin
 };
 
 function DropLine() {
-  return (
-    <div
-      style={{
-        height: "2px",
-        width: "100%",
-        backgroundColor: "white",
-        marginBottom: "12px",
-      }}
-    />
-  );
+  return <div className="w-full h-0.5 bg-tertiary-600 mb-1" />
 }

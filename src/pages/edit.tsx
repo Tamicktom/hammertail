@@ -49,7 +49,8 @@ export default function Edit() {
     setBlocks((prevBlocks) => prevBlocks.filter((block) => block.id !== id));
   };
 
-  const focusAndMoveCaretToEnd = (element: HTMLElement) => {
+  const focusAndMoveCaretToEnd = (element: HTMLElement | undefined) => {
+    if (!element) return;
     element.focus();
     const range = document.createRange();
     const selection = window.getSelection();
@@ -59,6 +60,21 @@ export default function Edit() {
       selection.removeAllRanges();
       selection.addRange(range);
     }
+  };
+
+  const isCaretAtStart = (element: HTMLElement | undefined) => {
+    if (!element) return false;
+    const selection = window.getSelection();
+    if (!selection || !element.contains(selection.anchorNode)) return false;
+    return selection.anchorOffset === 0;
+  };
+
+  const isCaretAtEnd = (element: HTMLElement | undefined) => {
+    if (!element) return false;
+    const selection = window.getSelection();
+    if (!selection || !element.contains(selection.anchorNode)) return false;
+    console.log(selection.anchorOffset, element.textContent?.length);
+    return selection.anchorOffset === element.textContent?.length;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
@@ -77,6 +93,21 @@ export default function Edit() {
           focusAndMoveCaretToEnd(refs.current[blocks[currentBlockIndex - 1].id]);
         }
       }, 0);
+    } else if (e.key === "ArrowUp" && isCaretAtStart(refs.current[id])) {
+      e.preventDefault();
+      if (currentBlockIndex > 0 && blocks[currentBlockIndex - 1] && refs.current) {
+        const block = blocks[currentBlockIndex - 1];
+        if (!block) return;
+        focusAndMoveCaretToEnd(refs.current[block.id]);
+      }
+    } else if (e.key === "ArrowDown" && isCaretAtEnd(refs.current[id])) {
+      e.preventDefault();
+      if (currentBlockIndex < blocks.length - 1 && blocks[currentBlockIndex + 1] && refs.current) {
+        const block = blocks[currentBlockIndex + 1];
+        if (block?.id) {
+          focusAndMoveCaretToEnd(refs.current[block.id]);
+        }
+      }
     }
   };
 

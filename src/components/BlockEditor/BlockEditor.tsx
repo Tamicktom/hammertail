@@ -173,7 +173,7 @@ export default function BlockEditor() {
   };
 
   return (
-    <div className="bg-tertiary-800 w-full h-screen flex justify-center pt-12">
+    <div className="w-full flex justify-center pt-12">
       <div className="w-full max-w-7xl">
         <DndProvider backend={HTML5Backend}>
           <div className="w-full flex flex-col justify-center items-center">

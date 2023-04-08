@@ -11,14 +11,14 @@ type Props = {
 
 export const PageInfo = (props: Props) => {
   return (
-    <div className="p-2 w-60">
+    <div className="p-2 w-80">
       <div className='flex items-center justify-center w-full'>
         <Image
           src="https://i.pinimg.com/564x/bb/14/18/bb1418129cfc0b35f874d249bb5ff9e6.jpg"
           alt="Imagem do personagem"
           className="w-full rounded-lg"
-          width={100}
-          height={100}
+          width={320}
+          height={320}
           priority
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCA"

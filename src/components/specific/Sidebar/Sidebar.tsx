@@ -23,14 +23,14 @@ export const Sidebar = (props: Props) => {
   const items = useGetPagesByType(props.worldId, "items");
 
   useEffect(() => {
-    console.log(props.collapsed);
+    console.log("is Closed? ", props.collapsed);
   }, [props.collapsed]);
 
   return (
     <Root
       type="multiple"
       defaultValue={["Characters"]}
-      className='container flex flex-col w-full h-full bg-tertiary-700'
+      className='container flex flex-col h-full bg-tertiary-700 w-full'
     >
       <AccordionItem title="Characters" content={characters.data?.data.pages || []} />
       <AccordionItem title="Events" content={events.data?.data.pages || []} />

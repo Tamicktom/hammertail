@@ -1,23 +1,41 @@
 //* Libraries imports
-import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { Sidebar } from "@phosphor-icons/react";
 import * as Avatar from '@radix-ui/react-avatar';
 
 type Props = {
   worldId: string;
+  collapsed: boolean;
+  isSidebarCollapsed: boolean;
+  setSidebarCollapse: (value: boolean) => void;
 }
 
 export const Navbar = (props: Props) => {
   const { data: session } = useSession();
 
   return (
-    <div className="h-24 w-full bg-tertiary-800 border-b-2 border-tertiary-400 flex justify-center items-center">
+    <div
+      className="w-full sticky top-0 flex flex-row gap-4 items-center justify-between bg-tertiary-800/90 backdrop-blur-xl transition-all border-tertiary-400"
+      style={{
+        padding: props.collapsed ? "0.5rem 1rem" : "1.5rem 1rem",
+        borderBottomWidth: props.collapsed ? "0" : "2px",
+      }}
+    >
       <UserAvatar
         src={session?.user?.image || ""}
         alt={session?.user?.name || "User avatar"}
         name={session?.user?.name || ""}
       />
-      <h1>Navbar</h1>
+      <div className="flex flex-row items-center gap-4">
+        <button>
+          New Page
+        </button>
+        <button
+          onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
+        >
+          <Sidebar size="24" />
+        </button>
+      </div>
     </div>
   );
 }

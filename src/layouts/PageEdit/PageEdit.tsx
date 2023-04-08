@@ -1,5 +1,5 @@
 //* Libraries imports
-import { Allotment } from "allotment";
+import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block } from '@prisma/client';
 import { type ReactNode, useState } from 'react';
@@ -10,6 +10,7 @@ import { PageHeader } from "../../components/specific/PageEditComponents/PageHea
 import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
+import BlockEditor from "../../components/BlockEditor/BlockEditor";
 
 type Props = {
   worldId: string;
@@ -19,32 +20,38 @@ type Props = {
 
 export default function PageEdit(props: Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
+  const [navBarCollapse, setNavBarCollapse] = useState(false);
 
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
       <Allotment
-        onVisibleChange={(visible) => console.log(visible)}
-        onChange={(sizes) => {
-          if (sizes[1] && sizes[1] <= 90) setSidebarCollapse(false);
-          else setSidebarCollapse(true);
+        onVisibleChange={(visible) => {
+          console.log("visible", visible);
         }}
       >
         <Allotment.Pane>
           <Scrollable>
-            <Navbar worldId={props.worldId} />
-            <div className="w-full h-full flex flex-row justify-center items-start pt-40">
-              <div className="w-full max-w-5xl flex flex-col justify-center items-start">
+            <Navbar
+              worldId={props.worldId}
+              collapsed={navBarCollapse}
+              isSidebarCollapsed={sidebarCollapse}
+              setSidebarCollapse={setSidebarCollapse}
+            />
+            <div className="h-40 w-full" />
+            <div className="w-full h-full flex flex-row justify-center items-start gap-2">
+              <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
                 <PageHeader title={props.page.name} pageType="" />
-                {/* <BlocksHolder pageId={props.page.id} startBlocks={props.blocks} /> */}
+                <BlockEditor />
               </div>
               <PageInfo page={props.page} />
             </div>
           </Scrollable>
         </Allotment.Pane>
         <Allotment.Pane
-          snap
           minSize={80}
-          maxSize={480}
+          maxSize={320}
+          visible={!sidebarCollapse}
+          priority={LayoutPriority.High}
         >
           <Sidebar
             worldId={props.worldId}
@@ -59,16 +66,20 @@ export default function PageEdit(props: Props) {
 
 function Scrollable({ children }: { children: ReactNode }) {
   return (
-    <>
-      <ScrollArea.Root>
-        <ScrollArea.Viewport>
-          {children}
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar orientation="vertical">
-          <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-        <ScrollArea.Corner />
-      </ScrollArea.Root>
-    </>
+    <ScrollArea.Root
+      className="w-full h-full overflow-hidden"
+    >
+      <ScrollArea.Viewport
+        className="w-full h-full relative"
+      >
+        {children}
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar
+        orientation="vertical"
+      >
+        <ScrollArea.Thumb />
+      </ScrollArea.Scrollbar>
+      <ScrollArea.Corner />
+    </ScrollArea.Root>
   );
 }

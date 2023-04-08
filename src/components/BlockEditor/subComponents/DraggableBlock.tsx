@@ -105,7 +105,7 @@ export default function DraggableBlock({ block, moveBlock, children, contentEdit
       </div>
     </div>
   );
-};
+}
 
 //* Util functions
 

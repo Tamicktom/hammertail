@@ -12,11 +12,7 @@ import DropLine from "./subComponents/DropLine";
 import DraggableBlock from "./subComponents/DraggableBlock";
 
 //* Custom hooks
-import useDebounce from "../../hooks/common/useDebounce";
-
-type BlockEditorProps = {
-
-}
+// import useDebounce from "../../hooks/common/useDebounce";
 
 export default function BlockEditor() {
   const [blocks, setBlocks] = useState<Block[]>([{ id: crypto.randomUUID(), html: "Teste", order: 0 }]);
@@ -119,8 +115,9 @@ export default function BlockEditor() {
       deleteBlock(id);
       setTimeout(() => {
         if (refs.current && blocks && blocks[currentBlockIndex - 1]) {
-          // @ts-ignore
-          focusAndMoveCaretToEnd(refs.current[blocks[currentBlockIndex - 1].id]);
+          const block = blocks[currentBlockIndex - 1];
+          if (block)
+            focusAndMoveCaretToEnd(refs.current[block.id]);
         }
       }, 0);
     } else if (e.key === "ArrowUp" && isCaretAtStart(refs.current[id])) {

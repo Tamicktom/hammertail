@@ -7,7 +7,6 @@ import { type ReactNode, useState } from 'react';
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
 import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
-import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 import BlockEditor from "../../components/BlockEditor/BlockEditor";

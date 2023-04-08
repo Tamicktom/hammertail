@@ -2,7 +2,7 @@
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block } from '@prisma/client';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useState, type UIEvent, useEffect } from 'react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -10,6 +10,9 @@ import { PageHeader } from "../../components/specific/PageEditComponents/PageHea
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 import BlockEditor from "../../components/BlockEditor/BlockEditor";
+
+//* Hooks imports
+import useDebounce from "../../hooks/common/useDebounce";
 
 type Props = {
   worldId: string;
@@ -21,6 +24,19 @@ export default function PageEdit(props: Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
 
+  const collapseNavBar = (event: UIEvent<HTMLDivElement>) => {
+    const scrollTop = event.currentTarget.scrollTop;
+    if (scrollTop > 120) {
+      setNavBarCollapse(true);
+    } else {
+      setNavBarCollapse(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log("navBarCollapse", navBarCollapse);
+  }, [navBarCollapse]);
+
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
       <Allotment
@@ -29,7 +45,9 @@ export default function PageEdit(props: Props) {
         }}
       >
         <Allotment.Pane>
-          <Scrollable>
+          <Scrollable
+            onScroll={collapseNavBar}
+          >
             <Navbar
               worldId={props.worldId}
               collapsed={navBarCollapse}
@@ -62,23 +80,39 @@ export default function PageEdit(props: Props) {
   );
 }
 
+type ScrollableProps = {
+  children: ReactNode;
+  onScroll?: (event: UIEvent<HTMLDivElement>) => void;
+}
 
-function Scrollable({ children }: { children: ReactNode }) {
+function Scrollable(props: ScrollableProps) {
+
   return (
     <ScrollArea.Root
       className="w-full h-full overflow-hidden"
+      scrollHideDelay={750}
     >
       <ScrollArea.Viewport
         className="w-full h-full relative"
+        onScroll={props.onScroll}
       >
-        {children}
+        {props.children}
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
+
         orientation="vertical"
+        className="flex select-none h-full touch-none px-1 transition-all bg-tertiary-800 hover:bg-tertiary-700 relative hover:px-1.5"
       >
-        <ScrollArea.Thumb />
+        <ScrollArea.Thumb
+          className="bg-tertiary-600 flex-1 rounded absolute left-0 top-0"
+          style={{
+            width: "100%",
+          }}
+        />
       </ScrollArea.Scrollbar>
-      <ScrollArea.Corner />
+      <ScrollArea.Corner
+        className="bg-blue-400"
+      />
     </ScrollArea.Root>
   );
 }

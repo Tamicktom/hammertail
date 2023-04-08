@@ -10,6 +10,7 @@ import { PageHeader } from "../../components/specific/PageEditComponents/PageHea
 import { BlocksHolder } from "../../components/common/BlocksHolder/BlocksHolder";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
+import BlockEditor from "../../components/BlockEditor/BlockEditor";
 
 type Props = {
   worldId: string;
@@ -32,10 +33,10 @@ export default function PageEdit(props: Props) {
         <Allotment.Pane>
           <Scrollable>
             <Navbar worldId={props.worldId} />
-            <div className="w-full h-full flex flex-row justify-center items-start pt-40">
+            <div className="w-full h-full flex flex-row justify-center items-start pt-40 gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start">
                 <PageHeader title={props.page.name} pageType="" />
-                {/* <BlocksHolder pageId={props.page.id} startBlocks={props.blocks} /> */}
+                <BlockEditor />
               </div>
               <PageInfo page={props.page} />
             </div>

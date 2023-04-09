@@ -1,18 +1,22 @@
 //* Libraries imports
-import { useState, useRef, type KeyboardEvent, useEffect, Fragment } from "react";
+import { useState, useRef, type ReactNode, type KeyboardEvent, useEffect, Fragment } from "react";
+import { DotsSixVertical } from "@phosphor-icons/react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
-import { DndProvider } from "react-dnd";
+import { DndProvider, DragObjectFactory, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-//* Types imports
-import type { Block } from "../../types/block";
-
-//* Components imports
-import DropLine from "./subComponents/DropLine";
-import DraggableBlock from "./subComponents/DraggableBlock";
-
 //* Custom hooks
-// import useDebounce from "../../hooks/common/useDebounce";
+
+
+type Block = {
+  id: string;
+  html: string;
+  order: number;
+}
+
+type BlockEditorProps = {
+
+}
 
 export default function BlockEditor() {
   const [blocks, setBlocks] = useState<Block[]>([{ id: crypto.randomUUID(), html: "Teste", order: 0 }]);
@@ -115,9 +119,8 @@ export default function BlockEditor() {
       deleteBlock(id);
       setTimeout(() => {
         if (refs.current && blocks && blocks[currentBlockIndex - 1]) {
-          const block = blocks[currentBlockIndex - 1];
-          if (block)
-            focusAndMoveCaretToEnd(refs.current[block.id]);
+          // @ts-ignore
+          focusAndMoveCaretToEnd(refs.current[blocks[currentBlockIndex - 1].id]);
         }
       }, 0);
     } else if (e.key === "ArrowUp" && isCaretAtStart(refs.current[id])) {
@@ -170,7 +173,7 @@ export default function BlockEditor() {
   };
 
   return (
-    <div className="w-full flex justify-center pt-12">
+    <div className="bg-tertiary-800 w-full h-screen flex justify-center pt-12">
       <div className="w-full max-w-7xl">
         <DndProvider backend={HTML5Backend}>
           <div className="w-full flex flex-col justify-center items-center">
@@ -203,3 +206,112 @@ export default function BlockEditor() {
   );
 }
 
+const isMouseDownOnContentEditable = (event: MouseEvent, contentEditableRef: HTMLElement | null) => {
+  if (!contentEditableRef) return false;
+  const target = event.target as HTMLElement;
+  return contentEditableRef.contains(target);
+};
+
+interface DraggableBlockProps {
+  block: Block;
+  moveBlock: (dragOrder: number, hoverOrder: number) => void;
+  children: ReactNode;
+  contentEditableRef: HTMLElement | null;
+  setLinePosition: (position: number | null) => void;
+}
+
+type DragCollect = {
+  isDragging: boolean;
+};
+
+type DragItem = {
+  type: string;
+  id: string;
+  order: number;
+};
+
+function DraggableBlock({ block, moveBlock, children, contentEditableRef, setLinePosition }: DraggableBlockProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isDragEnabled, setIsDragEnabled] = useState(true);
+  const [isMouseOver, setIsMouseOver] = useState(false);
+
+  const [, drop] = useDrop({
+    accept: "block",
+    hover(item: DragItem) {
+      if (!ref.current) return;
+
+      const dragOrder = item.order;
+      const hoverOrder = block.order;
+
+      if (dragOrder === hoverOrder) return;
+
+      moveBlock(dragOrder, hoverOrder);
+      item.order = hoverOrder;
+    },
+  });
+
+  useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) => {
+      if (isMouseDownOnContentEditable(event, contentEditableRef)) {
+        setIsDragEnabled(false);
+      } else {
+        setIsDragEnabled(true);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [contentEditableRef]);
+
+  const [{ isDragging }, drag, preview] = useDrag<DragItem, never, DragCollect>({
+    canDrag: () => isDragEnabled,
+    type: "block",
+    item: (() => {
+      return {
+        type: "block",
+        id: block.id,
+        order: block.order,
+      };
+    }) as DragObjectFactory<DragItem>,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+    end: (item, monitor) => {
+      setLinePosition(null);
+      if (!monitor.didDrop()) {
+        item.order = block.order;
+      }
+    },
+  });
+
+  drag(drop(ref));
+
+  return (
+    <div
+      ref={preview}
+      style={{ opacity: isDragging ? 0 : 1 }}
+      className="w-full flex justify-center items-center flex-col"
+      onMouseEnter={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
+    >
+      <div
+        className="pl-2 w-full flex flex-row gap-1"
+        ref={ref}
+      >
+        <DotsSixVertical
+          className="w-7 h-7 text-gray-500"
+          style={{
+            cursor: "grab",
+            opacity: isMouseOver ? 1 : 0,
+          }}
+        />
+        {children}
+      </div>
+    </div>
+  );
+};
+
+function DropLine() {
+  return <div className="w-full h-0.5 bg-tertiary-700 mb-1" />
+}

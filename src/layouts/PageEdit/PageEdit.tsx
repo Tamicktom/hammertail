@@ -2,16 +2,16 @@
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block } from '@prisma/client';
-import { type ReactNode, useState, type UIEvent, useEffect } from 'react';
+import { type ReactNode, useState, type UIEvent, useRef } from 'react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
 import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
-import BlockEditor from "../../components/BlockEditor/BlockEditor";
 
 //* Hooks imports
+import useEditorJs from "../../hooks/specific/useEditorJs";
 import useDebounce from "../../hooks/common/useDebounce";
 
 type Props = {
@@ -20,11 +20,16 @@ type Props = {
   blocks: Block[];
 }
 
-export default function PageEdit(props: Props) {
+export default function PageEdit(props:
+  Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
 
-  const collapseNavBar = (event: UIEvent<HTMLDivElement>) => {
+  const { editor, isEditorLoaded, isContentLoaded } = useEditorJs(editorContainerRef, props.page.id);
+
+  const collapseNavBar = (event:
+    UIEvent<HTMLDivElement>) => {
     const scrollTop = event.currentTarget.scrollTop;
     if (scrollTop > 120) {
       setNavBarCollapse(true);
@@ -32,10 +37,6 @@ export default function PageEdit(props: Props) {
       setNavBarCollapse(false);
     }
   }
-
-  useEffect(() => {
-    console.log("navBarCollapse", navBarCollapse);
-  }, [navBarCollapse]);
 
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
@@ -58,7 +59,25 @@ export default function PageEdit(props: Props) {
             <div className="w-full h-full flex flex-row justify-center items-start gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
                 <PageHeader title={props.page.name} pageType="" />
-                <BlockEditor />
+                {/* <BlockEditor /> */}
+                <div
+                  id="editorjs"
+                  ref={editorContainerRef}
+                  className="w-full h-full"
+                  style={{
+                    display: isEditorLoaded ? "block" : "none",
+                  }}
+                />
+                {
+                  !isContentLoaded
+                  && (
+                    <div className="text-white">
+                      <p>
+                        Loading...
+                      </p>
+                    </div>
+                  )
+                }
               </div>
               <PageInfo page={props.page} />
             </div>
@@ -81,11 +100,15 @@ export default function PageEdit(props: Props) {
 }
 
 type ScrollableProps = {
-  children: ReactNode;
-  onScroll?: (event: UIEvent<HTMLDivElement>) => void;
+  children:
+  ReactNode;
+  onScroll?:
+  (event:
+    UIEvent<HTMLDivElement>) => void;
 }
 
-function Scrollable(props: ScrollableProps) {
+function Scrollable(props:
+  ScrollableProps) {
 
   return (
     <ScrollArea.Root
@@ -106,7 +129,8 @@ function Scrollable(props: ScrollableProps) {
         <ScrollArea.Thumb
           className="bg-tertiary-600 flex-1 rounded absolute left-0 top-0"
           style={{
-            width: "100%",
+            width:
+              "100%",
           }}
         />
       </ScrollArea.Scrollbar>

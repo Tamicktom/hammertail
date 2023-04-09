@@ -10,6 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.26.5",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@phosphor-icons/react": "^2.0.8",
     "@prisma/client": "^4.11.0",

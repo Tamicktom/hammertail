@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState, useRef, type ReactNode, type UIEvent, } from 'react';
+import { useState, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block, PageType } from '@prisma/client';
@@ -9,9 +9,7 @@ import { Navbar } from "../../components/specific/Navbar/Navbar";
 import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
-
-//* Hooks imports
-import useEditorJs from "../../hooks/specific/useEditorJs";
+import TextEditorWrapper from '../../components/TextEditor/TextEditorWrapper';
 
 type Props = {
   worldId: string;
@@ -23,9 +21,6 @@ export default function PageEdit(props:
   Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
-  const editorContainerRef = useRef<HTMLDivElement>(null);
-
-  const { editor, isEditorLoaded, isContentLoaded } = useEditorJs(editorContainerRef, props.page.id);
 
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
@@ -61,24 +56,11 @@ export default function PageEdit(props:
                   title={props.page.name}
                   pageType={props.page.PageType}
                 />
-                <div
-                  id="editorjs"
-                  ref={editorContainerRef}
-                  className="w-full h-full"
-                  style={{
-                    display: isEditorLoaded ? "block" : "none",
-                  }}
+
+                <TextEditorWrapper
+                  page={props.page}
                 />
-                {
-                  !isContentLoaded
-                  && (
-                    <div className="text-white">
-                      <p>
-                        Loading...
-                      </p>
-                    </div>
-                  )
-                }
+
               </div>
               <PageInfo page={props.page} />
             </div>

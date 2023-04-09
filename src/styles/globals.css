@@ -446,6 +446,15 @@ body {
   border-radius: 8px;
 }
 
+.cdx-block {
+  padding: 8px;
+  transition: none;
+}
+
+.cdx-block:focus {
+  outline: 1px solid hsl(var(--color-tertiary-600));
+}
+
 .ce-block__content {
   width: 100%;
   max-width: 1024px;

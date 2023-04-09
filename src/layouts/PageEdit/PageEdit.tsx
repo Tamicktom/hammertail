@@ -1,8 +1,8 @@
 //* Libraries imports
+import { useState, useRef, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import type { Page, Block } from '@prisma/client';
-import { type ReactNode, useState, type UIEvent, useRef } from 'react';
+import type { Page, Block, PageType } from '@prisma/client';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -12,11 +12,10 @@ import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
 //* Hooks imports
 import useEditorJs from "../../hooks/specific/useEditorJs";
-import useDebounce from "../../hooks/common/useDebounce";
 
 type Props = {
   worldId: string;
-  page: Page;
+  page: (Page & { PageType: PageType });
   blocks: Block[];
 }
 
@@ -58,8 +57,10 @@ export default function PageEdit(props:
             <div className="h-40 w-full" />
             <div className="w-full h-full flex flex-row justify-center items-start gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
-                <PageHeader title={props.page.name} pageType="" />
-                {/* <BlockEditor /> */}
+                <PageHeader
+                  title={props.page.name}
+                  pageType={props.page.PageType}
+                />
                 <div
                   id="editorjs"
                   ref={editorContainerRef}

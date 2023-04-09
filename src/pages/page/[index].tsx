@@ -3,7 +3,7 @@ import Head from "next/head";
 import { getSession } from "next-auth/react";
 import { prisma } from "../../server/db/client";
 import type { GetServerSideProps } from "next";
-import type { Page, Block, World } from "@prisma/client";
+import type { Page, Block, World, PageType } from "@prisma/client";
 
 //* Component imports
 import PageEdit from "../../layouts/PageEdit/PageEdit";
@@ -34,6 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
     include: {
       world: true,
+      PageType: true,
     },
   });
 
@@ -77,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //* Client side code ----------------------------------------------------------
 type Props = {
   world: World;
-  page: Page;
+  page: (Page & { PageType: PageType });
   blocks: Block[];
 }
 

@@ -451,6 +451,10 @@ body {
   transition: none;
 }
 
+.cdx-block > span {
+  background-color: hsl(var(--color-tertiary-600)) !important;
+}
+
 .cdx-block:focus {
   outline: 1px solid hsl(var(--color-tertiary-600));
 }
@@ -507,4 +511,10 @@ body {
 
 .ce-inline-toolbar__buttons > button:hover {
   background: hsl(var(--color-tertiary-600));
+}
+
+.ce-inline-toolbar__actions > input {
+  border-top-width: 0;
+  color: hsl(var(--color-tertiary-100));
+  background-color: hsl(var(--color-tertiary-700));
 }

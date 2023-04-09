@@ -19,7 +19,7 @@ import type { OutputData } from "@editorjs/editorjs";
 export default function useEditorJs(
   editorContainerRef: RefObject<HTMLDivElement>,
   pageId: string,
-  id: string = "editorjs"
+  id = "editorjs"
 ) {
   const [isEditorLoaded, setIsEditorLoaded] = useState<boolean>(false);
   const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);

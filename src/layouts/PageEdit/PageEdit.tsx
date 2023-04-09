@@ -1,5 +1,6 @@
 //* Libraries imports
 import { useState, useRef, type ReactNode, type UIEvent, } from 'react';
+import BlockEditor from 'hammertail-text-editor';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block, PageType } from '@prisma/client';
@@ -11,7 +12,7 @@ import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo"
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
 //* Hooks imports
-import useEditorJs from "../../hooks/specific/useEditorJs";
+// import useEditorJs from "../../hooks/specific/useEditorJs";
 
 type Props = {
   worldId: string;
@@ -25,7 +26,7 @@ export default function PageEdit(props:
   const [navBarCollapse, setNavBarCollapse] = useState(false);
   const editorContainerRef = useRef<HTMLDivElement>(null);
 
-  const { editor, isEditorLoaded, isContentLoaded } = useEditorJs(editorContainerRef, props.page.id);
+  // const { editor, isEditorLoaded, isContentLoaded } = useEditorJs(editorContainerRef, props.page.id);
 
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
@@ -61,7 +62,7 @@ export default function PageEdit(props:
                   title={props.page.name}
                   pageType={props.page.PageType}
                 />
-                <div
+                {/* <div
                   id="editorjs"
                   ref={editorContainerRef}
                   className="w-full h-full"
@@ -78,7 +79,8 @@ export default function PageEdit(props:
                       </p>
                     </div>
                   )
-                }
+                } */}
+                <BlockEditor />
               </div>
               <PageInfo page={props.page} />
             </div>

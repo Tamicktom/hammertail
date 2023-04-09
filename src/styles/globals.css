@@ -468,8 +468,26 @@ body {
   max-width: 1024px;
 }
 
+.ce-toolbar__actions {
+  flex-direction: row;
+  padding-right: 0px;
+}
+
 .ce-toolbar__actions > * {
   color: hsl(var(--color-tertiary-100));
+  background: hsl(var(--color-tertiary-700));
+  background-color: hsl(var(--color-tertiary-700));
+  border: 1px solid hsl(var(--color-tertiary-400));
+}
+.ce-toolbar__actions .ce-toolbox {
+  color: hsl(var(--color-tertiary-100));
+  background: hsl(var(--color-tertiary-700));
+  background-color: hsl(var(--color-tertiary-700));
+  border: none;
+}
+
+.ce-toolbox {
+  height: 0px;
 }
 
 .ce-toolbar__actions > *:hover {

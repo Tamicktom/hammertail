@@ -27,6 +27,7 @@
     "axios": "^1.3.4",
     "csstype": "^3.0.10",
     "formidable": "^2.1.1",
+    "hammertail-text-editor": "^0.0.3",
     "next": "13.2.4",
     "next-auth": "^4.20.1",
     "node-vibrant": "^3.1.6",

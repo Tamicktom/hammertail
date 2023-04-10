@@ -9,7 +9,10 @@ import { Navbar } from "../../components/specific/Navbar/Navbar";
 import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
-import TextEditorWrapper from '../../components/TextEditor/TextEditorWrapper';
+
+import Enchanto from "enchanto/dist/index";
+
+// import TextEditorWrapper from '../../components/TextEditor/TextEditorWrapper';
 
 type Props = {
   worldId: string;
@@ -57,9 +60,11 @@ export default function PageEdit(props:
                   pageType={props.page.PageType}
                 />
 
-                <TextEditorWrapper
+                <Enchanto />
+
+                {/* <TextEditorWrapper
                   page={props.page}
-                />
+                /> */}
 
               </div>
               <PageInfo page={props.page} />

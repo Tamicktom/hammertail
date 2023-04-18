@@ -72,7 +72,7 @@ const WorldCreationModal = () => {
           <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
             <label htmlFor="worldName" className='font-bold text-lg  text-white'>Nome do mundo*</label>
             <input
-              className='w-full px-2 py-1 rounded-lg bg-tertiary-600'
+              className='w-full px-2 py-1 rounded-lg bg-tertiary-600 focus:outline-none'
               onChange={(e) => { setWorldName(e.target.value); }}
               id="worldName"
               type="text"
@@ -83,7 +83,7 @@ const WorldCreationModal = () => {
           <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
             <label htmlFor="worldDrscription" className='font-bold text-lg  text-white'>Descrição do mundo</label>
             <textarea rows={1} maxLength={1000}
-              className='w-full px-2 py-1 rounded-lg bg-tertiary-600'
+              className='w-full px-2 py-1 rounded-lg bg-tertiary-600 focus:outline-none'
               placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
             />
           </fieldset>
@@ -95,9 +95,9 @@ const WorldCreationModal = () => {
               </span>
             </div>
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
-              <label htmlFor="worldStartYear" className='font-bold text-base   text-white'>Ano de inicio*</label>
+              <label htmlFor="worldStartYear" className='font-bold text-base   text-white '>Ano de inicio*</label>
               <input
-                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg'
+                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg focus:outline-none'
                 id="worldStartYear"
                 type="number"
                 placeholder="0"
@@ -107,7 +107,7 @@ const WorldCreationModal = () => {
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
               <label htmlFor="worldEndYear" className='font-bold text-base  text-white'>Ano de fim*</label>
               <input
-                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg'
+                className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg focus:outline-none appearance-none :-webkit-outer-spin-button'
                 id="worldEndYear"
                 type="number"
                 placeholder="1000"

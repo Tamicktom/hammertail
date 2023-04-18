@@ -3,6 +3,7 @@ import { useState, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block, PageType } from '@prisma/client';
+import { DotsSixVertical } from '@phosphor-icons/react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -10,7 +11,7 @@ import { PageHeader } from "../../components/specific/PageEditComponents/PageHea
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
-import Enchanto from "enchanto/dist/index";
+import Enchanto from "enchanto";
 
 // import TextEditorWrapper from '../../components/TextEditor/TextEditorWrapper';
 
@@ -60,7 +61,9 @@ export default function PageEdit(props:
                   pageType={props.page.PageType}
                 />
 
-                <Enchanto />
+                <Enchanto
+                  dragIcon={<DotsSixVertical />}
+                />
 
                 {/* <TextEditorWrapper
                   page={props.page}

@@ -4,6 +4,17 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
+input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Works for Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
 :root {
   /* Colors must be in HSL format */
   --color-primary-100: 270deg 50% 99%;

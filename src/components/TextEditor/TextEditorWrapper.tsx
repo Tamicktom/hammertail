@@ -100,10 +100,5 @@ async function saveBlocks(pageId: string, blocks: PartialBlock[]) {
     }, 5500);
   });
 
-  const response = await promisse;
-  if (response.status === 200) {
-    console.log(response.data);
-  }
-
   return null;
 }

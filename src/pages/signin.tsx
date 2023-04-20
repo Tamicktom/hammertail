@@ -10,7 +10,7 @@ import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const providerList = providers ? Object.values(providers) : [];
-  console.log(providerList);
+ 
 
   return (
     <>

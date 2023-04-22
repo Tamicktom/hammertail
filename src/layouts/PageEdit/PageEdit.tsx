@@ -3,7 +3,7 @@ import { useState, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import type { Page, Block, PageType } from '@prisma/client';
-import { DotsSixVertical } from '@phosphor-icons/react';
+import { DotsSixVertical, Plus } from '@phosphor-icons/react';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -11,7 +11,7 @@ import { PageHeader } from "../../components/specific/PageEditComponents/PageHea
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
-import Enchanto from "enchanto";
+import { Page as Enchanto } from "enchanto";
 
 // import TextEditorWrapper from '../../components/TextEditor/TextEditorWrapper';
 
@@ -63,6 +63,27 @@ export default function PageEdit(props:
 
                 <Enchanto
                   dragIcon={<DotsSixVertical />}
+                  addIcon={<Plus />}
+                  initialState={[
+                    {
+                      id: crypto.randomUUID(),
+                      type: "heading",
+                      content: "<h1>Heading</h1>",
+                      children: [],
+                      order: 0,
+                      props: {},
+                    },
+                    {
+                      id: crypto.randomUUID(),
+                      type: "paragraph",
+                      content: "<p>Hello World!</p>",
+                      children: [],
+                      order: 1,
+                      props: {},
+                    },
+                  ]}
+                  className='w-full h-full text-white'
+                  onChange={(state) => { console.log(state) }}
                 />
 
                 {/* <TextEditorWrapper

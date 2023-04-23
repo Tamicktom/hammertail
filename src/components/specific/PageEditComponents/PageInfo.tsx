@@ -12,9 +12,10 @@ type Props = {
 export const PageInfo = (props: Props) => {
   return (
     <div className="p-2 w-80">
-      {
-        props.page.PageType.name === "characters" && <CharacterInfo />
-      }
+      {props.page.PageType.name === "characters" && <CharacterInfo />}
+      {props.page.PageType.name === "places" && <PlaceInfo />}
+      {props.page.PageType.name === "items" && <ItemInfo />}
+      {props.page.PageType.name === "events" && <EventInfo />}
     </div>
   );
 }
@@ -52,6 +53,24 @@ function CharacterInfo() {
     </>
   );
 }
-function ItemInfo() { }
-function LocationInfo() { }
-function EventInfo() { }
+function ItemInfo() {
+  return (
+    <>
+      <h2 className="text-white">Item</h2>
+    </>
+  );
+}
+function PlaceInfo() {
+  return (
+    <>
+      <h2 className="text-white">Location</h2>
+    </>
+  );
+}
+function EventInfo() {
+  return (
+    <>
+      <h2 className="text-white">Event</h2>
+    </>
+  );
+}

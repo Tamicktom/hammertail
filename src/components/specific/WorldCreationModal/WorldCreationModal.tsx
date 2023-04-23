@@ -123,7 +123,7 @@ const WorldCreationModal = () => {
             <WorldImage />
           </div>
 
-          <WorldModalButton />
+          <WorldModalButton onClick={handleWorldCreation} />
 
           <Close asChild className='absolute top-0 right-0'>
             <button

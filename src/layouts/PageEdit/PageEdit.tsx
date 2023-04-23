@@ -37,11 +37,7 @@ export default function PageEdit(props: Props) {
 
   return (
     <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
-      <Allotment
-        onVisibleChange={(visible) => {
-          console.log("visible", visible);
-        }}
-      >
+      <Allotment>
         <Allotment.Pane>
           <Scrollable
             onScroll={collapseNavBar}

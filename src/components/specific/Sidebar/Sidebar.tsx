@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
 import { CaretDown } from "@phosphor-icons/react";
-import { useEffect } from "react";
+
 
 //* Hook imports
 import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
@@ -22,9 +22,6 @@ export const Sidebar = (props: Props) => {
   const places = useGetPagesByType(props.worldId, "places");
   const items = useGetPagesByType(props.worldId, "items");
 
-  useEffect(() => {
-    console.log("is Closed? ", props.collapsed);
-  }, [props.collapsed]);
 
   return (
     <Root

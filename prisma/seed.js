@@ -2,7 +2,7 @@
 const { PrismaClient } = require("@prisma/client");
 
 //* Seed data
-const pages: string[] = ["characters", "places", "items", "events"];
+const pages = ["characters", "places", "items", "events"];
 
 //* Seed function
 async function main() {
@@ -41,5 +41,3 @@ async function main() {
 
 //* Seed execution
 main();
-
-export {};

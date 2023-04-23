@@ -21,8 +21,7 @@ type Props = {
   blocks: Block[];
 }
 
-export default function PageEdit(props:
-  Props) {
+export default function PageEdit(props: Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
 

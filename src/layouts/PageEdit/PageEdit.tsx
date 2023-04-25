@@ -9,7 +9,8 @@ import { Navbar } from "../../components/specific/Navbar/Navbar";
 import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
 import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
 import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
-import TextEditor from '../../components/TextEditor/TextEditor';
+
+import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 
 type Props = {
   worldId: string;
@@ -51,7 +52,9 @@ export default function PageEdit(props: Props) {
                   title={props.page.name}
                   pageType={props.page.PageType}
                 />
-                <TextEditor page={props.page} />
+
+                <TextEditorWraper page={props.page} />
+
               </div>
               <PageInfo page={props.page} />
             </div>

@@ -1,38 +1,24 @@
 //* Libraries imports
-import { Page as Enchanto } from "enchanto";
-import { DotsSixVertical, Plus } from '@phosphor-icons/react';
-
-import type { Page } from "@prisma/client";
+import { BlockNoteEditor, type PartialBlock } from "@blocknote/core";
+import { BlockNoteView, useBlockNote } from "@blocknote/react";
+import "@blocknote/core/style.css";
 
 type Props = {
-  page: Page;
+  initialContent: PartialBlock[] | null;
+  onEditorChange: (editor: BlockNoteEditor) => void;
 }
 
 export default function TextEditor(props: Props) {
+
+  const editor: BlockNoteEditor | null = useBlockNote({
+    initialContent: props.initialContent || undefined,
+    onEditorContentChange: props.onEditorChange,
+    theme: "dark"
+  });
+
   return (
-    <Enchanto
-      dragIcon={<DotsSixVertical />}
-      addIcon={<Plus />}
-      initialState={[
-        {
-          id: crypto.randomUUID(),
-          type: "heading",
-          content: "<h1>Heading</h1>",
-          children: [],
-          order: 0,
-          props: {},
-        },
-        {
-          id: crypto.randomUUID(),
-          type: "paragraph",
-          content: "<p>Hello World!</p>",
-          children: [],
-          order: 1,
-          props: {},
-        },
-      ]}
-      className='w-full h-full text-white'
-      onChange={(state) => { console.log(state) }}
+    <BlockNoteView
+      editor={editor}
     />
   );
 }

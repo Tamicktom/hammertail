@@ -57,7 +57,10 @@ export default function TextEditorWrapper(props: Props) {
             }}
           />
           : <div className='w-full h-full flex justify-center items-center'>
-            <CircleNotch size={64} className='animate-spin' />
+            <CircleNotch
+              size={64}
+              className='animate-spin fill-white'
+            />
           </div>
       }
     </div>

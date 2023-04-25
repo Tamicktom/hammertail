@@ -3,8 +3,6 @@ import { getServerAuthSession } from "../../../server/common/get-server-auth-ses
 import { prisma } from "../../../server/db/client";
 import z from "zod";
 
-import type { Block } from "enchanto/dist";
-
 const saveText = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 

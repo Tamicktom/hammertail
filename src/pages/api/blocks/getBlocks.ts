@@ -1,9 +1,20 @@
+//* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
 import { prisma, supabase } from "../../../server/db/client";
 import z from "zod";
 
-const getBlocks = async (req: NextApiRequest, res: NextApiResponse) => {
+//* Types imports
+import type { PartialBlock } from "@blocknote/core";
+
+export type GetBlocksResponse = {
+  blocks: PartialBlock[];
+}
+
+export default async function getBlocks(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const session = await getServerAuthSession({ req, res });
 
   //verify if the user is logged in
@@ -36,9 +47,5 @@ const getBlocks = async (req: NextApiRequest, res: NextApiResponse) => {
 
   //grab the page content from the supabase storage
 
-
-  return res.send({
-  });
-};
-
-export default getBlocks;
+  return res.send({});
+}

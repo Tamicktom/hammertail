@@ -7,10 +7,7 @@ import {
 } from "@tanstack/react-query";
 
 import type { PartialBlock } from "@blocknote/core";
-
-interface SaveBlocksResponse {
-  message: string;
-}
+import type { SaveBlocksResponse } from "../../pages/api/blocks/saveBlocks";
 
 async function saveBlocks(
   pageId: string,

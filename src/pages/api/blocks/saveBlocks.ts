@@ -1,9 +1,18 @@
+//* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
 import { prisma } from "../../../server/db/client";
 import z from "zod";
 
-const saveText = async (req: NextApiRequest, res: NextApiResponse) => {
+//* Types
+export type SaveBlocksResponse = {
+  message: string;
+};
+
+export default async function saveBlocks(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const session = await getServerAuthSession({ req, res });
 
   //verify if the user is logged in
@@ -35,6 +44,4 @@ const saveText = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   const blocksSchema = z.array(blockSchema);
-};
-
-export default saveText;
+}

@@ -2,15 +2,12 @@
 import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import type { PartialBlock } from "@blocknote/core";
-
-interface GetBlocksResponse {
-  blocks: PartialBlock[];
-}
+//* Types imports
+import type { GetBlocksResponse } from "../../pages/api/blocks/getBlocks";
 
 async function getBlocks(pageId: string): Promise<GetBlocksResponse> {
   const response = await axios.get<GetBlocksResponse>(
-    `/api/getBlocks/${pageId}`
+    `/api/blocks/getBlocks/${pageId}`
   );
   return response.data;
 }

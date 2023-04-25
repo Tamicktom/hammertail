@@ -1,6 +1,6 @@
 //* Libraries imports
 import { useState, useEffect } from 'react';
-import type { PartialBlock, BlockNoteEditor } from "@blocknote/core";
+import type { PartialBlock } from "@blocknote/core";
 import { CircleNotch } from '@phosphor-icons/react';
 
 //* Components imports

@@ -8,8 +8,9 @@ import z from "zod";
 import type { PartialBlock } from "@blocknote/core";
 
 export type GetBlocksResponse = {
-  blocks: PartialBlock[];
-}
+  blocks?: PartialBlock[];
+  url?: string;
+};
 
 export default async function getBlocks(
   req: NextApiRequest,
@@ -46,6 +47,34 @@ export default async function getBlocks(
   }
 
   //grab the page content from the supabase storage
+  // verify if there is a json file with the pageId
+  const { data, error } = await supabase.storage
+    .from(`pages`)
+    .createSignedUrl(`${pageId}.json`, 1000 * 60); // 60 seconds
 
-  return res.send({});
+  if (error?.message === "The resource was not found") {
+    //this indicates that the page content does not exist yet. So, we return an empty array
+    const blocks: PartialBlock[] = [
+      {
+        id: "1",
+        type: "paragraph",
+        content: "Create your first block!",
+      },
+    ];
+    return res.send({
+      blocks,
+    });
+  }
+
+  //verify if the page content exists
+  if (!data) {
+    return res.send({
+      content: "Page content not found",
+    });
+  }
+
+  //return the signed url
+  res.send({
+    url: data.signedUrl,
+  });
 }

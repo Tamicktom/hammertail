@@ -27,7 +27,7 @@ export default function TextEditorWrapper(props: Props) {
 
   useDidMountEffect(() => {
     if (initialBlocks.isSuccess) {
-      setContent(initialBlocks.data.blocks);
+      setContent(initialBlocks.data);
     }
   });
 
@@ -51,7 +51,7 @@ export default function TextEditorWrapper(props: Props) {
       {
         initialBlocks.isSuccess
           ? <TextEditor
-            initialContent={initialBlocks.data.blocks}
+            initialContent={initialBlocks.data}
             onEditorChange={(editor) => {
               setContent(editor.topLevelBlocks);
             }}

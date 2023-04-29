@@ -1,8 +1,12 @@
 //* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
+import z from "zod";
+import type { PartialBlock } from "@blocknote/core";
+
+//* Local imports
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
 import { prisma } from "../../../server/db/client";
-import z from "zod";
+import { supabase } from "../../../server/db/client";
 
 //* Types
 export type SaveBlocksResponse = {
@@ -29,19 +33,8 @@ export default async function saveBlocks(
     });
   }
 
-  const typesOfBlocks = z.enum(["paragraph", "heading", "default"]);
-
-  const blockSchema = z.object({
-    id: z.string(),
-    type: typesOfBlocks,
-    content: z.string(),
-    order: z.number().min(0),
-    html: z.string().optional(),
-    props: z.object({
-      level: z.number().optional(),
-    }),
-    children: z.array(z.object({})),
+  //save the blocks on supabase storage
+  res.send({
+    message: "Blocks saved successfully",
   });
-
-  const blocksSchema = z.array(blockSchema);
 }

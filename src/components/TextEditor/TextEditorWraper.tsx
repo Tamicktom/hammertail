@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import type { PartialBlock } from "@blocknote/core";
 import { CircleNotch } from '@phosphor-icons/react';
+import z from "zod";
 
 //* Components imports
 import TextEditor from './TextEditor';
@@ -9,8 +10,8 @@ import TextEditor from './TextEditor';
 //* Custom hooks
 import useDidMountEffect from "../../hooks/common/useDidMountEffect";
 import useDebounce from '../../hooks/common/useDebounce';
-import useSaveBlock from '../../hooks/specific/useSaveBlock';
-import useGetBlocks from '../../hooks/specific/useGetBlocks';
+import useSaveBlock from '../../hooks/mutations/useSaveBlock';
+import useGetBlocks from '../../hooks/queries/useGetBlocks';
 
 //* Types imports
 import type { Page } from "@prisma/client";
@@ -39,6 +40,7 @@ export default function TextEditorWrapper(props: Props) {
   //save blocks when content changes
   useEffect(() => {
     if (debouncedContent) {
+      console.log("conteúdo", debouncedContent);
       saveBlocks.mutate({
         pageId: props.page.id,
         blocks: debouncedContent
@@ -49,7 +51,7 @@ export default function TextEditorWrapper(props: Props) {
   return (
     <div className='w-full h-full min-h-screen blockStyle'>
       {
-        initialBlocks.isSuccess
+        initialBlocks.isSuccess && !initialBlocks.isLoading
           ? <TextEditor
             initialContent={initialBlocks.data}
             onEditorChange={(editor) => {

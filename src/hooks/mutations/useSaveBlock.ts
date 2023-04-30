@@ -13,10 +13,14 @@ async function saveBlocks(
   pageId: string,
   blocks: PartialBlock[]
 ): Promise<SaveBlocksResponse> {
-  const response = await axios.post<SaveBlocksResponse>("/api/saveBlocks", {
-    pageId,
-    blocks,
-  });
+  const response = await axios.post<SaveBlocksResponse>(
+    "/api/blocks/saveBlocks",
+    {
+      pageId,
+      blocks,
+    }
+  );
+  console.log("Save blocks", response.data);
   return response.data;
 }
 

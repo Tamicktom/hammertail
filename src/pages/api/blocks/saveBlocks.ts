@@ -1,7 +1,6 @@
 //* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
 import z from "zod";
-import type { PartialBlock } from "@blocknote/core";
 
 //* Local imports
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
@@ -9,9 +8,24 @@ import { prisma } from "../../../server/db/client";
 import { supabase } from "../../../server/db/client";
 
 //* Types
+import type { PartialBlock } from "@blocknote/core";
 export type SaveBlocksResponse = {
   message: string;
 };
+
+const blocksSchema = z.array(
+  z.object({
+    id: z.string(),
+    type: z.string(),
+    props: z.object({
+      textColor: z.string(),
+      backgroundColor: z.string(),
+      textAlignment: z.string(),
+    }),
+    children: z.array(z.any()),
+    content: z.array(z.any()),
+  })
+);
 
 export default async function saveBlocks(
   req: NextApiRequest,
@@ -34,6 +48,33 @@ export default async function saveBlocks(
   }
 
   //save the blocks on supabase storage
+  const { pageId, blocks } = req.body;
+
+  const parsedBlocks = blocksSchema.parse(blocks);
+  const stringifiedBlocks = JSON.stringify(parsedBlocks);
+
+  const { data, error } = await supabase.storage
+    .from("pages")
+    .upload(`${pageId}.json`, stringifiedBlocks);
+
+  if (error) {
+    if (error.message === "The resource already exists") {
+      const { data, error: error2 } = await supabase.storage
+        .from("pages")
+        .update(`${pageId}.json`, stringifiedBlocks);
+      if (error2) {
+        res.send({
+          message: "Error saving blocks",
+        });
+      }
+    } else {
+      res.send({
+        message: "Error saving blocks",
+        error,
+      });
+    }
+  }
+
   res.send({
     message: "Blocks saved successfully",
   });

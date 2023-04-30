@@ -87,6 +87,8 @@ export default function Page(props: Props) {
     <>
       <Head>
         <title>Character - {props.page.name}</title>
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content={props.page.PageType.name} />
       </Head>
       <PageEdit
         worldId={props.world.id}

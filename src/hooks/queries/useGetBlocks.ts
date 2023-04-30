@@ -15,19 +15,29 @@ async function getBlocks(pageId: string): Promise<PartialBlock[]> {
   );
   console.log("getBlocks response", response.data);
 
-  let blocks: PartialBlock[] = [];
+  let blocks: PartialBlock[] | null = null;
+
   if (response.data.url) {
     //grab the json from the url
     const { data } = await axios.get(response.data.url);
-    console.log("getBlocks data", data);
     if (data) {
-      blocks = data.blocks;
+      console.log("data", data);
+      blocks = data as PartialBlock[];
+      return blocks;
     }
-  } else if (response.data.blocks) {
-    blocks = response.data.blocks;
   }
 
-  return blocks;
+  if (response.data.blocks) {
+    blocks = response.data.blocks;
+    return blocks;
+  }
+
+  if (!response.data.url && !response.data.url) {
+    blocks = [];
+    return blocks;
+  }
+
+  return [];
 }
 
 export default function useGetBlocks(

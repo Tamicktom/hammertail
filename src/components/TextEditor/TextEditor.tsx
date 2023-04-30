@@ -4,14 +4,14 @@ import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/core/style.css";
 
 type Props = {
-  initialContent: PartialBlock[] | null;
+  initialContent: PartialBlock[];
   onEditorChange: (editor: BlockNoteEditor) => void;
 }
 
 export default function TextEditor(props: Props) {
 
   const editor: BlockNoteEditor | null = useBlockNote({
-    initialContent: props.initialContent || undefined,
+    initialContent: props.initialContent,
     onEditorContentChange: props.onEditorChange,
     theme: "dark"
   });

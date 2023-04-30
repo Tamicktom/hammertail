@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /page
+Disallow: /world
+Disallow: /worlds
+
+User-agent: *
+Allow: /

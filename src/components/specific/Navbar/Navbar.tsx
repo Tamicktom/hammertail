@@ -28,10 +28,16 @@ export const Navbar = (props: Props) => {
         name={session?.user?.name || ""}
       />
       <div className="flex flex-row items-center gap-4">
-        <button>
+        <button
+          name="newPage"
+          aria-label="newPage"
+          className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary-800 text-white font-bold hover:bg-primary-700 transition-all"
+        >
           New Page
         </button>
         <button
+          name="sidebarCollapse"
+          aria-label="sidebarCollapse"
           onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
         >
           <Sidebar size="24" />

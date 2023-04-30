@@ -34,6 +34,7 @@ export default function TextEditorWrapper(props: Props) {
 
   //refetch blocks when page changes
   useEffect(() => {
+    initialBlocks.remove();
     initialBlocks.refetch();
   }, [props.page.id]);
 
@@ -58,13 +59,19 @@ export default function TextEditorWrapper(props: Props) {
               setContent(editor.topLevelBlocks);
             }}
           />
-          : <div className='w-full h-full flex justify-center items-center'>
-            <CircleNotch
-              size={64}
-              className='animate-spin fill-white'
-            />
-          </div>
+          : <Loading />
       }
+    </div>
+  );
+}
+
+function Loading() {
+  return (
+    <div className='w-full h-full flex justify-center items-center'>
+      <CircleNotch
+        size={64}
+        className='animate-spin fill-white'
+      />
     </div>
   );
 }

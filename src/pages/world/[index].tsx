@@ -74,7 +74,7 @@ export default function World(props: Props) {
       <Head>
         <title>{props.world.name}</title>
       </Head>
-      <div className="w-screen h-screen flex flex-col justify-center items-center bg-tertiary-800 font-primary">
+      <div className="w-screen h-screen flex flex-col justify-center items-center bg-neutral-800 font-primary">
         <WorldHeader
           filterHandler={filterHandler}
           world={props.world}

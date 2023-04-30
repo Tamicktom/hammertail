@@ -3,25 +3,22 @@ import { useSession } from "next-auth/react";
 import { Sidebar } from "@phosphor-icons/react";
 import * as Avatar from '@radix-ui/react-avatar';
 
-type Props = {
-  worldId: string;
-  collapsed: boolean;
-  isSidebarCollapsed: boolean;
-  setSidebarCollapse: (value: boolean) => void;
-}
+import colors from "tailwindcss/colors";
+
+import design from "../../../styles/design.mjs";
 
 export const Navbar = (props: Props) => {
   const { data: session } = useSession();
-
-
   return (
     <div
       className="w-full h-20 z-10 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2"
+
       style={{
-        backgroundColor: props.collapsed ? "none" : "hsl(var(--color-tertiary-800) / 0.9)",
-        borderColor: props.collapsed ? "transparent" : "hsl(var(--color-tertiary-500) / 1)",
+        backgroundColor: props.collapsed ? "none" : colors.neutral[800][0.9],
+        borderColor: props.collapsed ? "transparent" : "",
       }}
     >
+
       <UserAvatar
         src={session?.user?.image || ""}
         alt={session?.user?.name || "User avatar"}
@@ -100,4 +97,11 @@ function UserAvatar(props: UserAvatarProps) {
       </Avatar.Root>
     </div>
   );
+}
+
+type Props = {
+  worldId: string;
+  collapsed: boolean;
+  isSidebarCollapsed: boolean;
+  setSidebarCollapse: (value: boolean) => void;
 }

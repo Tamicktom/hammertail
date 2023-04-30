@@ -22,7 +22,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
           <div
             className="w-full h-full absolute top-0 left-0 z-10 backdrop-blur-2xl"
             style={{
-              background: "radial-gradient(58.94% 58.94% at 50% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.5) 100%);"
+              background: "radial-gradient(58.94% 58.94% at 50% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.5) 100%)"
             }}
           />
           <Image
@@ -33,7 +33,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
             className="object-cover w-full h-full absolute top-0 left-0"
           />
         </div>
-        <div className="px-12 bg-tertiary-800 py-8 flex flex-col justify-center items-center z-10 border border-tertiary-600 rounded-lg gap-4">
+        <div className="px-12 bg-neutral-800 py-8 flex flex-col justify-center items-center z-10 border border-tertiary-600 rounded-lg gap-4">
           <div className="flex flex-col justify-center items-center text-center">
             <h1 className="text-4xl font-bold text-white mb-4 font-primary">Sign in</h1>
             <p className="text-white font-normal font-primary">Choose a platform to log in.</p>
@@ -61,11 +61,11 @@ function getProviderLogo(provider: string) {
   const size = 32;
   switch (provider) {
     case "Google":
-      return <GoogleLogo size={size} className="text-tertiary-100" />;
+      return <GoogleLogo size={size} className="text-neutral-100" />;
     case "Discord":
-      return <DiscordLogo size={size} className="text-tertiary-100" />;
+      return <DiscordLogo size={size} className="text-neutral-100" />;
     case "GitHub":
-      return <GithubLogo size={size} className="text-tertiary-100" />;
+      return <GithubLogo size={size} className="text-neutral-100" />;
     default:
       return <></>;
   }

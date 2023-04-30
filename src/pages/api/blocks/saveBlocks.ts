@@ -21,6 +21,7 @@ const blocksSchema = z.array(
       textColor: z.string(),
       backgroundColor: z.string(),
       textAlignment: z.string(),
+      level: z.string(),
     }),
     children: z.array(z.any()),
     content: z.array(z.any()),

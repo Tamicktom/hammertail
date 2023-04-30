@@ -1,5 +1,6 @@
 //* Libraries imports
 import { useState, useEffect, useRef } from 'react';
+import Head from 'next/head';
 import { getSession } from "next-auth/react";
 
 //* type imports
@@ -79,30 +80,37 @@ export default function Worlds({ userId }: WorldsProps) {
   }, []);
 
   return (
-    <div
-      ref={divHolder}
-      className="relative flex flex-col w-screen min-h-screen bg-tertiary-800"
-    >
-      <WorldHeader filterHandler={handleWorldFilter} />
+    <>
+      <Head>
+        <title>Worlds</title>
+        <meta name="description" content="The Worldbuilding tool" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div
+        ref={divHolder}
+        className="relative flex flex-col w-screen min-h-screen bg-tertiary-800"
+      >
+        <WorldHeader filterHandler={handleWorldFilter} />
 
-      {/* worldsCards */}
-      {
-        loading
-          ? <LocalLoading />
-          : <div className="flex flex-col items-center justify-start w-full p-4">
-            <div className="flex flex-col items-center justify-start w-full max-w-lg">
-              {
-                filteredWorlds?.map((world, index) => (
-                  <WorldCard
-                    key={world.id}
-                    world={world}
-                    backgroundColor={bgColor}
-                  />
-                ))
-              }
+        {/* worldsCards */}
+        {
+          loading
+            ? <LocalLoading />
+            : <div className="flex flex-col items-center justify-start w-full p-4">
+              <div className="flex flex-col items-center justify-start w-full max-w-lg">
+                {
+                  filteredWorlds?.map((world, index) => (
+                    <WorldCard
+                      key={world.id}
+                      world={world}
+                      backgroundColor={bgColor}
+                    />
+                  ))
+                }
+              </div>
             </div>
-          </div>
-      }
-    </div>
+        }
+      </div>
+    </>
   );
 }

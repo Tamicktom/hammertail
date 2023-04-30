@@ -33,7 +33,7 @@ export default function PageEdit(props: Props) {
   }
 
   return (
-    <div className="w-screen h-screen bg-tertiary-800 flex flex-row justify-start items-center">
+    <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
       <Allotment>
         <Allotment.Pane>
           <Scrollable
@@ -101,10 +101,10 @@ function Scrollable(props:
       <ScrollArea.Scrollbar
 
         orientation="vertical"
-        className="flex select-none h-full touch-none px-1 transition-all bg-tertiary-800 hover:bg-tertiary-700 relative hover:px-1.5"
+        className="flex select-none h-full touch-none px-1 transition-all bg-neutral-800 hover:bg-neutral-700 relative hover:px-1.5"
       >
         <ScrollArea.Thumb
-          className="bg-tertiary-600 flex-1 rounded absolute left-0 top-0"
+          className="bg-neutral-600 flex-1 rounded absolute left-0 top-0"
           style={{
             width:
               "100%",

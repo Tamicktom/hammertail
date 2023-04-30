@@ -88,7 +88,7 @@ export default function Worlds({ userId }: WorldsProps) {
       </Head>
       <div
         ref={divHolder}
-        className="relative flex flex-col w-screen min-h-screen bg-tertiary-800"
+        className="relative flex flex-col w-screen min-h-screen bg-neutral-800"
       >
         <WorldHeader filterHandler={handleWorldFilter} />
 

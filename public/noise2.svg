@@ -29,44 +29,60 @@
         }
 
         .animate1 {
-            animation: pulse 2s infinite;
+            animation: pulse 6s infinite;
+            animation-delay: 3.5s;
+            opacity: 0.2;
         }
 
         .animate2 {
-            animation: pulse 3s infinite;
+            animation: pulse 6.5s infinite;
+            animation-delay: 3s;
+            opacity: 0.2;
         }
 
         .animate3 {
-            animation: pulse 3.5s infinite;
+            animation: pulse 7s infinite;
+            animation-delay: 2.5s;
+            opacity: 0.2;
         }
 
         .animate4 {
-            animation: pulse 4s infinite;
+            animation: pulse 7.5s infinite;
+            animation-delay: 2s;
+            opacity: 0.2;
         }
 
         .animate5 {
-            animation: pulse 2.5s infinite;
+            animation: pulse 8s infinite;
+            animation-delay: 1.5s;
+            opacity: 0.2;
         }
 
         .animate6 {
-            animation: pulse 4.5s infinite;
+            animation: pulse 8.5s infinite;
+            animation-delay: 1s;
+            opacity: 0.2;
         }
 
         @keyframes pulse {
             0% {
-                opacity: 0.7;
+                opacity: 0.2;
             }
 
             50% {
-                opacity: 0.3;
+                opacity: 0.01;
             }
 
             100% {
-                opacity: 0.7;
+                opacity: 0.2;
             }
         }
+
+        .holder {
+            opacity: 0.2;
+        }
     </style>
-    <g>
+    <g class="holder">
         <rect x="6" y="6" width="4" height="4" class="animate1 cube05" />
         <rect x="6" y="18" width="4" height="4" class="animate2 cube10" />
         <rect x="6" y="30" width="4" height="4" class="animate3 cube30" />

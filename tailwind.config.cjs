@@ -4,8 +4,14 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "noise": "url('/noise')",
+        "noise": "var(--noise2)",
         rainbow: "var(--rainbow-gradient)",
+      },
+      backgroundSize: {
+        "10": "10%",
+        "20": "20%",
+        "100": "100%",
+        "208": "208%",
       },
       screens: {
         "xsm": "320px",

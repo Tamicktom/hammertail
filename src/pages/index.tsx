@@ -25,7 +25,9 @@ const Home: NextPage = () => {
         <meta name="description" content="The Worldbuilding tool" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-full h-screen flex justify-center items-center bg-neutral-950">
+      <div
+        className="w-full h-screen flex justify-center items-center bg-noise bg-repeat bg-neutral-950 bg-20"
+      >
         <div className="w-full max-w-7xl flex justify-center items-center p-4 flex-col lg:flex-row">
 
           <div className="lg:w-1/2 flex flex-col justify-start items-start gap-8 w-full">
@@ -38,7 +40,7 @@ const Home: NextPage = () => {
             <div className="w-full relative">
               <RainbowButton
                 onPointerDown={() => signIn()}
-                children="Get started"
+                children="Sign Up"
               />
             </div>
           </div>

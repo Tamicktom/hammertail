@@ -8,7 +8,7 @@
 }
 
 .rainbowButton:hover::after {
-  opacity: 0.3;
+  opacity: 0.9;
   animation: rainbowTranslate 2s linear infinite;
 }
 

@@ -41,6 +41,8 @@
     #652ddd
   );
 
+  --noise2: url("/noise2.svg");
+
   --primary-font: "Roboto", sans-serif;
 
   --separator-border: #919191; /* same as --color-thertiary-400 */

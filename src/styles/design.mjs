@@ -9,6 +9,7 @@ const themeSchema = z.object({
     extend: z.object({
       backgroundImage: z.object({
         noise: z.string(),
+        rainbow: z.string(),
       }),
       screens: z.object({
         xsm: z.string(),

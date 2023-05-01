@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         "noise": "url('/noise')",
+        rainbow: "var(--rainbow-gradient)",
       },
       screens: {
         "xsm": "320px",

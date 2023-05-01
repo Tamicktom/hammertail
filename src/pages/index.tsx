@@ -4,6 +4,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 
+//* Components imports
+import RainbowButton from "../components/specific/RainbowButton/RainbowButton";
+
 //* Assets imports
 import logo from "../assets/logo.svg";
 
@@ -32,13 +35,11 @@ const Home: NextPage = () => {
             <p className="text-neutral-300 text-xl font-normal font-primary">
               HammerTail is the ultimate worldbuilding tool, allowing you to build detailed and cohesive fictional worlds with ease and unlimited creativity.
             </p>
-            <div>
-              <button
-                onClick={() => signIn()}
-                className="uppercase flex justify-center items-center bg-gradient-to-b from-primary-500 to-primary-700 text-2xl font-bold font-primary text-neutral-100 rounded-lg px-16 py-2 xsm:w-full sm:w-auto"
-              >
-                Sign up
-              </button>
+            <div className="w-full relative">
+              <RainbowButton
+                onPointerDown={() => signIn()}
+                children="Get started"
+              />
             </div>
           </div>
           <div className="lg:w-1/2 w-0 justify-end items-end hidden lg:flex">

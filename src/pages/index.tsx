@@ -4,6 +4,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 
+//* Components imports
+import RainbowButton from "../components/specific/RainbowButton/RainbowButton";
+
 //* Assets imports
 import logo from "../assets/logo.svg";
 
@@ -22,23 +25,24 @@ const Home: NextPage = () => {
         <meta name="description" content="The Worldbuilding tool" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-full h-screen flex justify-center items-center bg-neutral-800">
+      <div
+        className="w-full h-screen flex justify-center items-center bg-noise bg-repeat bg-neutral-950 bg-30 md:bg-20 lg:bg-10 bg-left-top"
+      >
         <div className="w-full max-w-7xl flex justify-center items-center p-4 flex-col lg:flex-row">
 
           <div className="lg:w-1/2 flex flex-col justify-start items-start gap-8 w-full">
-            <h1 className="text-neutral-100 sm:text-8xl font-black font-primary text-5xl">
-              Where your worlds come to reality.
+            <h1 className="text-neutral-100 sm:text-8xl font-black font-primary text-5xl relative">
+              Where your worlds come to <span className="rainbowText">reality.</span>
             </h1>
             <p className="text-neutral-300 text-xl font-normal font-primary">
               HammerTail is the ultimate worldbuilding tool, allowing you to build detailed and cohesive fictional worlds with ease and unlimited creativity.
             </p>
-            <div>
-              <button
-                onClick={() => signIn()}
-                className="uppercase flex justify-center items-center bg-gradient-to-b from-primary-500 to-primary-700 text-2xl font-bold font-primary text-neutral-100 rounded-lg px-16 py-2 xsm:w-full sm:w-auto"
+            <div className="w-full md:w-1/2 relative">
+              <RainbowButton
+                onPointerDown={() => signIn()}
               >
-                Sign up
-              </button>
+                Sign Up
+              </RainbowButton>
             </div>
           </div>
           <div className="lg:w-1/2 w-0 justify-end items-end hidden lg:flex">

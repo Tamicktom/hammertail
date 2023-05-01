@@ -3,6 +3,17 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "noise": "var(--noise2)",
+        rainbow: "var(--rainbow-gradient)",
+      },
+      backgroundSize: {
+        "10": "10%",
+        "20": "20%",
+        "30": "30%",
+        "100": "100%",
+        "208": "208%",
+      },
       screens: {
         "xsm": "320px",
         "ssm": "390px",

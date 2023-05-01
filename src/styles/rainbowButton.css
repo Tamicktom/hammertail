@@ -1,0 +1,41 @@
+.rainbowButton > div {
+  background-image: var(--rainbow-gradient);
+  background-size: 200% 100%;
+}
+
+.rainbowButton:hover > div {
+  animation: rainbowTranslate 2s linear infinite;
+}
+
+.rainbowButton:hover::after {
+  opacity: 0.9;
+  animation: rainbowTranslate 2s linear infinite;
+}
+
+@keyframes rainbowTranslate {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+.rainbowButton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--rainbow-gradient);
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(28px);
+  transition: opacity 1s ease;
+}
+
+.rainbowButton::after {
+  opacity: 0;
+}

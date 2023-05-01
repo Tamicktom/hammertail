@@ -1,15 +1,15 @@
-.rainbowButton > div {
+.rainbowButton > button {
   background-image: var(--rainbow-gradient);
   background-size: 200% 100%;
 }
 
-.rainbowButton:hover > div {
-  animation: rainbowTranslate 2s linear infinite;
+.rainbowButton:hover > button {
+  animation: rainbowTranslate 3s linear infinite;
 }
 
 .rainbowButton:hover::after {
-  opacity: 0.9;
-  animation: rainbowTranslate 2s linear infinite;
+  opacity: 0.7;
+  animation: rainbowTranslate 3s linear infinite;
 }
 
 @keyframes rainbowTranslate {

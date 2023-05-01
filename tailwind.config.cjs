@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "noise": "url('/noise')",
+      },
       screens: {
         "xsm": "320px",
         "ssm": "390px",

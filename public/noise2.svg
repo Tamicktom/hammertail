@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 208 208" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <style>
+        .cube05 {
+            fill: #fafafa;
+        }
+
+        .cube10 {
+            fill: #f5f5f5;
+        }
+
+        .cube30 {
+            fill: #d4d4d4;
+        }
+
+        .cube50 {
+            fill: #737373;
+        }
+
+        .cube70 {
+            fill: #404040;
+        }
+
+        .cube90 {
+            fill: #171717;
+        }
+
+        .animate1 {
+            animation: pulse 2s infinite;
+        }
+
+        .animate2 {
+            animation: pulse 3s infinite;
+        }
+
+        .animate3 {
+            animation: pulse 3.5s infinite;
+        }
+
+        .animate4 {
+            animation: pulse 4s infinite;
+        }
+
+        .animate5 {
+            animation: pulse 2.5s infinite;
+        }
+
+        .animate6 {
+            animation: pulse 4.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+    <g>
+        <rect x="6" y="6" width="4" height="4" class="animate1 cube05" />
+        <rect x="6" y="18" width="4" height="4" class="animate2 cube10" />
+        <rect x="6" y="30" width="4" height="4" class="animate3 cube30" />
+        <rect x="6" y="42" width="4" height="4" class="animate4 cube50" />
+        <rect x="18" y="6" width="4" height="4" class="animate5 cube70" />
+        <rect x="18" y="18" width="4" height="4" class="animate6 cube90" />
+        <rect x="18" y="30" width="4" height="4" class="animate1 cube05" />
+        <rect x="18" y="42" width="4" height="4" class="animate3 cube30" />
+        <rect x="30" y="6" width="4" height="4" class="animate1" />
+        <rect x="30" y="18" width="4" height="4" class="animate5 cube70" />
+        <rect x="30" y="30" width="4" height="4" class="animate2 cube10" />
+        <rect x="30" y="42" width="4" height="4" class="animate1" />
+        <rect x="42" y="6" width="4" height="4" class="animate3 cube30" />
+        <rect x="42" y="18" width="4" height="4" class="animate1" />
+        <rect x="42" y="30" width="4" height="4" class="animate1 cube05" />
+        <rect x="42" y="42" width="4" height="4" class="animate5 cube70" />
+        <rect x="102" y="6" width="4" height="4" class="animate1" />
+        <rect x="102" y="18" width="4" height="4" class="animate3 cube30" />
+        <rect x="102" y="30" width="4" height="4" class="animate1" />
+        <rect x="102" y="42" width="4" height="4" class="animate2 cube10" />
+        <rect x="114" y="6" width="4" height="4" class="animate1" />
+        <rect x="114" y="18" width="4" height="4" class="animate1" />
+        <rect x="114" y="30" width="4" height="4" class="animate4 cube50" />
+        <rect x="114" y="42" width="4" height="4" class="animate2 cube10" />
+        <rect x="126" y="6" width="4" height="4" class="animate1" />
+        <rect x="126" y="18" width="4" height="4" class="animate4 cube50" />
+        <rect x="126" y="30" width="4" height="4" class="animate1" />
+        <rect x="126" y="42" width="4" height="4" class="animate3 cube30" />
+        <rect x="138" y="6" width="4" height="4" class="animate5 cube70" />
+        <rect x="138" y="18" width="4" height="4" class="animate1" />
+        <rect x="138" y="30" width="4" height="4" class="animate1 cube05" />
+        <rect x="138" y="42" width="4" height="4" class="animate1" />
+        <rect x="54" y="6" width="4" height="4" class="animate3 cube30" />
+        <rect x="54" y="18" width="4" height="4" class="animate4 cube50" />
+        <rect x="54" y="30" width="4" height="4" class="animate1" />
+        <rect x="54" y="42" width="4" height="4" class="animate1" />
+        <rect x="66" y="6" width="4" height="4" class="animate1" />
+        <rect x="66" y="18" width="4" height="4" class="animate2 cube10" />
+        <rect x="66" y="30" width="4" height="4" class="animate1 cube05" />
+        <rect x="66" y="42" width="4" height="4" class="animate1" />
+        <rect x="78" y="6" width="4" height="4" class="animate5 cube70" />
+        <rect x="78" y="18" width="4" height="4" class="animate1" />
+        <rect x="78" y="30" width="4" height="4" class="animate3 cube30" />
+        <rect x="78" y="42" width="4" height="4" class="animate1" />
+        <rect x="90" y="6" width="4" height="4" class="animate1" />
+        <rect x="90" y="18" width="4" height="4" class="animate1" />
+        <rect x="90" y="30" width="4" height="4" class="animate5 cube70" />
+        <rect x="90" y="42" width="4" height="4" class="animate4 cube50" />
+        <rect x="150" y="6" width="4" height="4" class="animate1" />
+        <rect x="150" y="18" width="4" height="4" class="animate3 cube30" />
+        <rect x="150" y="30" width="4" height="4" class="animate2 cube10" />
+        <rect x="150" y="42" width="4" height="4" class="animate4 cube50" />
+        <rect x="162" y="6" width="4" height="4" class="animate1" />
+        <rect x="162" y="18" width="4" height="4" class="animate1" />
+        <rect x="162" y="30" width="4" height="4" class="animate1 cube05" />
+        <rect x="162" y="42" width="4" height="4" class="animate1" />
+        <rect x="174" y="6" width="4" height="4" class="animate1" />
+        <rect x="174" y="18" width="4" height="4" class="animate1" />
+        <rect x="174" y="30" width="4" height="4" class="animate5 cube70" />
+        <rect x="174" y="42" width="4" height="4" class="animate1" />
+        <rect x="186" y="6" width="4" height="4" class="animate4 cube50" />
+        <rect x="198" y="6" width="4" height="4" class="animate1" />
+        <rect x="186" y="18" width="4" height="4" class="animate1 cube05" />
+        <rect x="198" y="18" width="4" height="4" class="animate1" />
+        <rect x="186" y="30" width="4" height="4" class="animate3 cube30" />
+        <rect x="198" y="30" width="4" height="4" class="animate1" />
+        <rect x="186" y="42" width="4" height="4" class="animate1" />
+        <rect x="198" y="42" width="4" height="4" class="animate1" />
+        <rect x="6" y="102" width="4" height="4" class="animate3 cube30" />
+        <rect x="6" y="114" width="4" height="4" class="animate1" />
+        <rect x="6" y="126" width="4" height="4" class="animate1" />
+        <rect x="6" y="138" width="4" height="4" class="animate5 cube70" />
+        <rect x="18" y="102" width="4" height="4" class="animate1" />
+        <rect x="18" y="114" width="4" height="4" class="animate2 cube10" />
+        <rect x="18" y="126" width="4" height="4" class="animate1" />
+        <rect x="18" y="138" width="4" height="4" class="animate3 cube30" />
+        <rect x="30" y="102" width="4" height="4" class="animate1 cube05" />
+        <rect x="30" y="114" width="4" height="4" class="animate1" />
+        <rect x="30" y="126" width="4" height="4" class="animate1" />
+        <rect x="30" y="138" width="4" height="4" class="animate2 cube10" />
+        <rect x="42" y="102" width="4" height="4" class="animate1" />
+        <rect x="42" y="114" width="4" height="4" class="animate5 cube70" />
+        <rect x="42" y="126" width="4" height="4" class="animate1 cube05" />
+        <rect x="42" y="138" width="4" height="4" class="animate1" />
+        <rect x="102" y="102" width="4" height="4" class="animate4 cube50" />
+        <rect x="102" y="114" width="4" height="4" class="animate4 cube50" />
+        <rect x="102" y="126" width="4" height="4" class="animate1" />
+        <rect x="102" y="138" width="4" height="4" class="animate3 cube30" />
+        <rect x="114" y="102" width="4" height="4" class="animate1" />
+        <rect x="114" y="114" width="4" height="4" class="animate1" />
+        <rect x="114" y="126" width="4" height="4" class="animate2 cube10" />
+        <rect x="114" y="138" width="4" height="4" class="animate1" />
+        <rect x="126" y="102" width="4" height="4" class="animate1" />
+        <rect x="126" y="114" width="4" height="4" class="animate5 cube70" />
+        <rect x="126" y="126" width="4" height="4" class="animate1" />
+        <rect x="126" y="138" width="4" height="4" class="animate1" />
+        <rect x="138" y="102" width="4" height="4" class="animate4 cube50" />
+        <rect x="138" y="114" width="4" height="4" class="animate2 cube10" />
+        <rect x="138" y="126" width="4" height="4" class="animate1" />
+        <rect x="138" y="138" width="4" height="4" class="animate1" />
+        <rect x="54" y="102" width="4" height="4" class="animate1" />
+        <rect x="54" y="114" width="4" height="4" class="animate1 cube05" />
+        <rect x="54" y="126" width="4" height="4" class="animate3 cube30" />
+        <rect x="54" y="138" width="4" height="4" class="animate1" />
+        <rect x="66" y="102" width="4" height="4" class="animate5 cube70" />
+        <rect x="66" y="114" width="4" height="4" class="animate4 cube50" />
+        <rect x="66" y="126" width="4" height="4" class="animate3 cube30" />
+        <rect x="66" y="138" width="4" height="4" class="animate1" />
+        <rect x="78" y="102" width="4" height="4" class="animate1 cube05" />
+        <rect x="78" y="114" width="4" height="4" class="animate1" />
+        <rect x="78" y="126" width="4" height="4" class="animate2 cube10" />
+        <rect x="78" y="138" width="4" height="4" class="animate1" />
+        <rect x="90" y="102" width="4" height="4" class="animate4 cube50" />
+        <rect x="90" y="114" width="4" height="4" class="animate5 cube70" />
+        <rect x="90" y="126" width="4" height="4" class="animate1" />
+        <rect x="90" y="138" width="4" height="4" class="animate1" />
+        <rect x="150" y="102" width="4" height="4" class="animate5 cube70" />
+        <rect x="150" y="114" width="4" height="4" class="animate2 cube10" />
+        <rect x="150" y="126" width="4" height="4" class="animate1" />
+        <rect x="150" y="138" width="4" height="4" class="animate1 cube05" />
+        <rect x="162" y="102" width="4" height="4" class="animate1" />
+        <rect x="162" y="114" width="4" height="4" class="animate3 cube30" />
+        <rect x="162" y="126" width="4" height="4" class="animate4 cube50" />
+        <rect x="162" y="138" width="4" height="4" class="animate1" />
+        <rect x="174" y="102" width="4" height="4" class="animate3 cube30" />
+        <rect x="174" y="114" width="4" height="4" class="animate1" />
+        <rect x="174" y="126" width="4" height="4" class="animate1" />
+        <rect x="174" y="138" width="4" height="4" class="animate1 cube05" />
+        <rect x="186" y="102" width="4" height="4" class="animate1" />
+        <rect x="198" y="102" width="4" height="4" class="animate2 cube10" />
+        <rect x="186" y="114" width="4" height="4" class="animate1" />
+        <rect x="198" y="114" width="4" height="4" class="animate1" />
+        <rect x="186" y="126" width="4" height="4" class="animate5 cube70" />
+        <rect x="198" y="126" width="4" height="4" class="animate1" />
+        <rect x="186" y="138" width="4" height="4" class="animate2 cube10" />
+        <rect x="198" y="138" width="4" height="4" class="animate1" />
+        <rect x="6" y="54" width="4" height="4" class="animate4 cube50" />
+        <rect x="6" y="66" width="4" height="4" class="animate1" />
+        <rect x="6" y="78" width="4" height="4" class="animate1 cube05" />
+        <rect x="6" y="90" width="4" height="4" class="animate1" />
+        <rect x="18" y="54" width="4" height="4" class="animate5 cube70" />
+        <rect x="18" y="66" width="4" height="4" class="animate3 cube30" />
+        <rect x="18" y="78" width="4" height="4" class="animate1" />
+        <rect x="18" y="90" width="4" height="4" class="animate2 cube10" />
+        <rect x="30" y="54" width="4" height="4" class="animate1" />
+        <rect x="30" y="66" width="4" height="4" class="animate1" />
+        <rect x="30" y="78" width="4" height="4" class="animate1 cube05" />
+        <rect x="30" y="90" width="4" height="4" class="animate1" />
+        <rect x="42" y="54" width="4" height="4" class="animate4 cube50" />
+        <rect x="42" y="66" width="4" height="4" class="animate1" />
+        <rect x="42" y="78" width="4" height="4" class="animate3 cube30" />
+        <rect x="42" y="90" width="4" height="4" class="animate1" />
+        <rect x="102" y="54" width="4" height="4" class="animate5 cube70" />
+        <rect x="102" y="66" width="4" height="4" class="animate1" />
+        <rect x="102" y="78" width="4" height="4" class="animate1" />
+        <rect x="102" y="90" width="4" height="4" class="animate4 cube50" />
+        <rect x="114" y="54" width="4" height="4" class="animate2 cube10" />
+        <rect x="114" y="66" width="4" height="4" class="animate1 cube05" />
+        <rect x="114" y="78" width="4" height="4" class="animate1" />
+        <rect x="114" y="90" width="4" height="4" class="animate5 cube70" />
+        <rect x="126" y="54" width="4" height="4" class="animate3 cube30" />
+        <rect x="126" y="66" width="4" height="4" class="animate1" />
+        <rect x="126" y="78" width="4" height="4" class="animate2 cube10" />
+        <rect x="126" y="90" width="4" height="4" class="animate1 cube05" />
+        <rect x="138" y="54" width="4" height="4" class="animate1" />
+        <rect x="138" y="66" width="4" height="4" class="animate4 cube50" />
+        <rect x="138" y="78" width="4" height="4" class="animate3 cube30" />
+        <rect x="138" y="90" width="4" height="4" class="animate1" />
+        <rect x="54" y="54" width="4" height="4" class="animate1" />
+        <rect x="54" y="66" width="4" height="4" class="animate1" />
+        <rect x="54" y="78" width="4" height="4" class="animate1 cube05" />
+        <rect x="54" y="90" width="4" height="4" class="animate1" />
+        <rect x="66" y="54" width="4" height="4" class="animate2 cube10" />
+        <rect x="66" y="66" width="4" height="4" class="animate1" />
+        <rect x="66" y="78" width="4" height="4" class="animate1" />
+        <rect x="66" y="90" width="4" height="4" class="animate3 cube30" />
+        <rect x="78" y="54" width="4" height="4" class="animate1" />
+        <rect x="78" y="66" width="4" height="4" class="animate1" />
+        <rect x="78" y="78" width="4" height="4" class="animate1" />
+        <rect x="78" y="90" width="4" height="4" class="animate2 cube10" />
+        <rect x="90" y="54" width="4" height="4" class="animate1" />
+        <rect x="90" y="66" width="4" height="4" class="animate5 cube70" />
+        <rect x="90" y="78" width="4" height="4" class="animate1 cube05" />
+        <rect x="90" y="90" width="4" height="4" class="animate1" />
+        <rect x="150" y="54" width="4" height="4" class="animate4 cube50" />
+        <rect x="150" y="66" width="4" height="4" class="animate3 cube30" />
+        <rect x="150" y="78" width="4" height="4" class="animate1" />
+        <rect x="150" y="90" width="4" height="4" class="animate1" />
+        <rect x="162" y="54" width="4" height="4" class="animate1" />
+        <rect x="162" y="66" width="4" height="4" class="animate3 cube30" />
+        <rect x="162" y="78" width="4" height="4" class="animate1" />
+        <rect x="162" y="90" width="4" height="4" class="animate5 cube70" />
+        <rect x="174" y="54" width="4" height="4" class="animate1 cube05" />
+        <rect x="174" y="66" width="4" height="4" class="animate4 cube50" />
+        <rect x="174" y="78" width="4" height="4" class="animate1" />
+        <rect x="174" y="90" width="4" height="4" class="animate1" />
+        <rect x="186" y="54" width="4" height="4" class="animate2 cube10" />
+        <rect x="198" y="54" width="4" height="4" class="animate1" />
+        <rect x="186" y="66" width="4" height="4" class="animate1" />
+        <rect x="198" y="66" width="4" height="4" class="animate1" />
+        <rect x="186" y="78" width="4" height="4" class="animate1" />
+        <rect x="198" y="78" width="4" height="4" class="animate1" />
+        <rect x="186" y="90" width="4" height="4" class="animate1" />
+        <rect x="198" y="90" width="4" height="4" class="animate4 cube50" />
+        <rect x="6" y="150" width="4" height="4" class="animate2 cube10" />
+        <rect x="6" y="162" width="4" height="4" class="animate1" />
+        <rect x="6" y="174" width="4" height="4" class="animate3 cube30" />
+        <rect x="6" y="186" width="4" height="4" class="animate5 cube70" />
+        <rect x="6" y="198" width="4" height="4" class="animate1" />
+        <rect x="18" y="150" width="4" height="4" class="animate3 cube30" />
+        <rect x="18" y="162" width="4" height="4" class="animate4 cube50" />
+        <rect x="18" y="174" width="4" height="4" class="animate1 cube05" />
+        <rect x="18" y="186" width="4" height="4" class="animate1" />
+        <rect x="18" y="198" width="4" height="4" class="animate1" />
+        <rect x="30" y="150" width="4" height="4" class="animate2 cube10" />
+        <rect x="30" y="162" width="4" height="4" class="animate1" />
+        <rect x="30" y="174" width="4" height="4" class="animate5 cube70" />
+        <rect x="30" y="186" width="4" height="4" class="animate3 cube30" />
+        <rect x="30" y="198" width="4" height="4" class="animate4 cube50" />
+        <rect x="42" y="150" width="4" height="4" class="animate1" />
+        <rect x="42" y="162" width="4" height="4" class="animate1 cube05" />
+        <rect x="42" y="174" width="4" height="4" class="animate1" />
+        <rect x="42" y="186" width="4" height="4" class="animate1" />
+        <rect x="42" y="198" width="4" height="4" class="animate1" />
+        <rect x="102" y="150" width="4" height="4" class="animate2 cube10" />
+        <rect x="102" y="162" width="4" height="4" class="animate1" />
+        <rect x="102" y="174" width="4" height="4" class="animate3 cube30" />
+        <rect x="102" y="186" width="4" height="4" class="animate1" />
+        <rect x="102" y="198" width="4" height="4" class="animate2 cube10" />
+        <rect x="114" y="150" width="4" height="4" class="animate1" />
+        <rect x="114" y="162" width="4" height="4" class="animate1" />
+        <rect x="114" y="174" width="4" height="4" class="animate5 cube70" />
+        <rect x="114" y="186" width="4" height="4" class="animate4 cube50" />
+        <rect x="114" y="198" width="4" height="4" class="animate1 cube05" />
+        <rect x="126" y="150" width="4" height="4" class="animate1" />
+        <rect x="126" y="162" width="4" height="4" class="animate2 cube10" />
+        <rect x="126" y="174" width="4" height="4" class="animate1" />
+        <rect x="126" y="186" width="4" height="4" class="animate1" />
+        <rect x="126" y="198" width="4" height="4" class="animate3 cube30" />
+        <rect x="138" y="150" width="4" height="4" class="animate1" />
+        <rect x="138" y="162" width="4" height="4" class="animate5 cube70" />
+        <rect x="138" y="174" width="4" height="4" class="animate1 cube05" />
+        <rect x="138" y="186" width="4" height="4" class="animate4 cube50" />
+        <rect x="138" y="198" width="4" height="4" class="animate1" />
+        <rect x="54" y="150" width="4" height="4" class="animate1" />
+        <rect x="54" y="162" width="4" height="4" class="animate1" />
+        <rect x="54" y="174" width="4" height="4" class="animate1" />
+        <rect x="54" y="186" width="4" height="4" class="animate3 cube30" />
+        <rect x="54" y="198" width="4" height="4" class="animate3 cube30" />
+        <rect x="66" y="150" width="4" height="4" class="animate1" />
+        <rect x="66" y="162" width="4" height="4" class="animate1" />
+        <rect x="66" y="174" width="4" height="4" class="animate2 cube10" />
+        <rect x="66" y="186" width="4" height="4" class="animate1" />
+        <rect x="66" y="198" width="4" height="4" class="animate1 cube05" />
+        <rect x="78" y="150" width="4" height="4" class="animate3 cube30" />
+        <rect x="78" y="162" width="4" height="4" class="animate1" />
+        <rect x="78" y="174" width="4" height="4" class="animate1" />
+        <rect x="78" y="186" width="4" height="4" class="animate1" />
+        <rect x="78" y="198" width="4" height="4" class="animate4 cube50" />
+        <rect x="90" y="150" width="4" height="4" class="animate1" />
+        <rect x="90" y="162" width="4" height="4" class="animate2 cube10" />
+        <rect x="90" y="174" width="4" height="4" class="animate1" />
+        <rect x="90" y="186" width="4" height="4" class="animate5 cube70" />
+        <rect x="90" y="198" width="4" height="4" class="animate5 cube70" />
+        <rect x="150" y="150" width="4" height="4" class="animate1 cube05" />
+        <rect x="150" y="162" width="4" height="4" class="animate3 cube30" />
+        <rect x="150" y="174" width="4" height="4" class="animate4 cube50" />
+        <rect x="150" y="186" width="4" height="4" class="animate1" />
+        <rect x="150" y="198" width="4" height="4" class="animate3 cube30" />
+        <rect x="162" y="150" width="4" height="4" class="animate4 cube50" />
+        <rect x="162" y="162" width="4" height="4" class="animate1" />
+        <rect x="162" y="174" width="4" height="4" class="animate1" />
+        <rect x="162" y="186" width="4" height="4" class="animate1 cube05" />
+        <rect x="162" y="198" width="4" height="4" class="animate1" />
+        <rect x="174" y="150" width="4" height="4" class="animate3 cube30" />
+        <rect x="174" y="162" width="4" height="4" class="animate1" />
+        <rect x="174" y="174" width="4" height="4" class="animate1" />
+        <rect x="174" y="186" width="4" height="4" class="animate2 cube10" />
+        <rect x="174" y="198" width="4" height="4" class="animate1" />
+        <rect x="186" y="150" width="4" height="4" class="animate1" />
+        <rect x="198" y="150" width="4" height="4" class="animate1" />
+        <rect x="186" y="162" width="4" height="4" class="animate5 cube70" />
+        <rect x="198" y="162" width="4" height="4" class="animate1 cube05" />
+        <rect x="186" y="174" width="4" height="4" class="animate1" />
+        <rect x="198" y="174" width="4" height="4" class="animate3 cube30" />
+        <rect x="186" y="186" width="4" height="4" class="animate1" />
+        <rect x="186" y="198" width="4" height="4" class="animate2 cube10" />
+        <rect x="198" y="186" width="4" height="4" class="animate4 cube50" />
+        <rect x="198" y="198" width="4" height="4" class="animate1 cube05" />
+    </g>
+</svg>

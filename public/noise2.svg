@@ -31,42 +31,42 @@
         .animate1 {
             animation: pulse 6s infinite;
             animation-delay: 3.5s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         .animate2 {
             animation: pulse 6.5s infinite;
             animation-delay: 3s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         .animate3 {
             animation: pulse 7s infinite;
             animation-delay: 2.5s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         .animate4 {
             animation: pulse 7.5s infinite;
             animation-delay: 2s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         .animate5 {
             animation: pulse 8s infinite;
             animation-delay: 1.5s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         .animate6 {
             animation: pulse 8.5s infinite;
             animation-delay: 1s;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         @keyframes pulse {
             0% {
-                opacity: 0.2;
+                opacity: 0.15;
             }
 
             50% {
@@ -74,7 +74,7 @@
             }
 
             100% {
-                opacity: 0.2;
+                opacity: 0.15;
             }
         }
 

@@ -7,8 +7,8 @@ type Props = {
 
 export default function RainbowButton(props: Props) {
   return (
-    <div className="rainbowButton w-1/2 relative z-10">
-      <div
+    <div className="rainbowButton w-full relative z-10">
+      <button
         onPointerDown={props.onPointerDown}
         className="p-0.5 rounded-lg w-full bg-rainbow flex justify-center items-center cursor-pointer h-10"
       >
@@ -17,7 +17,7 @@ export default function RainbowButton(props: Props) {
             {props.children}
           </span>
         </div>
-      </div>
+      </button>
     </div>
   );
 }

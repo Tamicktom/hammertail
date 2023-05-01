@@ -67,6 +67,7 @@ input[type="number"] {
 
 /*------------------------------------*/
 @import url("./rainbowButton.css");
+@import url("./rainbowText.css");
 @import url("./accordion.css");
 @import url("./dialog.css");
 @import url("./toast.css");

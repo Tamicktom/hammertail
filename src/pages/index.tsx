@@ -40,8 +40,9 @@ const Home: NextPage = () => {
             <div className="w-full md:w-1/2 relative">
               <RainbowButton
                 onPointerDown={() => signIn()}
-                children="Sign Up"
-              />
+              >
+                Sign Up
+              </RainbowButton>
             </div>
           </div>
           <div className="lg:w-1/2 w-0 justify-end items-end hidden lg:flex">

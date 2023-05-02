@@ -25,6 +25,7 @@ module.exports = {
       },
       colors: {
         primary: {
+          50: "hsl(var(--color-primary-50) / <alpha-value>)",
           100: "hsl(var(--color-primary-100) / <alpha-value>)",
           200: "hsl(var(--color-primary-200) / <alpha-value>)",
           300: "hsl(var(--color-primary-300) / <alpha-value>)",
@@ -34,6 +35,7 @@ module.exports = {
           700: "hsl(var(--color-primary-700) / <alpha-value>)",
           800: "hsl(var(--color-primary-800) / <alpha-value>)",
           900: "hsl(var(--color-primary-900) / <alpha-value>)",
+          950: "hsl(var(--color-primary-950) / <alpha-value>)",
         },
         secondary: {
           100: "hsl(var(--color-secondary-100) / <alpha-value>)",

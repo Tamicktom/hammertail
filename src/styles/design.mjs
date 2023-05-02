@@ -8,8 +8,16 @@ const themeSchema = z.object({
   theme: z.object({
     extend: z.object({
       backgroundImage: z.object({
+        "light-noise": z.string(),
         noise: z.string(),
         rainbow: z.string(),
+      }),
+      backgroundSize: z.object({
+        10: z.string(),
+        20: z.string(),
+        30: z.string(),
+        100: z.string(),
+        208: z.string(),
       }),
       screens: z.object({
         xsm: z.string(),
@@ -17,10 +25,11 @@ const themeSchema = z.object({
       }),
       fontFamily: z.object({
         primary: z.string(),
+        secondary: z.string(),
       }),
       colors: z.object({
         primary: z.object({
-          // 50: z.string(),
+          50: z.string(),
           100: z.string(),
           200: z.string(),
           300: z.string(),
@@ -30,6 +39,7 @@ const themeSchema = z.object({
           700: z.string(),
           800: z.string(),
           900: z.string(),
+          950: z.string(),
         }),
         secondary: z.object({
           100: z.string(),

@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
+        "light-noise": "var(--light-noise)",
         "noise": "var(--noise2)",
         rainbow: "var(--rainbow-gradient)",
       },
@@ -20,6 +21,7 @@ module.exports = {
       },
       fontFamily: {
         primary: "var(--primary-font)",
+        secondary: "var(--secondary-font)",
       },
       colors: {
         primary: {

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap");
 
 @improt url("./variables.css");
 
@@ -41,9 +42,11 @@
     #652ddd
   );
 
+  --light-noise: url("/light-noise.svg");
   --noise2: url("/noise2.svg");
 
   --primary-font: "Roboto", sans-serif;
+  --secondary-font: "Nunito", sans-serif;
 
   --separator-border: #919191; /* same as --color-thertiary-400 */
   --focus-border: #007fd4;
@@ -68,6 +71,7 @@ input[type="number"] {
 /*------------------------------------*/
 @import url("./rainbowButton.css");
 @import url("./rainbowText.css");
+@import url("./rainbowDiv.css");
 @import url("./accordion.css");
 @import url("./dialog.css");
 @import url("./toast.css");

@@ -7,6 +7,8 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
 
+//* Components imports
+import RainbowBorders from "../components/common/RainbowBorders/RainbowBorders";
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const providerList = providers ? Object.values(providers) : [];
@@ -60,22 +62,6 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
         </div>
       </div>
     </>
-  );
-}
-
-type RainbowBordersProps = {
-  children: React.ReactNode;
-};
-
-function RainbowBorders({ children }: RainbowBordersProps) {
-  return (
-    <div className="relative z-10 flex items-center justify-center w-full max-w-4xl">
-      <div className="relative w-full rainbowDiv">
-        <div className="p-0.5 rounded-lg w-full bg-rainbow flex justify-center flex-col items-center h-fit">
-          {children}
-        </div>
-      </div>
-    </div>
   );
 }
 

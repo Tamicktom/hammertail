@@ -88,7 +88,7 @@ export default function Worlds({ userId }: WorldsProps) {
       </Head>
       <div
         ref={divHolder}
-        className="relative flex flex-col w-screen min-h-screen bg-neutral-800"
+        className="relative flex flex-col w-screen min-h-screen bg-left-top bg-repeat bg-noise bg-neutral-950 bg-30 md:bg-20 lg:bg-10"
       >
         <WorldHeader filterHandler={handleWorldFilter} />
 
@@ -103,7 +103,6 @@ export default function Worlds({ userId }: WorldsProps) {
                     <WorldCard
                       key={world.id}
                       world={world}
-                      backgroundColor={bgColor}
                     />
                   ))
                 }

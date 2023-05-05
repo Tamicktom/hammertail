@@ -9,15 +9,17 @@
 
 :root {
   /* Colors must be in HSL format */
-  --color-primary-100: 270deg 50% 99%;
-  --color-primary-200: 260deg 39% 95%;
-  --color-primary-300: 261deg 42% 88%;
-  --color-primary-400: 258deg 46% 78%;
-  --color-primary-500: 269deg 53% 68%;
-  --color-primary-600: 259deg 60% 64%;
-  --color-primary-700: 260deg 66% 58%;
-  --color-primary-800: 259deg 72% 52%;
-  --color-primary-900: 259deg 76% 43%;
+  --color-primary-50: 240deg 88% 97%;
+  --color-primary-100: 244deg 87% 94%;
+  --color-primary-200: 244deg 82% 89%;
+  --color-primary-300: 247deg 78% 82%;
+  --color-primary-400: 252deg 74% 74%;
+  --color-primary-500: 255deg 71% 67%;
+  --color-primary-600: 260deg 63% 56%;
+  --color-primary-700: 262deg 48% 51%;
+  --color-primary-800: 261deg 46% 41%;
+  --color-primary-900: 259deg 39% 34%;
+  --color-primary-950: 260deg 39% 20%;
 
   --color-secondary-100: 198deg 93% 60%;
   --color-secondary-200: 198deg 93% 60%;

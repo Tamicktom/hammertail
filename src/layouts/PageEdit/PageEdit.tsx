@@ -13,9 +13,7 @@ import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 
 type Props = {
-  worldId: string;
   page: (Page & { PageType: PageType });
-  blocks: Block[];
 }
 
 export default function PageEdit(props: Props) {

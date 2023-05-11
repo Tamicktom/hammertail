@@ -79,7 +79,7 @@ export default function WorldImage() {
               className='w-full h-full flex flex-col justify-center items-center absolute inset-0'
             >
               <FileImage className='w-16 h-16 text-white' />
-              <span className='text-white font-bold text-lg'>Adicionar imagem</span>
+              <span className='text-white font-bold text-lg'>Add image</span>
             </label>
           </>
       }

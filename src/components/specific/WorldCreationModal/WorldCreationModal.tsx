@@ -32,8 +32,8 @@ const WorldCreationModal = () => {
           toast.custom((t) => (
             <Sucess
               t={t}
-              topMsg='Mundo criado com sucesso!'
-              bottomMsg='Comece a criar suas histórias!'
+              topMsg='World created successfully!'
+              bottomMsg="Start creating your stories!"
             />
           ), {
             duration: 1000,
@@ -54,7 +54,7 @@ const WorldCreationModal = () => {
           onClick={() => setIsModalOpen(true)}
         >
           <Plus className="w-5 h-5 text-white" />
-          <span className="font-bold text-white uppercase">Novo Mundo</span>
+          <span className="font-bold text-white uppercase">New World</span>
         </button>
       </Trigger>
 
@@ -63,14 +63,14 @@ const WorldCreationModal = () => {
 
         <Content className='DialogContent bg-tertiary-800 border-tertiary-600 border-solid border-2 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md px-4 py-8 flex flex-col justify-start items-center text-white gap-4'>
           <Title className='w-full text-center font-bold text-2xl'>
-            Criar novo mundo
+            Create a new world
           </Title>
           <Description>
-            Para criar um novo mundo, digite o nome dele abaixo. Em seguida adicione o ano de inicio e fim do mundo.
+          To create a new world, type its name below. Then add the start and end year of the world.
           </Description>
 
           <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
-            <label htmlFor="worldName" className='font-bold text-lg  text-white'>Nome do mundo*</label>
+            <label htmlFor="worldName" className='font-bold text-lg  text-white'>World name*</label>
             <input
               className='w-full px-2 py-1 rounded-lg bg-tertiary-600 focus:outline-none'
               onChange={(e) => { setWorldName(e.target.value); }}
@@ -81,7 +81,7 @@ const WorldCreationModal = () => {
           </fieldset>
 
           <fieldset className='w-full flex flex-col justify-start items-start gap-2'>
-            <label htmlFor="worldDrscription" className='font-bold text-lg  text-white'>Descrição do mundo</label>
+            <label htmlFor="worldDrscription" className='font-bold text-lg  text-white'>World description*</label>
             <textarea rows={1} maxLength={1000}
               className='w-full px-2 py-1 rounded-lg bg-tertiary-600 focus:outline-none'
               placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
@@ -95,7 +95,7 @@ const WorldCreationModal = () => {
               </span>
             </div>
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
-              <label htmlFor="worldStartYear" className='font-bold text-base   text-white '>Ano de inicio*</label>
+              <label htmlFor="worldStartYear" className='font-bold text-base   text-white '>Start year*</label>
               <input
                 className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg focus:outline-none'
                 id="worldStartYear"
@@ -105,7 +105,7 @@ const WorldCreationModal = () => {
               />
             </fieldset>
             <fieldset className='w-1/2 flex flex-col justify-start items-start'>
-              <label htmlFor="worldEndYear" className='font-bold text-base  text-white'>Ano de fim*</label>
+              <label htmlFor="worldEndYear" className='font-bold text-base  text-white'>End year*</label>
               <input
                 className='w-28 px-2 py-1 bg-tertiary-600 rounded-lg focus:outline-none appearance-none :-webkit-outer-spin-button'
                 id="worldEndYear"
@@ -118,7 +118,7 @@ const WorldCreationModal = () => {
 
           <div className='w-full flex flex-col justify-start items-start'>
             <span className='font-bold  text-white text-lg w-full'>
-              Imagem do mundo
+              World image
             </span>
             <WorldImage />
           </div>

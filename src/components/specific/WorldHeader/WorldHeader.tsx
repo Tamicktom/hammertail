@@ -21,7 +21,7 @@ const WorldsHeader = (props: Props) => {
           <input
             className="w-full outline-none"
             type="text"
-            placeholder="Pesquisar"
+            placeholder="Search"
             onChange={(e) => { props.filterHandler(e.target.value); }}
           />
           <MagnifyingGlass className="w-5 h-5" />

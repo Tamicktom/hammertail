@@ -20,6 +20,7 @@ export const Sidebar = (props: Props) => {
   const events = useGetPagesByType(props.worldId, "events");
   const places = useGetPagesByType(props.worldId, "places");
   const items = useGetPagesByType(props.worldId, "items");
+  const und = useGetPagesByType(props.worldId, "undefined");
 
   return (
     <Root
@@ -31,6 +32,7 @@ export const Sidebar = (props: Props) => {
       <AccordionItem title="Events" content={events.data?.data.pages || []} />
       <AccordionItem title="Places" content={places.data?.data.pages || []} />
       <AccordionItem title="Items" content={items.data?.data.pages || []} />
+      <AccordionItem title="Undefined" content={und.data?.data.pages || []} />
     </Root>
   );
 };

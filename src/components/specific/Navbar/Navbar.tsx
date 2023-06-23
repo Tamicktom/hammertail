@@ -55,23 +55,20 @@ function UserAvatar(props: UserAvatarProps) {
     const splitedName = props.name.split(" ");
     let firstInitial = "";
     let secondInitial = "";
-    if (splitedName) {
-      if (splitedName.length > 1) {
-        if (splitedName[0] && splitedName[0].length > 0)
-          firstInitial = splitedName[0].charAt(0);
-        if (splitedName[1] && splitedName[1].length > 0)
-          secondInitial = splitedName[1].charAt(0);
-        else
-          return firstInitial;
-      } else {
-        if (splitedName[0] && splitedName[0].length > 0)
-          firstInitial = splitedName[0].charAt(0);
-        if (splitedName[0] && splitedName[0].length > 1)
-          secondInitial = splitedName[0].charAt(1);
-      }
-      return (firstInitial + secondInitial).toUpperCase();
-    } else
-      return "";
+    if (splitedName.length > 1) {
+      if (splitedName[0] && splitedName[0].length > 0)
+        firstInitial = splitedName[0].charAt(0);
+      if (splitedName[1] && splitedName[1].length > 0)
+        secondInitial = splitedName[1].charAt(0);
+      else
+        return firstInitial;
+    } else {
+      if (splitedName[0] && splitedName[0].length > 0)
+        firstInitial = splitedName[0].charAt(0);
+      if (splitedName[0] && splitedName[0].length > 1)
+        secondInitial = splitedName[0].charAt(1);
+    }
+    return (firstInitial + secondInitial).toUpperCase();
   }
 
   return (

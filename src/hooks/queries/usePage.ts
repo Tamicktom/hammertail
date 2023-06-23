@@ -1,5 +1,6 @@
 //* Libraries imports
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 //* Types imports
@@ -23,10 +24,19 @@ async function getPage(pageId: string): Promise<
  */
 
 export default function usePage(
-  pageId: string
+  pageId?: string
 ): UseQueryResult<Page & { PageType: PageType }, unknown> {
-  return useQuery(["page", pageId], () => getPage(pageId), {
-    enabled: !!pageId, //only fetch if there is a pageId
+  const router = useRouter();
+  let id = pageId || "";
+  if (!pageId) {
+    const index = router.query.index;
+    if (typeof index === "string") {
+      id = index;
+    }
+  }
+
+  return useQuery(["page", id], () => getPage(id), {
+    enabled: !!id, //only fetch if there is a pageId
     refetchOnWindowFocus: true,
   });
 }

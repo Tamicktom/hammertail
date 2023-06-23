@@ -74,10 +74,14 @@ export default function PageEdit(props: Props) {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          <Sidebar
-            worldId={page.data?.worldId}
-            collapsed={sidebarCollapse}
-          />
+          {
+            page.data
+              ? <Sidebar
+                worldId={page.data?.worldId}
+                collapsed={sidebarCollapse}
+              />
+              : <></>
+          }
         </Allotment.Pane>
       </Allotment>
     </div>

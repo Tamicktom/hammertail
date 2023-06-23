@@ -1,1 +1,0 @@
-O tipo mais simples de Block. Se trata apenas de texto.

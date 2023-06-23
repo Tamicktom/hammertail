@@ -6,10 +6,12 @@ import { Cake, Skull } from "@phosphor-icons/react";
 import type { Page, PageType } from "@prisma/client";
 
 type Props = {
-  page: (Page & { PageType: PageType });
+  page?: (Page & { PageType: PageType });
 }
 
 export const PageInfo = (props: Props) => {
+  if (!props.page) return (<></>);
+
   return (
     <div className="p-2 w-80">
       {props.page.PageType.name === "characters" && <CharacterInfo />}

@@ -12,13 +12,18 @@ import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
 import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 
+//* Hooks imports
+import usePage from "../../hooks/queries/usePage";
+
 type Props = {
-  page: (Page & { PageType: PageType });
+  pageId: string;
 }
 
 export default function PageEdit(props: Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
+
+  const page = usePage(props.pageId);
 
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
@@ -38,23 +43,28 @@ export default function PageEdit(props: Props) {
             onScroll={collapseNavBar}
           >
             <Navbar
-              worldId={props.worldId}
+              worldId={page.data?.worldId || ""}
               collapsed={navBarCollapse}
               isSidebarCollapsed={sidebarCollapse}
               setSidebarCollapse={setSidebarCollapse}
             />
+
             <div className="h-40 w-full" />
             <div className="w-full h-full flex flex-row justify-center items-start gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
                 <PageHeader
-                  title={props.page.name}
-                  pageType={props.page.PageType}
+                  title={page.data?.name}
+                  pageType={page.data?.PageType}
                 />
 
-                <TextEditorWraper page={props.page} />
+                {
+                  page.data
+                    ? <TextEditorWraper page={page.data} />
+                    : <></>
+                }
 
               </div>
-              <PageInfo page={props.page} />
+              <PageInfo page={page.data} />
             </div>
           </Scrollable>
         </Allotment.Pane>
@@ -65,7 +75,7 @@ export default function PageEdit(props: Props) {
           priority={LayoutPriority.High}
         >
           <Sidebar
-            worldId={props.worldId}
+            worldId={page.data?.worldId}
             collapsed={sidebarCollapse}
           />
         </Allotment.Pane>

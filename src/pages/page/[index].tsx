@@ -1,5 +1,6 @@
 //* Libraries imports
 import Head from "next/head";
+import { useRouter } from "next/router";
 import type { Page } from "@prisma/client";
 
 //* Component imports
@@ -8,20 +9,22 @@ import PageEdit from "../../layouts/PageEdit/PageEdit";
 //* Utilities imports
 import actualPage from "../../store/common/actualPage";
 
-export default function Page() {
+//* Hooks imports
+import usePage from "../../hooks/queries/usePage";
 
-  const page = actualPage.getState();
+export default function Page() {
+  const router = useRouter();
+  const index = typeof router.query.index === "string" ? router.query.index : "";
+  const page = usePage(index);
 
   return (
     <>
       <Head>
-        <title></title>
+        <title>{page.data?.name}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>
-      <PageEdit
-        page={page}
-      />
+      <PageEdit pageId={index} />
     </>
   );
 }

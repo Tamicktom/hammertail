@@ -1,6 +1,5 @@
 //* Libraries imports
 import Head from "next/head";
-import Image from "next/image";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getProviders, signIn, getSession } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
@@ -12,7 +11,6 @@ import RainbowBorders from "../components/common/RainbowBorders/RainbowBorders";
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const providerList = providers ? Object.values(providers) : [];
-
 
   return (
     <>

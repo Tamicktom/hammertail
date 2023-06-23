@@ -22,7 +22,13 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
       "DeletePage",
       "ListPages",
     ]);
-    const possibleListing = z.enum(["characters", "places", "items", "events"]);
+    const possibleListing = z.enum([
+      "characters",
+      "places",
+      "items",
+      "events",
+      "undefined",
+    ]);
     const schema = z.object({
       name: z.string().optional(),
       worldId: z.string(),
@@ -67,11 +73,12 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // list pges
     if (reqType === "POST" && tmp.action === "ListPages") {
-      if (tmp.listing === undefined) {
+      if (tmp.listing === undefined || tmp.listing === "undefined") {
         //grab the pages that does not have pageType
         const pages = await prisma.page.findMany({
           where: {
             worldId: tmp.worldId,
+            pageTypeId: null,
           },
         });
 

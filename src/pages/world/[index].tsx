@@ -96,6 +96,10 @@ export default function World(props: Props) {
             content="events"
             worldId={props.world.id}
           />
+          <PageList
+            content="undefined"
+            worldId={props.world.id}
+          />
         </div>
       </div>
     </>

@@ -11,7 +11,7 @@ type ApiPageListing = {
   pages: Page[];
 };
 
-async function getPagesByType(worldId: string, pageType: PageTypes) {
+async function getPagesByType(worldId: string, pageType: PageTypes = "undefined") {
   const body = {
     worldId,
     listing: pageType,

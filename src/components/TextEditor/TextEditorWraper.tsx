@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import type { PartialBlock } from "@blocknote/core";
 import { CircleNotch } from '@phosphor-icons/react';
-import z from "zod";
 
 //* Components imports
 import TextEditor from './TextEditor';
@@ -41,7 +40,6 @@ export default function TextEditorWrapper(props: Props) {
   //save blocks when content changes
   useEffect(() => {
     if (debouncedContent) {
-      console.log("conteúdo", debouncedContent);
       saveBlocks.mutate({
         pageId: props.page.id,
         blocks: debouncedContent

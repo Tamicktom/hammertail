@@ -11,11 +11,13 @@ import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
 import type { Page } from "@prisma/client";
 
 type Props = {
-  worldId: string;
+  worldId?: string;
   collapsed: boolean;
 }
 
 export const Sidebar = (props: Props) => {
+
+  if (!props.worldId) return (<></>);
 
   const characters = useGetPagesByType(props.worldId, "characters");
   const events = useGetPagesByType(props.worldId, "events");

@@ -1,6 +1,7 @@
 //* Libraries imports
 import { useSession } from "next-auth/react";
 import { Sidebar } from "@phosphor-icons/react";
+import { Plus } from"@phosphor-icons/react";
 import * as Avatar from '@radix-ui/react-avatar';
 
 type Props = {
@@ -28,13 +29,25 @@ export const Navbar = (props: Props) => {
         name={session?.user?.name || ""}
       />
       <div className="flex flex-row items-center gap-4">
+<<<<<<< Updated upstream
         <button>
           New Page
+=======
+        <button
+          name="newPage"
+          aria-label="newPage"
+          className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary-700 text-white font-bold hover:bg-primary-700 transition-all"
+        >
+          <Plus size="24"/>
+           NEW PAGE
+          
+>>>>>>> Stashed changes
         </button>
+        
         <button
           onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
         >
-          <Sidebar size="24" />
+          <Sidebar size="20" />
         </button>
       </div>
     </div>

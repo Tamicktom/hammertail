@@ -86,9 +86,7 @@ function UserAvatar(props: UserAvatarProps) {
           className="w-full h-full object-cover rounded-full bg-gradient-to-b from-primary-600 to-primary-800 flex justify-center items-center text-white font-bold text-2xl"
           delayMs={600}
         >
-          {
-            getInitials()
-          }
+          {getInitials()}
         </Avatar.Fallback>
       </Avatar.Root>
     </div>

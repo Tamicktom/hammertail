@@ -21,7 +21,6 @@ export const Sidebar = (props: Props) => {
   const places = useGetPagesByType(props.worldId, "places");
   const items = useGetPagesByType(props.worldId, "items");
 
-
   return (
     <Root
       type="multiple"

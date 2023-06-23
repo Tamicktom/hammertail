@@ -11,11 +11,13 @@ import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
 import type { Page } from "@prisma/client";
 
 type Props = {
-  worldId: string;
+  worldId?: string;
   collapsed: boolean;
 }
 
 export const Sidebar = (props: Props) => {
+
+  if (!props.worldId) return (<></>);
 
   const characters = useGetPagesByType(props.worldId, "characters");
   const events = useGetPagesByType(props.worldId, "events");
@@ -27,7 +29,7 @@ export const Sidebar = (props: Props) => {
     <Root
       type="multiple"
       defaultValue={["Characters"]}
-      className='container flex flex-col h-full bg-tertiary-700 w-full'
+      className='container flex flex-col h-full bg-neutral-700 w-full'
     >
       <AccordionItem title="Characters" content={characters.data?.data.pages || []} />
       <AccordionItem title="Events" content={events.data?.data.pages || []} />
@@ -68,8 +70,8 @@ const HeaderTrigger = (props: HeaderTriggerProps) => {
   return (
     <Header className='w-full border-b hover:bg-black/10 border-tertiary-400/50'>
       <Trigger className='flex flex-row justify-between w-full px-4 py-2 AccordionTrigger'>
-        <span className="text-xl font-bold text-tertiary-100">{props.title}</span>
-        <CaretDown className="text-tertiary-200 icon" />
+        <span className="text-xl font-bold text-neutral-100">{props.title}</span>
+        <CaretDown className="text-neutral-200 icon" />
       </Trigger>
     </Header>
   );
@@ -88,7 +90,7 @@ const Button = (props: ButtonProps) => {
       <button
         className="flex flex-row items-center justify-start w-full px-4 py-1 border-b border-tertiary-400/20 hover:bg-black/20 bg-black/10"
       >
-        <span className="text-tertiary-200">{props.text}</span>
+        <span className="text-neutral-200">{props.text}</span>
       </button>
     </Link>
   );

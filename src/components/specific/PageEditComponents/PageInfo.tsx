@@ -3,15 +3,24 @@ import Image from "next/image";
 import { Cake, Skull } from "@phosphor-icons/react";
 
 //* Types imports
-import type { Page } from "@prisma/client";
+import type { Page, PageType } from "@prisma/client";
 
 type Props = {
-  page: Page;
+  page?: (Page & { PageType: PageType });
 }
 
 export const PageInfo = (props: Props) => {
+  if (!props.page) return (<></>);
   return (
     <div className="p-2 w-80">
+      {renderRightInfo(props.page.PageType)}
+    </div>
+  );
+}
+
+function CharacterInfo() {
+  return (
+    <>
       <div className='flex items-center justify-center w-full'>
         <Image
           src="https://i.pinimg.com/564x/bb/14/18/bb1418129cfc0b35f874d249bb5ff9e6.jpg"
@@ -39,6 +48,43 @@ export const PageInfo = (props: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
+  );
+}
+
+function renderRightInfo(type: PageType | null | undefined) {
+  if (!type) return <NoPageType />
+  if (type.name === "characters") return <CharacterInfo />
+  if (type.name === "places") return <PlaceInfo />
+  if (type.name === "items") return <ItemInfo />
+  if (type.name === "events") return <EventInfo />
+}
+
+function ItemInfo() {
+  return (
+    <>
+      <h2 className="text-white">Item</h2>
+    </>
+  );
+}
+function PlaceInfo() {
+  return (
+    <>
+      <h2 className="text-white">Location</h2>
+    </>
+  );
+}
+function EventInfo() {
+  return (
+    <>
+      <h2 className="text-white">Event</h2>
+    </>
+  );
+}
+function NoPageType() {
+  return (
+    <>
+      <h2 className="text-white">No page type</h2>
+    </>
   );
 }

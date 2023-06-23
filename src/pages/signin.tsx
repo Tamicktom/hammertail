@@ -1,56 +1,62 @@
 //* Libraries imports
 import Head from "next/head";
-import Image from "next/image";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getProviders, signIn, getSession } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
 
+//* Components imports
+import RainbowBorders from "../components/common/RainbowBorders/RainbowBorders";
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const providerList = providers ? Object.values(providers) : [];
- 
 
   return (
     <>
       <Head>
         <title>Sign in</title>
       </Head>
-      <div className="w-full h-screen flex flex-row justify-center items-center relative">
-        <div className="w-full h-full absolute top-0 left-0">
-          <div
-            className="w-full h-full absolute top-0 left-0 z-10 backdrop-blur-2xl"
-            style={{
-              background: "radial-gradient(58.94% 58.94% at 50% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.5) 100%);"
-            }}
-          />
-          <Image
-            src="/login_screen_image.jpg"
-            alt="Magical castle with a purple moon in the background, predominantly black and purple colors, giving a sense of creativity, in an anime style."
-            width={1920}
-            height={1080}
-            className="object-cover w-full h-full absolute top-0 left-0"
-          />
-        </div>
-        <div className="px-12 bg-tertiary-800 py-8 flex flex-col justify-center items-center z-10 border border-tertiary-600 rounded-lg gap-4">
-          <div className="flex flex-col justify-center items-center text-center">
-            <h1 className="text-4xl font-bold text-white mb-4 font-primary">Sign in</h1>
-            <p className="text-white font-normal font-primary">Choose a platform to log in.</p>
-          </div>
-          <div className="flex flex-row w-full justify-center gap-4">
-            {
-              providerList.map((provider) => (
-                <button
-                  key={provider.id}
-                  className="bg-gradient-to-b from-primary-500 to-primary-700 rounded-md flex flex-row gap-4 justify-center items-center p-2"
-                  onClick={() => signIn(provider.id)}
-                >
-                  {getProviderLogo(provider.name)}
-                </button>
-              ))
-            }
-          </div>
+      <div className="relative flex flex-row items-center justify-center w-full h-screen bg-left-top bg-repeat bg-noise bg-neutral-950 bg-30 md:bg-20 lg:bg-10">
+        <div className="flex items-center justify-center w-full ssm:w-5/6 sm:w-4/5 lg:w-full">
+          <RainbowBorders>
+            <main className="flex flex-row items-center justify-center w-full h-full sm:h-[512px] overflow-hidden rounded-lg bg-repeat bg-light-noise bg-neutral-950 bg-30 md:bg-20 lg:bg-10">
+
+              <div className="flex-col items-center justify-start hidden w-full h-full px-8 py-12 text-center md:flex backdrop-blur-xl">
+                <p className="text-6xl font-black text-left text-white font-secondary">
+                  Join and make your worlds come to <span className="rainbowText">reality.</span>
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center justify-center w-full h-full gap-12 px-8 py-12 sm:justify-between sm:gap-4 bg-neutral-950/70 backdrop-blur-xl">
+                <div className="flex items-start justify-start w-full">
+                  <h1 className="text-5xl font-black text-left text-white font-secondary">Login</h1>
+                </div>
+                <div className="flex flex-col items-center justify-center w-full gap-4">
+                  {
+                    providerList.map((provider) => (
+                      <button
+                        key={provider.id}
+                        className="flex flex-row items-center justify-center w-full gap-4 p-2 rounded-md bg-gradient-to-br from-primary-600 to-primary-800"
+                        onClick={() => signIn(provider.id)}
+                      >
+                        {getProviderLogo(provider.name)}
+                        <span className="text-base font-bold text-white uppercase font-primary">
+                          Sign in with {provider.name}
+                        </span>
+                      </button>
+                    ))
+                  }
+                </div>
+                <div className="flex items-start justify-start w-full pt-2 border-t border-neutral-700">
+                  <p className="text-xs text-left font-primary text-neutral-300">
+                    By logging in to HammerTail, I confirm that I have read and agree to the HammerTail Terms of Service. Privacy. Policy, and to receive emails and updates.
+                  </p>
+                </div>
+              </div>
+
+            </main>
+          </RainbowBorders>
         </div>
       </div>
     </>
@@ -58,14 +64,14 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 }
 
 function getProviderLogo(provider: string) {
-  const size = 32;
+  const size = 20;
   switch (provider) {
     case "Google":
-      return <GoogleLogo size={size} className="text-tertiary-100" />;
+      return <GoogleLogo size={size} className="text-neutral-100" />;
     case "Discord":
-      return <DiscordLogo size={size} className="text-tertiary-100" />;
+      return <DiscordLogo size={size} className="text-neutral-100" />;
     case "GitHub":
-      return <GithubLogo size={size} className="text-tertiary-100" />;
+      return <GithubLogo size={size} className="text-neutral-100" />;
     default:
       return <></>;
   }

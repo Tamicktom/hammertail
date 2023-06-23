@@ -1,0 +1,37 @@
+.rainbowDiv > div {
+  background-image: linear-gradient(
+    90deg,
+    rgba(250, 250, 250, 0.2),
+    rgba(230, 230, 230, 0.2)
+  );
+  background-size: 200% 100%;
+}
+
+.rainbowDiv:hover > div {
+  animation: rainbowTranslate 3s linear infinite;
+  background-image: var(--rainbow-gradient);
+}
+
+.rainbowDiv:hover::after {
+  opacity: 0.7;
+  animation: rainbowTranslate 3s linear infinite;
+}
+
+.rainbowDiv::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--rainbow-gradient);
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(28px);
+  transition: opacity 1s ease;
+}
+
+.rainbowDiv::after {
+  opacity: 0;
+}

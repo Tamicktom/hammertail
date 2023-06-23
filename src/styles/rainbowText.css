@@ -1,0 +1,17 @@
+.rainbowText {
+  background-image: var(--rainbow-gradient);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowTextAnimation 16s linear infinite;
+  position: relative;
+}
+
+@keyframes rainbowTextAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}

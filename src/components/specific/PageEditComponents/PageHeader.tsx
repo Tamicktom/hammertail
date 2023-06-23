@@ -4,11 +4,13 @@
 import type { PageType } from "@prisma/client";
 
 type PageHeaderProps = {
-  title: string;
-  pageType: PageType;
+  title?: string;
+  pageType?: PageType;
 }
 
 export const PageHeader = ({ title, pageType }: PageHeaderProps) => {
+  if (!title || !pageType) return (<></>);
+
   return (
     <div className='flex flex-col w-full gap-2 mb-8'>
       <span className='text-white'>

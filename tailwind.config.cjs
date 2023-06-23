@@ -3,31 +3,29 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "light-noise": "var(--light-noise)",
+        "noise": "var(--noise2)",
+        rainbow: "var(--rainbow-gradient)",
+      },
+      backgroundSize: {
+        "10": "10%",
+        "20": "20%",
+        "30": "30%",
+        "100": "100%",
+        "208": "208%",
+      },
       screens: {
         "xsm": "320px",
         "ssm": "390px",
       },
       fontFamily: {
         primary: "var(--primary-font)",
+        secondary: "var(--secondary-font)",
       },
       colors: {
-        sucess: {
-          100: "#E7F8F0",
-          500: "#25BF60",
-        },
-        alert: {
-          100: "#faf8c4",
-          500: "#e6df33",
-        },
-        danger: {
-          100: "#f8bebe",
-          500: "#e04444",
-        },
-        info: {
-          100: "#bbdaf7",
-          500: "#2575bf",
-        },
         primary: {
+          50: "hsl(var(--color-primary-50) / <alpha-value>)",
           100: "hsl(var(--color-primary-100) / <alpha-value>)",
           200: "hsl(var(--color-primary-200) / <alpha-value>)",
           300: "hsl(var(--color-primary-300) / <alpha-value>)",
@@ -37,6 +35,7 @@ module.exports = {
           700: "hsl(var(--color-primary-700) / <alpha-value>)",
           800: "hsl(var(--color-primary-800) / <alpha-value>)",
           900: "hsl(var(--color-primary-900) / <alpha-value>)",
+          950: "hsl(var(--color-primary-950) / <alpha-value>)",
         },
         secondary: {
           100: "hsl(var(--color-secondary-100) / <alpha-value>)",
@@ -48,52 +47,6 @@ module.exports = {
           700: "hsl(var(--color-secondary-700) / <alpha-value>)",
           800: "hsl(var(--color-secondary-800) / <alpha-value>)",
           900: "hsl(var(--color-secondary-900) / <alpha-value>)",
-        },
-        tertiary: {
-          100: "hsl(var(--color-tertiary-100) / <alpha-value>)",
-          200: "hsl(var(--color-tertiary-200) / <alpha-value>)",
-          300: "hsl(var(--color-tertiary-300) / <alpha-value>)",
-          400: "hsl(var(--color-tertiary-400) / <alpha-value>)",
-          500: "hsl(var(--color-tertiary-500) / <alpha-value>)",
-          600: "hsl(var(--color-tertiary-600) / <alpha-value>)",
-          700: "hsl(var(--color-tertiary-700) / <alpha-value>)",
-          800: "hsl(var(--color-tertiary-800) / <alpha-value>)",
-          900: "hsl(var(--color-tertiary-900) / <alpha-value>)",
-        },
-        dark: {
-          primary: {
-            100: "hsl(var(--color-dark-primary-100) / <alpha-value>)",
-            200: "hsl(var(--color-dark-primary-200) / <alpha-value>)",
-            300: "hsl(var(--color-dark-primary-300) / <alpha-value>)",
-            400: "hsl(var(--color-dark-primary-400) / <alpha-value>)",
-            500: "hsl(var(--color-dark-primary-500) / <alpha-value>)",
-            600: "hsl(var(--color-dark-primary-600) / <alpha-value>)",
-            700: "hsl(var(--color-dark-primary-700) / <alpha-value>)",
-            800: "hsl(var(--color-dark-primary-800) / <alpha-value>)",
-            900: "hsl(var(--color-dark-primary-900) / <alpha-value>)",
-          },
-          secondary: {
-            100: "hsl(var(--color-dark-secondary-100) / <alpha-value>)",
-            200: "hsl(var(--color-dark-secondary-200) / <alpha-value>)",
-            300: "hsl(var(--color-dark-secondary-300) / <alpha-value>)",
-            400: "hsl(var(--color-dark-secondary-400) / <alpha-value>)",
-            500: "hsl(var(--color-dark-secondary-500) / <alpha-value>)",
-            600: "hsl(var(--color-dark-secondary-600) / <alpha-value>)",
-            700: "hsl(var(--color-dark-secondary-700) / <alpha-value>)",
-            800: "hsl(var(--color-dark-secondary-800) / <alpha-value>)",
-            900: "hsl(var(--color-dark-secondary-900) / <alpha-value>)",
-          },
-          tertiary: {
-            100: "hsl(var(--color-dark-tertiary-100) / <alpha-value>)",
-            200: "hsl(var(--color-dark-tertiary-200) / <alpha-value>)",
-            300: "hsl(var(--color-dark-tertiary-300) / <alpha-value>)",
-            400: "hsl(var(--color-dark-tertiary-400) / <alpha-value>)",
-            500: "hsl(var(--color-dark-tertiary-500) / <alpha-value>)",
-            600: "hsl(var(--color-dark-tertiary-600) / <alpha-value>)",
-            700: "hsl(var(--color-dark-tertiary-700) / <alpha-value>)",
-            800: "hsl(var(--color-dark-tertiary-800) / <alpha-value>)",
-            900: "hsl(var(--color-dark-tertiary-900) / <alpha-value>)",
-          },
         },
       },
     },

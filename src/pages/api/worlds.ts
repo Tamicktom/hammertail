@@ -1,7 +1,11 @@
+//* Libraries imports
+import z from "zod";
 import { type NextApiRequest, type NextApiResponse } from "next";
+
+//* Local imports
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 import { prisma } from "../../server/db/client";
-import z from "zod";
+import { supabase } from "../../server/db/client";
 
 const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });

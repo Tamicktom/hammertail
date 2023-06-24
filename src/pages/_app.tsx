@@ -1,5 +1,4 @@
 //* Libraries imports
-import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from '@vercel/analytics/react';
@@ -16,9 +15,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  useEffect(() => {
-    console.log();
-  }, []);
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={new QueryClient()}>

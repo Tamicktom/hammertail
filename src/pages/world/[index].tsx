@@ -1,4 +1,5 @@
 //* Libraries imports
+import { useState } from "react";
 import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -64,9 +65,10 @@ type Props = {
 
 //* Client side ----------------------------------------------
 export default function World(props: Props) {
+  const [filterWord, setFilterWord] = useState<string>("");
 
   const filterHandler = (filter: string) => {
-    console.log(filter);
+    setFilterWord(filter);
   };
 
   return (
@@ -83,22 +85,27 @@ export default function World(props: Props) {
           <PageList
             content="characters"
             worldId={props.world.id}
+            filterWord={filterWord}
           />
           <PageList
             content="places"
             worldId={props.world.id}
+            filterWord={filterWord}
           />
           <PageList
             content="items"
             worldId={props.world.id}
+            filterWord={filterWord}
           />
           <PageList
             content="events"
             worldId={props.world.id}
+            filterWord={filterWord}
           />
           <PageList
             content="undefined"
             worldId={props.world.id}
+            filterWord={filterWord}
           />
         </div>
       </div>

@@ -56,7 +56,7 @@ export default function PageEdit() {
                 }
 
               </div>
-              <PageInfo page={page.data} />
+              <PageInfo />
             </div>
           </Scrollable>
         </Allotment.Pane>
@@ -66,13 +66,7 @@ export default function PageEdit() {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          {
-            page.data
-              ? <Sidebar
-                collapsed={sidebarCollapse}
-              />
-              : <></>
-          }
+          <Sidebar collapsed={sidebarCollapse} />
         </Allotment.Pane>
       </Allotment>
     </div>

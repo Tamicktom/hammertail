@@ -2,7 +2,6 @@
 import { useState, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import type { Page, Block, PageType } from '@prisma/client';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -15,15 +14,11 @@ import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
 
-type Props = {
-  pageId: string;
-}
-
-export default function PageEdit(props: Props) {
+export default function PageEdit() {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
 
-  const page = usePage(props.pageId);
+  const page = usePage();
 
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
@@ -52,10 +47,7 @@ export default function PageEdit(props: Props) {
             <div className="h-40 w-full" />
             <div className="w-full h-full flex flex-row justify-center items-start gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
-                <PageHeader
-                  title={page.data?.name}
-                  pageType={page.data?.PageType}
-                />
+                <PageHeader />
 
                 {
                   page.data
@@ -64,7 +56,7 @@ export default function PageEdit(props: Props) {
                 }
 
               </div>
-              <PageInfo page={page.data} />
+              <PageInfo />
             </div>
           </Scrollable>
         </Allotment.Pane>
@@ -74,14 +66,7 @@ export default function PageEdit(props: Props) {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          {
-            page.data
-              ? <Sidebar
-                worldId={page.data?.worldId}
-                collapsed={sidebarCollapse}
-              />
-              : <></>
-          }
+          <Sidebar collapsed={sidebarCollapse} />
         </Allotment.Pane>
       </Allotment>
     </div>

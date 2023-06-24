@@ -23,7 +23,7 @@ export default function CreateCharacterForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "characters");
+  const data = useGetPagesByType("characters", props.worldId);
 
   const handleCharacterCreation = () => {
     const body = {

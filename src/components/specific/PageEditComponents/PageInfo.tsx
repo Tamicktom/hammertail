@@ -5,15 +5,21 @@ import { Cake, Skull } from "@phosphor-icons/react";
 //* Types imports
 import type { Page, PageType } from "@prisma/client";
 
-type Props = {
-  page?: (Page & { PageType: PageType });
-}
+//* Component imports
+import LocalLoading from "../../common/LocalLoading/LocalLoading";
 
-export const PageInfo = (props: Props) => {
-  if (!props.page) return (<></>);
+//* Hooks imports
+import usePage from "../../../hooks/queries/usePage";
+
+
+export const PageInfo = () => {
+  const page = usePage();
+
+  if (page.isLoading) return <LocalLoading />
+
   return (
     <div className="p-2 w-80">
-      {renderRightInfo(props.page.PageType)}
+      {renderRightInfo(page.data?.PageType)}
     </div>
   );
 }

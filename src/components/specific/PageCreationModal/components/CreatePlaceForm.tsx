@@ -23,7 +23,7 @@ export default function CreatePlaceForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "places");
+  const data = useGetPagesByType("places", props.worldId);
 
   const handlePlaceCreation = () => {
     const body = {

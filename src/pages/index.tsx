@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 //* Components imports
 import RainbowButton from "../components/specific/RainbowButton/RainbowButton";
@@ -11,11 +12,12 @@ import RainbowButton from "../components/specific/RainbowButton/RainbowButton";
 import logo from "../assets/logo.svg";
 
 const Home: NextPage = () => {
-  const { status } = useSession()
+  const { status } = useSession();
+  const router = useRouter();
 
   if (status === "authenticated") {
     // Redirect to dashboard if user is logged in
-    window.location.href = "/worlds"
+    router.push("/worlds");
   }
 
   return (

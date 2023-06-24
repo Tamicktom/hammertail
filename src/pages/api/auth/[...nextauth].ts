@@ -29,20 +29,17 @@ export const authOptions: NextAuthOptions = {
     // ...add more providers here
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
-
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    
+
     GitHubProvider({
       clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET
-    })
+      clientSecret: env.GITHUB_SECRET,
+    }),
   ],
-  pages:{
-    signIn: '/signin'
-  }
+  pages: {
+    signIn: "/signin",
+  },
 };
-
-
 
 export default NextAuth(authOptions);

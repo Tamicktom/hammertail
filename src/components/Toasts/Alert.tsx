@@ -3,13 +3,13 @@ import { WarningCircle, X } from '@phosphor-icons/react';
 import { useState, useEffect } from 'react';
 import toast, { type Toast } from 'react-hot-toast';
 
-type Props = {
+type AlertProps = {
   t: Toast,
   topMsg: string,
   bottomMsg: string
 }
 
-export default function Alert({ t, topMsg, bottomMsg }: Props) {
+export default function Alert({ t, topMsg, bottomMsg }: AlertProps) {
   const [visible, setVisible] = useState(t.visible);
 
   useEffect(() => {

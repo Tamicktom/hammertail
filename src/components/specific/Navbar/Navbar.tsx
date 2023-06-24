@@ -5,34 +5,52 @@ import { Sidebar } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react";
 import * as Avatar from "@radix-ui/react-avatar";
 import z from "zod";
-
 import colors from "tailwindcss/colors";
+import toast from "react-hot-toast";
 
-import type { Page } from "@prisma/client";
+//* Local imports
+import Alert from "../../Toasts/Alert";
 
 const apiResponseSchema = z.object({
   page: z.object({
     id: z.string(),
   }),
-  status: z.string().refine((text) => {
-    return text === "created";
-  }),
+  status: z.enum(["created"]),
 });
 
-type ApiPageResponse = {
-  page: Page;
-  status: "created";
-};
+const pageCreationSchema = z.object({
+  action: z.enum(["createPage"]),
+  worldId: z.string(),
+});
+
+type Props = {
+  worldId: string;
+  collapsed: boolean;
+  isSidebarCollapsed: boolean;
+  setSidebarCollapse: (value: boolean) => void;
+}
 
 export const Navbar = (props: Props) => {
   const { data: session } = useSession();
   const router = useRouter();
 
   const createPage = async () => {
-    const body = {
+    const body = pageCreationSchema.safeParse({
       action: "createPage",
       worldId: props.worldId,
-    };
+    });
+
+    if (!body.success) return toast.custom((t) => (
+      <Alert
+        t={t}
+        topMsg='erro ao criar página!'
+        bottomMsg={body.error.message}
+      />
+    ), {
+      duration: 1000,
+      position: 'top-center',
+    })
+
     const response = await fetch("/api/pages", {
       method: "POST",
       body: JSON.stringify(body),
@@ -40,6 +58,7 @@ export const Navbar = (props: Props) => {
         "Content-Type": "application/json",
       },
     });
+
     const data = apiResponseSchema.safeParse(await response.json());
 
     if (data.success) {
@@ -130,10 +149,3 @@ function UserAvatar(props: UserAvatarProps) {
     </div>
   );
 }
-
-type Props = {
-  worldId: string;
-  collapsed: boolean;
-  isSidebarCollapsed: boolean;
-  setSidebarCollapse: (value: boolean) => void;
-};

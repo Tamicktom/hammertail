@@ -23,7 +23,7 @@ export default function CreateEventForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "events");
+  const data = useGetPagesByType("events", props.worldId,);
 
   const handleEventCreation = () => {
     const body = {

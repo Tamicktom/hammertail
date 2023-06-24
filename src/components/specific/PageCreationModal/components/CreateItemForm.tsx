@@ -23,7 +23,7 @@ export default function CreateItemForm(props: Props) {
     other: {},
   });
 
-  const data = useGetPagesByType(props.worldId, "items");
+  const data = useGetPagesByType("items", props.worldId);
 
   const handleItemCreation = () => {
     const body = {

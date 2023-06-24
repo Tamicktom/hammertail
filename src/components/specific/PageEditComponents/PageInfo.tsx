@@ -5,17 +5,21 @@ import { Cake, Skull } from "@phosphor-icons/react";
 //* Types imports
 import type { Page, PageType } from "@prisma/client";
 
-type Props = {
-  page: (Page & { PageType: PageType });
-}
+//* Component imports
+import LocalLoading from "../../common/LocalLoading/LocalLoading";
 
-export const PageInfo = (props: Props) => {
+//* Hooks imports
+import usePage from "../../../hooks/queries/usePage";
+
+
+export const PageInfo = () => {
+  const page = usePage();
+
+  if (page.isLoading) return <LocalLoading />
+
   return (
     <div className="p-2 w-80">
-      {props.page.PageType.name === "characters" && <CharacterInfo />}
-      {props.page.PageType.name === "places" && <PlaceInfo />}
-      {props.page.PageType.name === "items" && <ItemInfo />}
-      {props.page.PageType.name === "events" && <EventInfo />}
+      {renderRightInfo(page.data?.PageType)}
     </div>
   );
 }
@@ -53,6 +57,15 @@ function CharacterInfo() {
     </>
   );
 }
+
+function renderRightInfo(type: PageType | null | undefined) {
+  if (!type) return <NoPageType />
+  if (type.name === "characters") return <CharacterInfo />
+  if (type.name === "places") return <PlaceInfo />
+  if (type.name === "items") return <ItemInfo />
+  if (type.name === "events") return <EventInfo />
+}
+
 function ItemInfo() {
   return (
     <>
@@ -71,6 +84,13 @@ function EventInfo() {
   return (
     <>
       <h2 className="text-white">Event</h2>
+    </>
+  );
+}
+function NoPageType() {
+  return (
+    <>
+      <h2 className="text-white">No page type</h2>
     </>
   );
 }

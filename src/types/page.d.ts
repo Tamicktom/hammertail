@@ -1,4 +1,4 @@
-export type PageTypes = "characters" | "places" | "items" | "events";
+export type PageTypes = "characters" | "places" | "items" | "events" | "undefined";
 
 export type Character = {
   name: string;

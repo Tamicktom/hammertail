@@ -97,7 +97,7 @@ export default function Worlds({ userId }: WorldsProps) {
           loading
             ? <LocalLoading />
             : <div className="flex flex-col items-center justify-start w-full p-4">
-              <div className="flex flex-col items-center justify-start w-full max-w-lg">
+              <div className="flex flex-col items-center justify-start w-full max-w-lg gap-4">
                 {
                   filteredWorlds?.map((world, index) => (
                     <WorldCard

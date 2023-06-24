@@ -28,7 +28,7 @@ export default function CreateCharacterForm(props: Props) {
   const handleCharacterCreation = () => {
     const body = {
       worldId: props.worldId,
-      action: "createPage",
+      action: "createSpecificPage",
       typeOfPage: "characters",
       pageData: character,
     }

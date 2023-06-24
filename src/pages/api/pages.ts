@@ -16,8 +16,19 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
         error: "You must provide an action",
       });
     }
-    const possibleActions = z.enum(["createPage", "DeletePage", "ListPages"]);
-    const possibleListing = z.enum(["characters", "places", "items", "events"]);
+    const possibleActions = z.enum([
+      "createSpecificPage",
+      "createPage",
+      "DeletePage",
+      "ListPages",
+    ]);
+    const possibleListing = z.enum([
+      "characters",
+      "places",
+      "items",
+      "events",
+      "undefined",
+    ]);
     const schema = z.object({
       name: z.string().optional(),
       worldId: z.string(),
@@ -62,10 +73,18 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // list pges
     if (reqType === "POST" && tmp.action === "ListPages") {
-      console.log("listing");
-      if (tmp.listing === undefined) {
-        return res.status(401).send({
-          error: "You must specify a listing",
+      if (tmp.listing === undefined || tmp.listing === "undefined") {
+        //grab the pages that does not have pageType
+        const pages = await prisma.page.findMany({
+          where: {
+            worldId: tmp.worldId,
+            pageTypeId: null,
+          },
+        });
+
+        return res.status(200).send({
+          listing: tmp.listing,
+          pages: pages,
         });
       }
       //grab the id of the page type that has the name of the listing
@@ -98,8 +117,8 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    //  create a page
-    if (reqType === "POST" && tmp.action === "createPage") {
+    //  create a page with a specific type
+    if (reqType === "POST" && tmp.action === "createSpecificPage") {
       //get page type name from typeOfPage
       const pageType = await prisma.pageType.findFirst({
         where: {
@@ -133,8 +152,6 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       });
-
-      console.log(pageExists);
 
       if (pageExists?.Pages.length !== 0) {
         return res.status(401).send({
@@ -172,6 +189,24 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
           status: "created",
         });
       }
+    }
+
+    //  create a page
+    if (reqType === "POST" && tmp.action === "createPage") {
+      const page = await prisma.page.create({
+        data: {
+          name: "No name",
+          worldId: tmp.worldId,
+          start: 0,
+          end: 0,
+          description: "No description",
+        },
+      });
+
+      return res.status(200).send({
+        page: page,
+        status: "created",
+      });
     }
 
     res.send({

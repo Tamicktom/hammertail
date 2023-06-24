@@ -11,7 +11,17 @@ type ApiPageListing = {
   pages: Page[];
 };
 
-async function getPagesByType(worldId: string, pageType: PageTypes) {
+async function getPagesByType(
+  pageType: PageTypes = "undefined",
+  worldId?: string
+) {
+  if (!worldId)
+    return {
+      data: {
+        pages: [],
+        listing: pageType,
+      },
+    };
   const body = {
     worldId,
     listing: pageType,
@@ -21,10 +31,10 @@ async function getPagesByType(worldId: string, pageType: PageTypes) {
   return res;
 }
 
-export function useGetPagesByType(worldId: string, pageType: PageTypes) {
+export function useGetPagesByType(pageType: PageTypes, worldId?: string) {
   return useQuery(
-    ["pages", worldId, pageType],
-    () => getPagesByType(worldId, pageType),
+    ["pages", pageType, worldId],
+    () => getPagesByType(pageType, worldId),
     {
       refetchInterval: 60000,
     }

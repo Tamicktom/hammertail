@@ -6,22 +6,22 @@ import { CaretDown } from "@phosphor-icons/react";
 
 //* Hook imports
 import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
+import usePage from "../../../hooks/queries/usePage";
 
 //* Type imports
 import type { Page } from "@prisma/client";
 
 type Props = {
-  worldId: string;
   collapsed: boolean;
 }
 
 export const Sidebar = (props: Props) => {
-
-  const characters = useGetPagesByType(props.worldId, "characters");
-  const events = useGetPagesByType(props.worldId, "events");
-  const places = useGetPagesByType(props.worldId, "places");
-  const items = useGetPagesByType(props.worldId, "items");
-
+  const page = usePage();
+  const characters = useGetPagesByType("characters", page.data?.worldId);
+  const events = useGetPagesByType("events", page.data?.worldId);
+  const places = useGetPagesByType("places", page.data?.worldId);
+  const items = useGetPagesByType("items", page.data?.worldId);
+  const und = useGetPagesByType("undefined", page.data?.worldId);
 
   return (
     <Root
@@ -33,6 +33,7 @@ export const Sidebar = (props: Props) => {
       <AccordionItem title="Events" content={events.data?.data.pages || []} />
       <AccordionItem title="Places" content={places.data?.data.pages || []} />
       <AccordionItem title="Items" content={items.data?.data.pages || []} />
+      <AccordionItem title="Undefined" content={und.data?.data.pages || []} />
     </Root>
   );
 };

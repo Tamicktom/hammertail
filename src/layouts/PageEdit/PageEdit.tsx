@@ -2,7 +2,6 @@
 import { useState, type ReactNode, type UIEvent, } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import type { Page, Block, PageType } from '@prisma/client';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -12,15 +11,14 @@ import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
 
 import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 
-type Props = {
-  worldId: string;
-  page: (Page & { PageType: PageType });
-  blocks: Block[];
-}
+//* Hooks imports
+import usePage from "../../hooks/queries/usePage";
 
-export default function PageEdit(props: Props) {
+export default function PageEdit() {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
+
+  const page = usePage();
 
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
@@ -40,23 +38,25 @@ export default function PageEdit(props: Props) {
             onScroll={collapseNavBar}
           >
             <Navbar
-              worldId={props.worldId}
+              worldId={page.data?.worldId || ""}
               collapsed={navBarCollapse}
               isSidebarCollapsed={sidebarCollapse}
               setSidebarCollapse={setSidebarCollapse}
             />
+
             <div className="h-40 w-full" />
             <div className="w-full h-full flex flex-row justify-center items-start gap-2">
               <div className="w-full max-w-5xl flex flex-col justify-center items-start mb-80">
-                <PageHeader
-                  title={props.page.name}
-                  pageType={props.page.PageType}
-                />
+                <PageHeader />
 
-                <TextEditorWraper page={props.page} />
+                {
+                  page.data
+                    ? <TextEditorWraper page={page.data} />
+                    : <></>
+                }
 
               </div>
-              <PageInfo page={props.page} />
+              <PageInfo />
             </div>
           </Scrollable>
         </Allotment.Pane>
@@ -66,10 +66,7 @@ export default function PageEdit(props: Props) {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          <Sidebar
-            worldId={props.worldId}
-            collapsed={sidebarCollapse}
-          />
+          <Sidebar collapsed={sidebarCollapse} />
         </Allotment.Pane>
       </Allotment>
     </div>

@@ -17,7 +17,7 @@ type PageListProps = {
 export default function PageList(props: PageListProps) {
   const title = props.content.charAt(0).toUpperCase() + props.content.slice(1);
 
-  const pages = useGetPagesByType(props.worldId, props.content);
+  const pages = useGetPagesByType(props.content, props.worldId);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center border-2 border-tertiary-700 rounded-lg overflow-hidden">

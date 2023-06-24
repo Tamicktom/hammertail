@@ -33,7 +33,7 @@ async function getPagesByType(
 
 export function useGetPagesByType(pageType: PageTypes, worldId?: string) {
   return useQuery(
-    ["pages", worldId, pageType],
+    ["pages", pageType, worldId],
     () => getPagesByType(pageType, worldId),
     {
       refetchInterval: 60000,

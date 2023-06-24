@@ -35,7 +35,7 @@ export const Navbar = (props: Props) => {
 
   const createPage = async () => {
     const body = pageCreationSchema.safeParse({
-      action: "createPag",
+      action: "createPage",
       worldId: props.worldId,
     });
 
@@ -49,7 +49,6 @@ export const Navbar = (props: Props) => {
       duration: 1000,
       position: 'top-center',
     })
-
 
     const response = await fetch("/api/pages", {
       method: "POST",

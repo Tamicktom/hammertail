@@ -1,7 +1,7 @@
 //* Libraries imports
 import Head from "next/head";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getProviders, signIn, getSession } from "next-auth/react"
+import { getProviders, signIn } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
@@ -82,7 +82,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (session) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/worlds',
         permanent: false,
       },
     };

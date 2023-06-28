@@ -1,7 +1,6 @@
 //* Libraries imports
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useSession } from "next-auth/react";
 
 //* type imports
 import type { World } from "@prisma/client";
@@ -15,9 +14,8 @@ import LocalLoading from "../../components/common/LocalLoading/LocalLoading";
 import useWorldList from "../../hooks/specific/useWorldList";
 
 export default function Worlds() {
-  const { data: session } = useSession();
   const [filteredWorlds, setFilteredWorlds] = useState<World[]>([]);
-  const worldList = useWorldList(session?.user?.id || "");
+  const worldList = useWorldList();
 
   //* filter world list by name
   const handleWorldFilter = (filter: string) => {

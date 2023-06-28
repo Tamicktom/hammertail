@@ -10,10 +10,10 @@ import type { World } from '@prisma/client';
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
 import { WorldModalButton } from '../../common/Buttons/WorldModalButton';
-
-//* Store imports
-import worldStore from '../../../store/common/world';
 import Sucess from '../../Toasts/Sucess';
+
+//* Hooks imports
+import useWorldList from '../../../hooks/specific/useWorldList';
 
 const WorldCreationModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,14 +21,13 @@ const WorldCreationModal = () => {
   const [worldStartYear, setWorldStartYear] = useState(0);
   const [worldEndYear, setWorldEndYear] = useState(0);
 
-  const worldList = worldStore((state) => state.worlds);
-  const updateWorldList = worldStore((state) => state.updateWorlds);
+  const worldList = useWorldList();
 
   const handleWorldCreation = () => {
     createWorld(worldName, worldStartYear, worldEndYear)
       .then((world) => {
         if (world) {
-          updateWorldList([...worldList, world]);
+          worldList.refetch();
           toast.custom((t) => (
             <Sucess
               t={t}
@@ -41,7 +40,7 @@ const WorldCreationModal = () => {
           });
           setTimeout(() => {
             setIsModalOpen(false);
-          }, 1000);
+          }, 500);
         }
       });
   }

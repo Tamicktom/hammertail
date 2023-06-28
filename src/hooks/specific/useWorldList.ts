@@ -8,28 +8,23 @@ import type { APIResponse } from "../../types/api";
 
 /**
  * Get the worlds that the user owns
- * @param userId The user id
  * @returns The worlds that the user owns
  */
 
-async function getWorldList(userId: string) {
-  const body = JSON.stringify({ userId });
-  const response = await axios.post<APIResponse<World[]>>(
-    "/api/world/getWorldList",
-    body
+async function getWorldList() {
+  const response = await axios.get<APIResponse<World[]>>(
+    "/api/world/getWorldList"
   );
   return response.data.data;
 }
 
 /**
  * Get the worlds that the user owns
- * @param userId The user id
  * @returns The worlds that the user owns
  */
 
-export default function useWorldList(userId: string) {
-  return useQuery(["worldList", userId], () => getWorldList(userId), {
-    enabled: !!userId,
+export default function useWorldList() {
+  return useQuery(["worldList"], () => getWorldList(), {
     cacheTime: 1000 * 60 * 5, // 5 minutes
   });
 }

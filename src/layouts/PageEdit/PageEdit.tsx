@@ -1,5 +1,5 @@
 //* Libraries imports
-import { useState, type ReactNode, type UIEvent, } from 'react';
+import { useState, type ReactNode, type UIEvent,} from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
@@ -15,11 +15,11 @@ import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 import usePage from "../../hooks/queries/usePage";
 
 export default function PageEdit() {
+  
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
 
   const page = usePage();
-
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
     const scrollTop = event.currentTarget.scrollTop;

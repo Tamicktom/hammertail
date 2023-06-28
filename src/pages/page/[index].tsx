@@ -9,25 +9,25 @@ import { prisma } from "../../server/db/client";
 import PageEdit from "../../layouts/PageEdit/PageEdit";
 
 // grab the page data from the database using the id from the url
-export const getServerSideProps = async (context: any) => {
-  const page = await prisma.page.findUnique({
-    where: {
-      id: context.params.index,
-    },
-  });
+// export const getServerSideProps = async (context: any) => {
+//   const page = await prisma.page.findUnique({
+//     where: {
+//       id: context.params.index,
+//     },
+//   });
 
-  return {
-    props: {
-      page,
-    },
-  };
-};
+//   return {
+//     props: {
+//       page,
+//     },
+//   };
+// };
 
 export default function Page({ page }: { page: Page }) {
   return (
     <>
       <Head>
-        <title>{page.name}</title>
+        {/* <title>{page.name}</title> */}
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>

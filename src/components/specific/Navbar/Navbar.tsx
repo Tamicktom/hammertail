@@ -83,18 +83,20 @@ export const Navbar = (props: Props) => {
         <button
           name="newPage"
           aria-label="newPage"
-          className="flex items-center gap-2 rounded-md bg-primary-800 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
+          className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
           onClick={createPage}
         >
+          <Plus size={20}/>
           New Page
         </button>
 
         <button
+          className="bg-neutral-800"
           name="sidebarCollapse"
           aria-label="sidebarCollapse"
           onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
         >
-          <Sidebar size="20" />
+          <Sidebar size="20"/>
         </button>
       </div>
     </div>

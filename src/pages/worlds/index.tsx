@@ -12,31 +12,25 @@ import { WorldCard } from "../../components/specific/WorldCard/WorldCard";
 import LocalLoading from "../../components/common/LocalLoading/LocalLoading";
 
 //* Hooks imports
-import { useWorldList } from "../../hooks/specific/useWorldList";
-
-//* Store imports
-import worldStore from "../../store/common/world";
-
+import useWorldList from "../../hooks/specific/useWorldList";
 
 export default function Worlds() {
   const { data: session } = useSession();
-  const { loading } = useWorldList(session?.user?.id || "");
   const [filteredWorlds, setFilteredWorlds] = useState<World[]>([]);
-
-  const worldList = worldStore((state) => state.worlds);
+  const worldList = useWorldList(session?.user?.id || "");
 
   //* filter world list by name
   const handleWorldFilter = (filter: string) => {
-    if (filter === "") return setFilteredWorlds(worldList);
-    const filtered = worldList.filter((world) => {
+    if (filter === "") return setFilteredWorlds(worldList.data || []);
+    const filtered = worldList.data?.filter((world) => {
       return world.name.toLowerCase().includes(filter.toLowerCase());
     });
-    setFilteredWorlds(filtered);
+    setFilteredWorlds(filtered || []);
   };
 
   useEffect(() => {
-    setFilteredWorlds(worldList);
-  }, [worldList]);
+    if (worldList.data) setFilteredWorlds(worldList.data);
+  }, [worldList.data]);
 
   return (
     <>
@@ -50,7 +44,7 @@ export default function Worlds() {
 
         {/* worldsCards */}
         {
-          loading
+          worldList.isLoading
             ? <LocalLoading />
             : <div className="flex flex-col items-center justify-start w-full p-4">
               <div className="flex flex-col items-center justify-start w-full max-w-lg gap-4">

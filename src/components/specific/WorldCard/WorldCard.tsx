@@ -32,6 +32,7 @@ export const WorldCard = ({ world }: WorldCardProps) => {
             <Image
               alt="World Image"
               src={image}
+              blurDataURL={image}
               loading="lazy"
               width={256}
               height={256}
@@ -41,7 +42,7 @@ export const WorldCard = ({ world }: WorldCardProps) => {
               <h1 className="text-xl font-bold text-white font-primary">{world.name}</h1>
               <p className="text-xs font-normal text-white/80 font-primary">
                 {
-                  world.description ? world.description : "No description"
+                  world.description || "No description"
                 }
               </p>
             </div>

@@ -13,7 +13,7 @@ type WorldCardProps = {
 }
 
 export const WorldCard = ({ world }: WorldCardProps) => {
-  const image = world.image || "/images/default_world.jpg";
+  const image = world.image || "/images/default_world_image.svg";
 
   return (
     <div className="flex items-center justify-center w-full max-w-lg">

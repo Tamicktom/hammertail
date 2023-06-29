@@ -63,14 +63,14 @@ const WorldCreationModal = () => {
 
         <Content className='fixed z-20 flex flex-col items-center justify-start max-w-md gap-4 px-4 py-8 text-white -translate-x-1/2 -translate-y-1/2 border-2 border-solid rounded-lg DialogContent bg-neutral-800 border-tertiary-600 top-1/2 left-1/2'>
           <Title className='w-full text-2xl font-bold text-center'>
-            Criar novo mundo
+            Create New World
           </Title>
           <Description>
           To create a new world, type its name below. Then add the start and end year of the world.
           </Description>
 
           <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-            <label htmlFor="worldName" className='text-lg font-bold text-white'>Nome do mundo*</label>
+            <label htmlFor="worldName" className='text-lg font-bold text-white'>World Name*</label>
             <input
               className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
               onChange={(e) => { setWorldName(e.target.value); }}
@@ -81,7 +81,7 @@ const WorldCreationModal = () => {
           </fieldset>
 
           <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-            <label htmlFor="worldDrscription" className='text-lg font-bold text-white'>Descrição do mundo</label>
+            <label htmlFor="worldDrscription" className='text-lg font-bold text-white'>World description</label>
             <textarea rows={1} maxLength={1000}
               className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
               placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
@@ -95,7 +95,7 @@ const WorldCreationModal = () => {
               </span>
             </div>
             <fieldset className='flex flex-col items-start justify-start w-1/2'>
-              <label htmlFor="worldStartYear" className='text-base font-bold text-white '>Ano de inicio*</label>
+              <label htmlFor="worldStartYear" className='text-base font-bold text-white '>Start year*</label>
               <input
                 className='px-2 py-1 rounded-lg w-28 bg-neutral-600 focus:outline-none'
                 id="worldStartYear"
@@ -105,7 +105,7 @@ const WorldCreationModal = () => {
               />
             </fieldset>
             <fieldset className='flex flex-col items-start justify-start w-1/2'>
-              <label htmlFor="worldEndYear" className='text-base font-bold text-white'>Ano de fim*</label>
+              <label htmlFor="worldEndYear" className='text-base font-bold text-white'>Final year*</label>
               <input
                 className='px-2 py-1 rounded-lg appearance-none w-28 bg-neutral-600 focus:outline-none :-webkit-outer-spin-button'
                 id="worldEndYear"
@@ -118,7 +118,7 @@ const WorldCreationModal = () => {
 
           <div className='flex flex-col items-start justify-start w-full'>
             <span className='w-full text-lg font-bold text-white'>
-              Imagem do mundo
+              World Image
             </span>
             <WorldImage />
           </div>

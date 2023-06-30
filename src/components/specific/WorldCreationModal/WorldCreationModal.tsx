@@ -334,7 +334,7 @@ const createWorld = async (worldCreationData: WorldCreationSchema) => {
   }
 }
 
-function validadeImageType(imgType: string): "" | "image/png" | "image/jpeg" | "image/jpg" | "image/gif" {
+export function validadeImageType(imgType: string): "" | "image/png" | "image/jpeg" | "image/jpg" | "image/gif" {
   if (imgType === 'image/png' || imgType === 'image/jpeg' || imgType === 'image/jpg' || imgType === 'image/gif')
     return imgType;
   else

@@ -21,13 +21,11 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
         <div className="flex items-center justify-center w-full ssm:w-5/6 sm:w-4/5 lg:w-full">
           <RainbowBorders>
             <main className="flex flex-row items-center justify-center w-full h-full sm:h-[512px] overflow-hidden rounded-lg bg-repeat bg-light-noise bg-neutral-950 bg-30 md:bg-20 lg:bg-10">
-
               <div className="flex-col items-center justify-start hidden w-full h-full px-8 py-12 text-center md:flex backdrop-blur-xl">
                 <p className="text-6xl font-black text-left text-white font-secondary">
                   Join and make your worlds come to <span className="rainbowText">reality.</span>
                 </p>
               </div>
-
               <div className="flex flex-col items-center justify-center w-full h-full gap-12 px-8 py-12 sm:justify-between sm:gap-4 bg-neutral-950/70 backdrop-blur-xl">
                 <div className="flex items-start justify-start w-full">
                   <h1 className="text-5xl font-black text-left text-white font-secondary">Login</h1>
@@ -37,6 +35,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
                     providerList.map((provider) => (
                       <button
                         key={provider.id}
+                        id={provider.id}
                         className="flex flex-row items-center justify-center w-full gap-4 p-2 rounded-md bg-gradient-to-br from-primary-600 to-primary-800"
                         onClick={() => signIn(provider.id)}
                       >

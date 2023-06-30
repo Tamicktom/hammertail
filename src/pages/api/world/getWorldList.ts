@@ -26,28 +26,13 @@ const getOwner = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json(Response);
   }
 
-  // Get the user from the database
-  const sessionUserId = session?.user?.id;
-  let dbUser = null;
-
-  try {
-    dbUser = await prisma.user.findUnique({
-      where: {
-        id: sessionUserId,
-      },
-    });
-  } catch (error) {
-    Response.errors?.push("An error occurred while getting the user.");
-    return res.json(Response);
-  }
-  //verify if the user exists
-  if (!dbUser) {
+  if (!session.user?.id) {
     Response.errors?.push("User not found.");
     return res.json(Response);
   }
 
-  if (req.method === "POST") {
-    const { userId } = req.body; // Get the world id from the request body
+  if (req.method === "GET") {
+    const userId = session.user.id;
 
     // Get the worlds from the database
     const worlds = await prisma.world.findMany({

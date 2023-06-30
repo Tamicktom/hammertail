@@ -16,18 +16,27 @@ export const getServerSideProps = async (context: any) => {
     },
   });
 
+  if (!page) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
-      page,
+      pageName: page.name,
     },
   };
 };
 
-export default function Page({ page }: { page: Page }) {
+export default function Page({ pageName }: { pageName: string }) {
   return (
     <>
       <Head>
-        <title>{page.name}</title>
+        <title>{pageName}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>

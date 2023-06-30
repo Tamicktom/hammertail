@@ -29,6 +29,11 @@ const config = {
         hostname: "*.pinimg.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/**",
+      },
     ]
   }
 };

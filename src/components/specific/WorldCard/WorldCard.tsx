@@ -13,8 +13,6 @@ type WorldCardProps = {
 }
 
 export const WorldCard = ({ world }: WorldCardProps) => {
-  const image = world.image || "/images/default_world.jpg";
-
   return (
     <div className="flex items-center justify-center w-full max-w-lg">
       <RainbowBorders>
@@ -31,17 +29,19 @@ export const WorldCard = ({ world }: WorldCardProps) => {
           >
             <Image
               alt="World Image"
-              src={image}
+              src={world.image || "/images/default_world.jpg"}
+              blurDataURL={world.image || "/images/default_world.jpg"}
               loading="lazy"
               width={256}
               height={256}
               className="w-24 h-24 rounded-lg"
             />
+
             <div className="flex flex-col items-start justify-start w-full h-24 px-4 py-2">
               <h1 className="text-xl font-bold text-white font-primary">{world.name}</h1>
               <p className="text-xs font-normal text-white/80 font-primary">
                 {
-                  world.description ? world.description : "No description"
+                  world.description || "No description"
                 }
               </p>
             </div>

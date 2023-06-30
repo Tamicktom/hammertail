@@ -1,12 +1,13 @@
 //* Libraries imports
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FileImage, X } from '@phosphor-icons/react';
 
 import default_world_image from '../../../assets/default_world.jpg';
 
 export default function WorldImage() {
   const [image, setImage] = useState<File>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   //validate image
   useEffect(() => {
@@ -27,7 +28,9 @@ export default function WorldImage() {
   return (
     <div className='w-full h-48 transition-all bg-yellow-800 rounded-lg overflow-hidden relative'>
       <input
+        ref={inputRef}
         id="worldImage"
+        name="worldImage"
         type="file"
         accept="image/png, image/jpeg"
         className="hidden"
@@ -39,8 +42,7 @@ export default function WorldImage() {
       />
       {
         image
-          ?
-          <>
+          ? <>
             <div className='w-full h-full absolute inset-0'>
               <Image
                 src={URL.createObjectURL(image)}
@@ -53,14 +55,18 @@ export default function WorldImage() {
             <div className='p-4 absolute right-0 top-0'>
               <button
                 className="flex flex-row items-center justify-center p-2 rounded-full hover:bg-purple-200"
-                onClick={() => { setImage(undefined); }}
+                onClick={() => {
+                  setImage(undefined);
+                  if (inputRef.current) {
+                    inputRef.current.value = '';
+                  }
+                }}
               >
                 <X className="w-5 h-5 text-black" />
               </button>
             </div>
           </>
-          :
-          <>
+          : <>
             {/* default */}
             <div className='w-full h-full absolute inset-0 bg-blue-400'>
               <Image
@@ -83,8 +89,6 @@ export default function WorldImage() {
             </label>
           </>
       }
-
-
     </div >
   );
 }

@@ -1,7 +1,7 @@
 //* Libraries imports
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
-import { prisma, supabase } from "../../../server/db/client";
+import { supabase } from "../../../server/db/client";
 import z from "zod";
 
 //* Types imports
@@ -19,7 +19,7 @@ export default async function getBlocks(
   const session = await getServerAuthSession({ req, res });
 
   //verify if the user is logged in
-  if (!session) {
+  if (!session || !session.user?.id) {
     return res.send({
       content: "Login to view the protected content on this page.",
     });
@@ -50,7 +50,7 @@ export default async function getBlocks(
   // verify if there is a json file with the pageId
   const { data, error } = await supabase.storage
     .from(`pages`)
-    .createSignedUrl(`${pageId}.json`, 1000 * 60); // 60 seconds
+    .createSignedUrl(`${session.user.id}/${pageId}.json`, 1000 * 60); // 60 seconds
 
   if (error?.message === "The resource was not found") {
     //this indicates that the page content does not exist yet. So, we return an empty array

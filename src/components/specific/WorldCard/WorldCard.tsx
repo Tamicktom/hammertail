@@ -1,6 +1,8 @@
 //* Libraries imports
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 //* Type, styles, utils imports
 import type { World } from "@prisma/client";
@@ -13,7 +15,12 @@ type WorldCardProps = {
 }
 
 export const WorldCard = ({ world }: WorldCardProps) => {
-  const image = world.image || "/images/default_world.jpg";
+  const { data: session } = useSession();
+  const [url, setUrl] = useState<string | null>(null);
+
+  const handleImageError = () => {
+    setUrl("/images/default_world.jpg");
+  }
 
   return (
     <div className="flex items-center justify-center w-full max-w-lg">
@@ -29,15 +36,32 @@ export const WorldCard = ({ world }: WorldCardProps) => {
             as={`/world/${world.id}`}
             className="flex flex-row items-center justify-center w-full h-full"
           >
-            <Image
-              alt="World Image"
-              src={image}
-              blurDataURL={image}
-              loading="lazy"
-              width={256}
-              height={256}
-              className="w-24 h-24 rounded-lg"
-            />
+            {
+              url
+                ? <Image
+                  alt="World Image"
+                  src={url}
+                  blurDataURL={url}
+                  loading="lazy"
+                  width={256}
+                  height={256}
+                  className="w-24 h-24 rounded-lg"
+                />
+                : <Image
+                  alt="World Image"
+                  src={
+                    `https://cpjcjcsnbhpwvxnvtaba.supabase.co/storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
+                  }
+                  blurDataURL={
+                    `https://cpjcjcsnbhpwvxnvtaba.supabase.co/storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
+                  }
+                  loading="lazy"
+                  width={256}
+                  height={256}
+                  className="w-24 h-24 rounded-lg"
+                  onError={handleImageError}
+                />
+            }
             <div className="flex flex-col items-start justify-start w-full h-24 px-4 py-2">
               <h1 className="text-xl font-bold text-white font-primary">{world.name}</h1>
               <p className="text-xs font-normal text-white/80 font-primary">

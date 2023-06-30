@@ -1,6 +1,6 @@
 //* Libraries imports
+import type { NextApiRequest, NextApiResponse, NextConfig } from "next";
 import z from "zod";
-import { type NextApiRequest, type NextApiResponse } from "next";
 
 //* Local imports
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
@@ -13,65 +13,120 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   //verify if the user is logged in
   if (!session) {
     return res.send({
-      content: "Login to view the protected content on this page.",
+      error: true,
+      message: "Login to view the protected content on this page.",
     });
   }
 
   const sessionUserId = session?.user?.id;
-  const dbUser = await prisma.user.findUnique({
-    where: {
-      id: sessionUserId,
-    },
-  });
 
-  //verify if the user exists
-  if (!dbUser) {
+  if (!sessionUserId) {
     return res.send({
-      content: "User not found.",
+      error: true,
+      message: "Login to view the protected content on this page.",
     });
   }
 
   //verify if is a Post request
   if (req.method === "POST") {
-    const { name, startYear, endYear } = req.body;
     const worldData = z
       .object({
-        name: z.string().min(1).max(50),
-        startYear: z.number(),
-        endYear: z.number(),
+        name: z.string().min(3).max(255),
+        startYear: z.number().min(0).max(999999),
+        endYear: z.number().min(0).max(999999),
+        description: z.string().max(512).optional(),
+        image: z.boolean(),
+        imageMimeType: z
+          .enum(["image/png", "image/jpeg", "image/jpg", "image/gif", ""])
+          .optional(),
       })
-      .parse({ name, startYear, endYear });
+      .safeParse(req.body);
 
-    if (!worldData) {
+    if (!worldData.success) {
       return res.send({
-        content: "Invalid data.",
+        error: true,
+        message: worldData.error,
       });
     }
 
-    if (worldData.startYear > worldData.endYear) {
+    if (worldData.data.startYear > worldData.data.endYear) {
       return res.send({
-        content: "Invalid data.",
+        error: true,
+        message: "The start year must be before the end year.",
       });
     }
 
     const world = await prisma.world.create({
       data: {
-        name: worldData.name,
-        start: worldData.startYear,
-        end: worldData.endYear,
+        name: worldData.data.name,
+        start: worldData.data.startYear,
+        end: worldData.data.endYear,
+        description: worldData.data.description,
         owner: {
           connect: {
-            id: dbUser.id,
+            id: sessionUserId,
           },
         },
       },
+      select: {
+        id: true,
+        name: true,
+        start: true,
+        end: true,
+        description: true,
+      },
     });
 
-    return res.json({
-      message: "World created successfully",
+    if (!world) {
+      return res.send({
+        error: true,
+        message: "Something went wrong.",
+      });
+    }
+
+    if (!worldData.data.image) {
+      return res.send({
+        error: false,
+        message: "World created successfully.",
+        world,
+      });
+    }
+
+    if (!worldData.data.imageMimeType) {
+      return res.send({
+        error: true,
+        message:
+          "World created successfully, but the image upload url failed. No image mime type was provided.",
+      });
+    }
+
+    const url = `${sessionUserId}/${world.id}/world-image.${
+      worldData.data.imageMimeType.split("/")[1]
+    }`;
+    const uploadLink = await supabase.storage
+      .from("worlds")
+      .createSignedUploadUrl(url);
+
+    if (uploadLink.error) {
+      return res.send({
+        error: false,
+        message: "World created successfully, but the image upload url failed.",
+        world,
+      });
+    }
+
+    return res.send({
+      uploadLink,
       world,
+      error: false,
+      message: "World created successfully.",
     });
   }
+
+  return res.send({
+    error: true,
+    message: "This is the worlds page.",
+  });
 };
 
 export default worlds;

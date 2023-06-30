@@ -52,7 +52,7 @@ export const Navbar = (props: Props) => {
 
     const response = await fetch("/api/pages", {
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify(body.data),
       headers: {
         "Content-Type": "application/json"
       }

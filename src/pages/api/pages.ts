@@ -11,7 +11,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
     const reqType = req.method;
     const { name, worldId, action, listing, typeOfPage, pageData } = req.body;
 
-    if (action === undefined) {
+    if (!action) {
       return res.status(401).send({
         error: "You must provide an action",
       });

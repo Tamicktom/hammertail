@@ -1,12 +1,9 @@
 //* Libraries imports
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 
 //* Type, styles, utils imports
 import type { World } from "@prisma/client";
-import { env } from "../../../env/client.mjs";
 
 //* Components imports
 import RainbowBorders from "../../common/RainbowBorders/RainbowBorders";
@@ -16,13 +13,6 @@ type WorldCardProps = {
 }
 
 export const WorldCard = ({ world }: WorldCardProps) => {
-  const { data: session } = useSession();
-  const [url, setUrl] = useState<string | null>(null);
-
-  const handleImageError = () => {
-    setUrl("/images/default_world.jpg");
-  }
-
   return (
     <div className="flex items-center justify-center w-full max-w-lg">
       <RainbowBorders>
@@ -37,33 +27,16 @@ export const WorldCard = ({ world }: WorldCardProps) => {
             as={`/world/${world.id}`}
             className="flex flex-row items-center justify-center w-full h-full"
           >
-            {
-              url
-                ? <Image
-                  alt="World Image"
-                  aria-label="World Image"
-                  src={url}
-                  blurDataURL={url}
-                  loading="lazy"
-                  width={256}
-                  height={256}
-                  className="w-24 h-24 rounded-lg"
-                />
-                : <Image
-                  alt="World Image"
-                  src={
-                    `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
-                  }
-                  blurDataURL={
-                    `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
-                  }
-                  loading="lazy"
-                  width={256}
-                  height={256}
-                  className="w-24 h-24 rounded-lg"
-                  onError={handleImageError}
-                />
-            }
+            <Image
+              alt="World Image"
+              src={world.image || "/images/default_world.jpg"}
+              blurDataURL={world.image || "/images/default_world.jpg"}
+              loading="lazy"
+              width={256}
+              height={256}
+              className="w-24 h-24 rounded-lg"
+            />
+
             <div className="flex flex-col items-start justify-start w-full h-24 px-4 py-2">
               <h1 className="text-xl font-bold text-white font-primary">{world.name}</h1>
               <p className="text-xs font-normal text-white/80 font-primary">

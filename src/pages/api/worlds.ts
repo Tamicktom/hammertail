@@ -1,11 +1,12 @@
 //* Libraries imports
-import type { NextApiRequest, NextApiResponse, NextConfig } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import z from "zod";
 
 //* Local imports
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 import { prisma } from "../../server/db/client";
 import { supabase } from "../../server/db/client";
+import { env } from "../../env/client.mjs";
 
 const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
@@ -100,6 +101,8 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
+    const extension = worldData.data.imageMimeType.split("/")[1];
+
     const url = `${sessionUserId}/${world.id}/world-image.${
       worldData.data.imageMimeType.split("/")[1]
     }`;
@@ -115,11 +118,20 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    return res.send({
+    res.send({
       uploadLink,
       world,
       error: false,
       message: "World created successfully.",
+    });
+
+    return await prisma.world.update({
+      where: {
+        id: world.id,
+      },
+      data: {
+        image: `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/worlds/${url}`,
+      },
     });
   }
 

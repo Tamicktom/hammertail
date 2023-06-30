@@ -13,6 +13,7 @@ import type { World } from '@prisma/client';
 import WorldImage from '../WorldImage/WorldImage';
 import { WorldModalButton } from '../../common/Buttons/WorldModalButton';
 import Sucess from '../../Toasts/Sucess';
+import Danger from "../../Toasts/Danger";
 
 //* Hooks imports
 import useWorldList from '../../../hooks/specific/useWorldList';
@@ -30,11 +31,8 @@ const worldCreationSchema = z.object({
 
 type WorldCreationSchema = z.infer<typeof worldCreationSchema>;
 
-const WorldCreationModal = () => {
+export default function WorldCreationModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [worldName, setWorldName] = useState('');
-  const [worldStartYear, setWorldStartYear] = useState(0);
-  const [worldEndYear, setWorldEndYear] = useState(0);
 
   const worldList = useWorldList();
 
@@ -47,7 +45,25 @@ const WorldCreationModal = () => {
 
     const formData = new FormData(form.target);
 
-    createWorld(formData)
+    const validationResult = validateCreateWorldData(formData);
+
+    if (validationResult.error) {
+      toast.custom((t) => (
+        <Danger
+          t={t}
+          topMsg='Erro ao criar mundo!'
+          bottomMsg='Verifique os dados e tente novamente.'
+        />
+      ), {
+        duration: 1000,
+        position: 'top-center',
+      });
+      return validationResult.errors?.errors.forEach((error) => {
+        toast.error(error.message);
+      });
+    }
+
+    createWorld(validationResult.data)
       .then((data) => {
         if (data) {
           console.log("validando dados")
@@ -135,7 +151,6 @@ const WorldCreationModal = () => {
               <label htmlFor="name" className='text-lg font-bold text-white'>World's name*</label>
               <input
                 className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
-                onChange={(e) => { setWorldName(e.target.value); }}
                 id="name"
                 name="name"
                 type="text"
@@ -221,8 +236,26 @@ type ApiResponse = {
   }
 }
 
-//* API code ------------------------------------------------------------------
-const createWorld = async (formData: FormData) => {
+const createWorld = async (worldCreationData: WorldCreationSchema) => {
+  const response = await axios.post<ApiResponse>('/api/worlds', worldCreationData, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+  if (response.status === 200) {
+    return response.data;
+  }
+}
+
+function validadeImageType(imgType: string): "" | "image/png" | "image/jpeg" | "image/jpg" | "image/gif" {
+  if (imgType === 'image/png' || imgType === 'image/jpeg' || imgType === 'image/jpg' || imgType === 'image/gif')
+    return imgType;
+  else
+    return "";
+}
+
+function validateCreateWorldData(formData: FormData) {
   let hasImage: FormDataEntryValue | null | boolean = formData.get('worldImage');
   let imageMimeType = "";
 
@@ -249,22 +282,19 @@ const createWorld = async (formData: FormData) => {
     imageMimeType: validadeImageType(imageMimeType),
   };
 
-  const response = await axios.post<ApiResponse>('/api/worlds', worldCreationData, {
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
+  const validationResult = worldCreationSchema.safeParse(worldCreationData);
 
-  if (response.status === 200) {
-    return response.data;
+  if (!validationResult.success) {
+    toast.error('Dados inválidos!');
+    return {
+      error: true,
+      errors: validationResult.error,
+      data: worldCreationData,
+    }
+  }
+
+  return {
+    error: false,
+    data: worldCreationData,
   }
 }
-
-function validadeImageType(imgType: string): "" | "image/png" | "image/jpeg" | "image/jpg" | "image/gif" {
-  if (imgType === 'image/png' || imgType === 'image/jpeg' || imgType === 'image/jpg' || imgType === 'image/gif')
-    return imgType;
-  else
-    return "";
-}
-
-export default WorldCreationModal

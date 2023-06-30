@@ -6,6 +6,7 @@ import { useState } from "react";
 
 //* Type, styles, utils imports
 import type { World } from "@prisma/client";
+import { env } from "../../../env/client.mjs";
 
 //* Components imports
 import RainbowBorders from "../../common/RainbowBorders/RainbowBorders";
@@ -40,6 +41,7 @@ export const WorldCard = ({ world }: WorldCardProps) => {
               url
                 ? <Image
                   alt="World Image"
+                  aria-label="World Image"
                   src={url}
                   blurDataURL={url}
                   loading="lazy"
@@ -50,10 +52,10 @@ export const WorldCard = ({ world }: WorldCardProps) => {
                 : <Image
                   alt="World Image"
                   src={
-                    `https://cpjcjcsnbhpwvxnvtaba.supabase.co/storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
+                    `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
                   }
                   blurDataURL={
-                    `https://cpjcjcsnbhpwvxnvtaba.supabase.co/storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
+                    `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/worlds/${session?.user?.id}/${world.id}/world-image.png`
                   }
                   loading="lazy"
                   width={256}

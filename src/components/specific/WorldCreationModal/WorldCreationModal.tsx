@@ -19,13 +19,70 @@ import Danger from "../../Toasts/Danger";
 import useWorldList from '../../../hooks/specific/useWorldList';
 
 const worldCreationSchema = z.object({
-  name: z.string().min(3).max(255),
-  startYear: z.number().min(0).max(999999),
-  endYear: z.number().min(0).max(999999),
-  description: z.string().max(512).optional(),
+  name: z.string().min(3, {
+    message: "The name must be at least 3 characters long.",
+  }).max(255, {
+    message: "The name must be at most 255 characters long.",
+  }),
+
+  startYear: z.number().min(0, {
+    message: "The start year must be at least 0.",
+  }).max(999999, {
+    message: "The start year must be at most 999999.",
+  })
+    .refine((num) => {
+      //verify if it contains a non number character
+      const dictionary = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+      const numString = num.toString();
+      for (let i = 0; i < numString.length; i++) {
+        const element = numString[i];
+        if (element === undefined) return false;
+        if (!dictionary.includes(element)) {
+          return false;
+        }
+      }
+      return true;
+    }, {
+      message: "The start year must be a number.",
+    }),
+
+  endYear: z.number().min(0).max(999999, {
+    message: "The end year must be at most 999999.",
+  }).refine((num) => {
+    //verify if it contains a non number character
+    const dictionary = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const numString = num.toString();
+    for (let i = 0; i < numString.length; i++) {
+      const element = numString[i];
+      if (element === undefined) return false;
+      if (!dictionary.includes(element)) {
+        return false;
+      }
+    }
+    return true;
+  }, {
+    message: "The end year must be a number.",
+  }).refine((num) => {
+    // verify if the end year is greater than the start year
+    const startYear = document.getElementById('startYear');
+    if (!(startYear instanceof HTMLInputElement)) return false;
+    const startYearValue = Number(startYear.value);
+    if (num < startYearValue) return false;
+    return true;
+  }, {
+    message: "The end year must be greater than the start year.",
+  }),
+
+  description: z.string().max(512, {
+    message: "The description must be at most 512 characters long.",
+  }).optional(),
+
   image: z.boolean(),
+
   imageMimeType: z
-    .enum(["image/png", "image/jpeg", "image/jpg", "image/gif", ""])
+    .enum(["image/png", "image/jpeg", "image/jpg", "image/gif", ""], {
+      invalid_type_error: "The image must be a png, jpeg, jpg or gif file.",
+    })
     .optional(),
 });
 
@@ -48,18 +105,17 @@ export default function WorldCreationModal() {
     const validationResult = validateCreateWorldData(formData);
 
     if (validationResult.error) {
-      toast.custom((t) => (
-        <Danger
-          t={t}
-          topMsg='Erro ao criar mundo!'
-          bottomMsg='Verifique os dados e tente novamente.'
-        />
-      ), {
-        duration: 1000,
-        position: 'top-center',
-      });
       return validationResult.errors?.errors.forEach((error) => {
-        toast.error(error.message);
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg='Error creating world!'
+            bottomMsg={error.message}
+          />
+        ), {
+          duration: 1000,
+          position: 'top-center',
+        });
       });
     }
 
@@ -184,6 +240,21 @@ export default function WorldCreationModal() {
                   name="startYear"
                   type="number"
                   placeholder="0"
+                  step="1"
+                  onInput={(e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLInputElement)) return;
+                    const value = target.value;
+                    if (value.length > 6) {
+                      target.value = value.slice(0, 6);
+                    }
+                    // remove leading zeros
+                    if (value.length > 1 && value[0] === '0') {
+                      target.value = value.slice(1);
+                    }
+                    // remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                  }}
                 />
               </fieldset>
               <fieldset className='flex flex-col items-start justify-start w-1/2'>
@@ -194,6 +265,21 @@ export default function WorldCreationModal() {
                   name="endYear"
                   type="number"
                   placeholder="1000"
+                  step="1"
+                  onInput={(e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLInputElement)) return;
+                    const value = target.value;
+                    if (value.length > 6) {
+                      target.value = value.slice(0, 6);
+                    }
+                    // remove leading zeros
+                    if (value.length > 1 && value[0] === '0') {
+                      target.value = value.slice(1);
+                    }
+                    // remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                  }}
                 />
               </fieldset>
             </div>
@@ -285,7 +371,6 @@ function validateCreateWorldData(formData: FormData) {
   const validationResult = worldCreationSchema.safeParse(worldCreationData);
 
   if (!validationResult.success) {
-    toast.error('Dados inválidos!');
     return {
       error: true,
       errors: validationResult.error,

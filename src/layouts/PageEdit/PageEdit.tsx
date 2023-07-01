@@ -2,44 +2,32 @@
 import { useState, type ReactNode, type UIEvent } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
-import { PageHeader } from "../../components/specific/PageEditComponents/PageHeader";
-import { PageInfo } from "../../components/specific/PageEditComponents/PageInfo";
-import { Sidebar } from "../../components/specific/Sidebar/Sidebar";
-
-import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
+const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
+const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'));
+const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
+const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
 
 export default function PageEdit() {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
-  const [navBarCollapse, setNavBarCollapse] = useState(false);
 
-  const page = usePage();
-
-  const collapseNavBar = (event:
-    UIEvent<HTMLDivElement>) => {
-    const scrollTop = event.currentTarget.scrollTop;
-    if (scrollTop > 120) {
-      setNavBarCollapse(true);
-    } else {
-      setNavBarCollapse(false);
-    }
-  }
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
   return (
     <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
       <Allotment>
         <Allotment.Pane>
-          <Scrollable
-            onScroll={collapseNavBar}
-          >
+          <Scrollable>
             <Navbar
               worldId={page.data?.worldId || ""}
-              collapsed={navBarCollapse}
               isSidebarCollapsed={sidebarCollapse}
               setSidebarCollapse={setSidebarCollapse}
             />

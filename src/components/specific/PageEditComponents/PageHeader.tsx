@@ -1,13 +1,13 @@
 //* Libraries imports
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
 import z from "zod";
+import { useRouter } from "next/router";
 
 //* Local imports
 import usePage from "../../../hooks/queries/usePage";
 import useDebounce from "../../../hooks/common/useDebounce";
-import Danger from "../../Toasts/Danger";
+import useGetPagesByType, { type PageTypes } from "../../../hooks/common/useGetPagesByType";
 
 const pageNameSchema = z.object({
   name: z.string().min(1, {
@@ -18,11 +18,13 @@ const pageNameSchema = z.object({
   pageId: z.string().uuid(),
 });
 
-export const PageHeader = () => {
-  const page = usePage();
+export default function PageHeader() {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const [pageName, setPageName] = useState<string>(page.data?.name || "NO NAME");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pages = useGetPagesByType(page.data?.PageType?.name as PageTypes || "undefined", page.data?.worldId);
 
   const debouncedPageName = useDebounce(pageName, 1200);
 
@@ -33,19 +35,12 @@ export const PageHeader = () => {
     });
 
     if (!body.success) {
-      return body.error.issues.map((issue) => {
-        toast.custom((t) => (
-          <Danger
-            t={t}
-            topMsg="Error"
-            bottomMsg={issue.message}
-          />
-        ));
-      });
+      return;
     }
 
     await axios.post("/api/pages/updatePageName", body.data);
     page.refetch();
+    pages.refetch();
   }
 
   useEffect(() => {
@@ -53,6 +48,10 @@ export const PageHeader = () => {
       handlePageNameUpdate();
     }
   }, [debouncedPageName]);
+
+  useEffect(() => {
+    setPageName(page.data?.name || "NO NAME");
+  }, [page.data?.name]);
 
   return (
     <div className='flex flex-col w-full gap-2 mb-8'>

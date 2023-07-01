@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
 import { CaretDown } from "@phosphor-icons/react";
-
+import { useRouter } from "next/router";
 
 //* Hook imports
-import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
+import useGetPagesByType from "../../../hooks/common/useGetPagesByType";
 import usePage from "../../../hooks/queries/usePage";
 
 //* Type imports
@@ -15,8 +15,9 @@ type Props = {
   collapsed: boolean;
 }
 
-export const Sidebar = (props: Props) => {
-  const page = usePage();
+export default function Sidebar(props: Props) {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const characters = useGetPagesByType("characters", page.data?.worldId);
   const events = useGetPagesByType("events", page.data?.worldId);
   const places = useGetPagesByType("places", page.data?.worldId);
@@ -36,7 +37,7 @@ export const Sidebar = (props: Props) => {
       <AccordionItem title="Undefined" content={und.data?.data.pages || []} />
     </Root>
   );
-};
+}
 
 type AccordionItemProps = {
   title: string;

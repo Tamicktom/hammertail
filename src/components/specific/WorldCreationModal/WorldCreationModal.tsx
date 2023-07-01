@@ -11,7 +11,6 @@ import type { World } from '@prisma/client';
 
 //* Components imports
 import WorldImage from '../WorldImage/WorldImage';
-import { WorldModalButton } from '../../common/Buttons/WorldModalButton';
 import Sucess from '../../Toasts/Sucess';
 import Danger from "../../Toasts/Danger";
 
@@ -204,7 +203,7 @@ export default function WorldCreationModal() {
             </Description>
 
             <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-              <label htmlFor="name" className='text-lg font-bold text-white'>World's name*</label>
+              <label htmlFor="name" className='text-lg font-bold text-white'>World&apos;s name*</label>
               <input
                 className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
                 id="name"
@@ -215,7 +214,7 @@ export default function WorldCreationModal() {
             </fieldset>
 
             <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-              <label htmlFor="description" className='text-lg font-bold text-white'>World's description</label>
+              <label htmlFor="description" className='text-lg font-bold text-white'>World&apos;s description</label>
               <textarea
                 rows={1}
                 maxLength={512}
@@ -355,9 +354,9 @@ function validateCreateWorldData(formData: FormData) {
         hasImage = true;
       else
         hasImage = false;
-    };
+    }
   }
-  else { hasImage = false };
+  else { hasImage = false }
 
   const worldCreationData: WorldCreationSchema = {
     name: formData.get('name') as string,

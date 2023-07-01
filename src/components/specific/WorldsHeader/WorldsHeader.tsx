@@ -1,10 +1,12 @@
-//* Libraries imports
+//* libraries imports
 import { useState } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import dynamic from "next/dynamic";
 import colors from "tailwindcss/colors";
 
-//* Components imports
-import WorldCreationModal from "../WorldCreationModal/WorldCreationModal";
+const WorldCreationModal = dynamic(() => import("../WorldCreationModal/WorldCreationModal"), {
+  loading: () => <button className="flex flex-row items-center justify-center gap-2 px-2 py-1 bg-none" />
+});
 
 type Props = {
   filterHandler: (filter: string) => void;
@@ -14,7 +16,7 @@ const WorldsHeader = ({ filterHandler }: Props) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   return (
-    <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4">
+    <div className="w-full h-[200px] flex flex-col justify-center items-center gap-4 p-4">
       <h1 className="font-bold text-white text-7xl">Worlds</h1>
       <div className="flex flex-row items-center justify-center gap-4">
         <div

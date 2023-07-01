@@ -41,13 +41,14 @@ export default function Worlds() {
         <WorldHeader filterHandler={handleWorldFilter} />
 
         {/* worldsCards */}
-        {
-          worldList.isLoading
-            ? <LocalLoading />
-            : <div className="flex flex-col items-center justify-start w-full p-4">
+        <div className="flex flex-col items-center justify-start w-full p-4">
+          {
+            worldList.isLoading
+              ? <LocalLoading />
+              :
               <div className="flex flex-col items-center justify-start w-full max-w-lg gap-4">
                 {
-                  filteredWorlds?.map((world, index) => (
+                  filteredWorlds?.map((world) => (
                     <WorldCard
                       key={world.id}
                       world={world}
@@ -55,8 +56,8 @@ export default function Worlds() {
                   ))
                 }
               </div>
-            </div>
-        }
+          }
+        </div>
       </div>
     </>
   );

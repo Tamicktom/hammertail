@@ -6,6 +6,8 @@ import axios from "axios";
 import type { Page } from "@prisma/client";
 import type { PageTypes } from "../../types/page";
 
+export type { PageTypes };
+
 type ApiPageListing = {
   listing: PageTypes;
   pages: Page[];
@@ -31,7 +33,10 @@ async function getPagesByType(
   return res;
 }
 
-export function useGetPagesByType(pageType: PageTypes, worldId?: string) {
+export default function useGetPagesByType(
+  pageType: PageTypes,
+  worldId?: string
+) {
   return useQuery(
     ["pages", pageType, worldId],
     () => getPagesByType(pageType, worldId),

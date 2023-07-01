@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 //* Hooks imports
-import { useGetPagesByType } from "../../../../hooks/common/useGetPagesByType";
+import useGetPagesByType from "../../../../hooks/common/useGetPagesByType";
 
 //* Utis imports
 import Sucess from "../../../Toasts/Sucess";

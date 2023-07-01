@@ -7,10 +7,18 @@ import { useRouter } from 'next/router';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
-const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
-const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'));
-const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
-const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
+const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'), {
+  ssr: false
+});
+const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'), {
+  ssr: false
+});
+const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"), {
+  ssr: false
+});
+const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'), {
+  ssr: false
+});
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";

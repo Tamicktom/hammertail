@@ -48,7 +48,7 @@ export default function Worlds() {
               :
               <div className="flex flex-col items-center justify-start w-full max-w-lg gap-4">
                 {
-                  filteredWorlds?.map((world, index) => (
+                  filteredWorlds?.map((world) => (
                     <WorldCard
                       key={world.id}
                       world={world}

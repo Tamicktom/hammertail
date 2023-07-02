@@ -2,16 +2,12 @@
 import Head from "next/head";
 import type { Page } from "@prisma/client";
 import type { GetServerSideProps } from "next";
-import dynamic from "next/dynamic";
 
 //* Local imports
 import { prisma } from "../../server/db/client";
 
 //* Component imports
-// import PageEdit from "../../layouts/PageEdit/PageEdit";
-const PageEdit = dynamic(() => import("../../layouts/PageEdit/PageEdit"), {
-  ssr: false,
-});
+import PageEdit from "../../layouts/PageEdit/PageEdit";
 
 // grab the page data from the database using the id from the url
 export const getServerSideProps = async (context: GetServerSideProps & {

@@ -4,22 +4,15 @@ import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
-const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'), {
-  ssr: false
-});
-const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'), {
-  ssr: false
-});
-const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"), {
-  ssr: false
-});
-const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'), {
-  ssr: false
-});
+const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
+const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'));
+const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
+const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
+const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
+const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'));
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
@@ -36,15 +29,7 @@ export default function PageEdit() {
         <Allotment.Pane>
           <Scrollable>
             {/* background */}
-            <div className='absolute top-20 left-0 w-full h-96 flex justify-center items-center overflow-hidden'>
-              <Image
-                alt='background'
-                src='/login_screen_image.jpg'
-                className='object-cover object-center w-full h-full'
-                width={1920}
-                height={1080}
-              />
-            </div>
+            <PageBackgroundImage />
 
             <Navbar
               worldId={page.data?.worldId || ""}
@@ -54,7 +39,8 @@ export default function PageEdit() {
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>
               {/* content */}
-              <div className='flex p-4 flex-col items-center w-full rounded-t-2xl overflow-hidden bg-neutral-950 z-10 pb-48'>
+              <div className='flex p-4 flex-col relative items-center w-full rounded-t-2xl bg-neutral-950 z-10 pb-48'>
+                <PageEditMenu />
                 {/* data */}
                 <div className='flex items-start gap-4 rounded-2xl w-full'>
                   {/* blocks holder */}

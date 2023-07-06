@@ -89,12 +89,13 @@ model Page {
   updatedAt   DateTime  @updatedAt
   world       World     @relation(fields: [worldId], references: [id])
   worldId     String
-  Blocks      Block[]
   PageType    PageType? @relation(fields: [pageTypeId], references: [id])
   pageTypeId  String?
   start       Int       @default(0)
   end         Int       @default(0)
   description String?
+  //this can be very large, so we need to use @db.Text
+  image       String?   @db.Text //* MySQL only
   other       Json?
 
   @@index([pageTypeId], name: "page_type_id") //* planetscale index
@@ -107,16 +108,4 @@ model PageType {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Page      Page[]
-}
-
-model Block {
-  id        String   @id @default(uuid())
-  path      String
-  blockType String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  page      Page     @relation(fields: [pageId], references: [id])
-  pageId    String
-
-  @@index([pageId], name: "page_id") //* planetscale index
 }

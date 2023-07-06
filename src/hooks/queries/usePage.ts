@@ -3,16 +3,18 @@ import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 //* Types imports
-import type { Page, PageType } from "@prisma/client";
+import type { Page, PageType, World } from "@prisma/client";
 
 async function getPage(pageId: string): Promise<
   Page & {
     PageType: PageType;
+    world: World;
   }
 > {
   const response = await axios.get<
     Page & {
       PageType: PageType;
+      world: World;
     }
   >(`/api/page/${pageId}`);
   return response.data;

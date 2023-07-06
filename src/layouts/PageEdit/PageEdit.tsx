@@ -12,7 +12,7 @@ const PageInfo = dynamic(() => import('../../components/specific/PageEditCompone
 const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
 const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
 const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
-const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'));
+const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'), { ssr: false });
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";

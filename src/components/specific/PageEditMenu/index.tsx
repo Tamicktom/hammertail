@@ -56,8 +56,8 @@ function EditBackgroundModal() {
       const image = formData.get('image') as File;
 
       //validate size
-      if (image.size > 5000000) {
-        alert('A imagem deve ter no máximo 5MB');
+      if (image.size > 8000000) {
+        alert('A imagem deve ter no máximo 8MB');
         return;
       }
       //validate type

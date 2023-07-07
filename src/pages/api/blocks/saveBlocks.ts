@@ -35,7 +35,7 @@ export default async function saveBlocks(
   const session = await getServerAuthSession({ req, res });
 
   //verify if the user is logged in
-  if (!session) {
+  if (!session || !session.user?.id) {
     return res.send({
       content: "Login to view the protected content on this page.",
     });
@@ -56,13 +56,13 @@ export default async function saveBlocks(
 
   const { data, error } = await supabase.storage
     .from("pages")
-    .upload(`${pageId}.json`, stringifiedBlocks);
+    .upload(`${session.user.id}/${pageId}.json`, stringifiedBlocks);
 
   if (error) {
     if (error.message === "The resource already exists") {
       const { data, error: error2 } = await supabase.storage
         .from("pages")
-        .update(`${pageId}.json`, stringifiedBlocks);
+        .update(`${session.user.id}/${pageId}.json`, stringifiedBlocks);
       if (error2) {
         res.send({
           message: "Error saving blocks",

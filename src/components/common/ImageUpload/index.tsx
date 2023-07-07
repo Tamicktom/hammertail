@@ -5,8 +5,8 @@ import { FileImage, X } from '@phosphor-icons/react';
 
 import default_world_image from '../../../assets/default_world.jpg';
 
-export default function WorldImage() {
-  const [image, setImage] = useState<File>();
+export default function ImageUpload() {
+  const [image, setImage] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   //validate image
@@ -15,12 +15,12 @@ export default function WorldImage() {
       //validate size
       if (image.size > 5000000) {
         alert('A imagem deve ter no máximo 5MB');
-        setImage(undefined);
+        setImage(null);
       }
       //validate type
       if (image.type !== 'image/png' && image.type !== 'image/jpeg') {
         alert('A imagem deve ser do tipo PNG ou JPEG');
-        setImage(undefined);
+        setImage(null);
       }
     }
   }, [image]);
@@ -29,13 +29,13 @@ export default function WorldImage() {
     <div className='w-full h-48 transition-all bg-yellow-800 rounded-lg overflow-hidden relative'>
       <input
         ref={inputRef}
-        id="worldImage"
-        name="worldImage"
+        id="image"
+        name="image"
         type="file"
         accept="image/png, image/jpeg"
         className="hidden"
         onChange={(e) => {
-          if (e.target.files) {
+          if (e.target.files && e.target.files[0]) {
             setImage(e.target.files[0]);
           }
         }}
@@ -56,7 +56,7 @@ export default function WorldImage() {
               <button
                 className="flex flex-row items-center justify-center p-2 rounded-full hover:bg-purple-200"
                 onClick={() => {
-                  setImage(undefined);
+                  setImage(null);
                   if (inputRef.current) {
                     inputRef.current.value = '';
                   }
@@ -81,7 +81,7 @@ export default function WorldImage() {
             <div className='w-full h-full bg-black/70 backdrop-blur-2xl absolute inset-0' />
             {/* icon */}
             <label
-              htmlFor='worldImage'
+              htmlFor='image'
               className='w-full h-full flex flex-col justify-center items-center absolute inset-0'
             >
               <FileImage className='w-16 h-16 text-white' />

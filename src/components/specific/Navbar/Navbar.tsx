@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { Sidebar } from "@phosphor-icons/react";
 import * as Avatar from '@radix-ui/react-avatar';
 import z from "zod";
-import colors from "tailwindcss/colors";
 import toast from "react-hot-toast";
 
 //* Local imports
@@ -24,7 +23,6 @@ const pageCreationSchema = z.object({
 
 type Props = {
   worldId: string;
-  collapsed: boolean;
   isSidebarCollapsed: boolean;
   setSidebarCollapse: (value: boolean) => void;
 }
@@ -52,7 +50,7 @@ export const Navbar = (props: Props) => {
 
     const response = await fetch("/api/pages", {
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify(body.data),
       headers: {
         "Content-Type": "application/json"
       }
@@ -67,11 +65,7 @@ export const Navbar = (props: Props) => {
 
   return (
     <div
-      className="w-full h-20 z-10 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2"
-      style={{
-        backgroundColor: props.collapsed ? "none" : colors.neutral[800][0.9],
-        borderColor: props.collapsed ? "transparent" : "",
-      }}
+      className="w-full h-20 z-20 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2 bg-neutral-800/90"
     >
       <UserAvatar
         src={session?.user?.image || ""}

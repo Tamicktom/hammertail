@@ -3,10 +3,10 @@ import axios from "axios";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 //* Types imports
-import type { PartialBlock } from "@blocknote/core";
+import type { PartialBlock, BlockSchema } from "@blocknote/core";
 import type { GetBlocksResponse } from "../../pages/api/blocks/getBlocks";
 
-async function getBlocks(pageId: string): Promise<PartialBlock[]> {
+async function getBlocks(pageId: string): Promise<PartialBlock<BlockSchema>[]> {
   const response = await axios.post<GetBlocksResponse>(
     `/api/blocks/getBlocks`,
     {
@@ -15,14 +15,14 @@ async function getBlocks(pageId: string): Promise<PartialBlock[]> {
   );
   console.log("getBlocks response", response.data);
 
-  let blocks: PartialBlock[] | null = null;
+  let blocks: PartialBlock<BlockSchema>[] | null = null;
 
   if (response.data.url) {
     //grab the json from the url
     const { data } = await axios.get(response.data.url);
     if (data) {
       console.log("data", data);
-      blocks = data as PartialBlock[];
+      blocks = data as PartialBlock<BlockSchema>[];
       return blocks;
     }
   }
@@ -42,7 +42,7 @@ async function getBlocks(pageId: string): Promise<PartialBlock[]> {
 
 export default function useGetBlocks(
   pageId: string
-): UseQueryResult<PartialBlock[], unknown> {
+): UseQueryResult<PartialBlock<BlockSchema>[], unknown> {
   return useQuery(["getBlocks", pageId], () => getBlocks(pageId), {
     enabled: !!pageId, //only fetch if there is a pageId
     refetchOnWindowFocus: true,

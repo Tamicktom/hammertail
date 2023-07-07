@@ -1,17 +1,17 @@
 //* Libraries imports
-import { BlockNoteEditor, type PartialBlock } from "@blocknote/core";
+import { type BlockNoteEditor, type PartialBlock, type BlockSchema } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/core/style.css";
 
 type Props = {
-  initialContent: PartialBlock[];
+  initialContent: PartialBlock<BlockSchema>[];
   onEditorChange: (editor: BlockNoteEditor) => void;
 }
 
 export default function TextEditor(props: Props) {
 
   const editor: BlockNoteEditor | null = useBlockNote({
-    initialContent: props.initialContent,
+    initialContent: props.initialContent as any,
     onEditorContentChange: props.onEditorChange,
     theme: "dark"
   });

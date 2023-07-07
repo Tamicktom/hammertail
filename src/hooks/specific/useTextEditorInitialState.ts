@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import z from "zod";
 
-//* Types imports
-import type { Block as DbBlock } from "@prisma/client";
-
 // export type DbBlock = {
 //   id: string
 //   path: string

@@ -5,10 +5,10 @@ import { supabase } from "../../../server/db/client";
 import z from "zod";
 
 //* Types imports
-import type { PartialBlock } from "@blocknote/core";
+import type { PartialBlock, BlockSchema } from "@blocknote/core";
 
 export type GetBlocksResponse = {
-  blocks?: PartialBlock[];
+  blocks?: PartialBlock<BlockSchema>[];
   url?: string;
 };
 
@@ -54,7 +54,7 @@ export default async function getBlocks(
 
   if (error?.message === "The resource was not found") {
     //this indicates that the page content does not exist yet. So, we return an empty array
-    const blocks: PartialBlock[] = [
+    const blocks: PartialBlock<BlockSchema>[] = [
       {
         id: "1",
         type: "paragraph",

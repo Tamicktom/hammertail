@@ -5,9 +5,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import z from "zod";
+import { toast } from "react-hot-toast";
 
 //* Component imports
 import ImageUpload from "../../common/ImageUpload";
+import Alert from "../../Toasts/Alert";
+import Sucess from "../../Toasts/Sucess";
+import Danger from "../../Toasts/Danger";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
@@ -46,6 +50,13 @@ function EditBackgroundModal() {
   const handleUpload = (e: FormEvent) => {
     e.preventDefault();
     if (!e.target || !(e.target instanceof HTMLFormElement)) {
+      toast.custom((t) => (
+        <Danger
+          t={t}
+          topMsg="Invalid form"
+          bottomMsg="Something went wrong. Please try again."
+        />
+      ))
       return;
     }
 
@@ -57,7 +68,13 @@ function EditBackgroundModal() {
 
       //validate size
       if (image.size > 8000000) {
-        alert('A imagem deve ter no máximo 8MB');
+        toast.custom((t) => (
+          <Alert
+            t={t}
+            topMsg="Invalid image size"
+            bottomMsg="The image must be smaller than 8MB."
+          />
+        ))
         return;
       }
       //validate type
@@ -65,11 +82,24 @@ function EditBackgroundModal() {
         image.type !== 'image/jpeg' &&
         image.type !== 'image/jpg' &&
         image.type !== 'image/gif') {
-        alert('A imagem deve ser do tipo PNG ou JPEG');
+        toast.custom((t) => (
+          <Alert
+            t={t}
+            topMsg="Invalid image type"
+            bottomMsg="The image must be a png, jpeg, jpg or gif file."
+          />
+        ));
         return;
       }
 
       if (!page.data?.id || !page.data?.worldId) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid page"
+            bottomMsg="Something went wrong. Please try again."
+          />
+        ))
         return;
       }
 
@@ -80,6 +110,13 @@ function EditBackgroundModal() {
       });
 
       if (!body.success) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid form"
+            bottomMsg="Something went wrong. Please try again."
+          />
+        ))
         return;
       }
 
@@ -94,19 +131,53 @@ function EditBackgroundModal() {
               'Content-Type': image.type,
               Authorization: `Bearer ${data.data.uploadLink.data.token}`,
             },
-          }).then((res) => {
-            if (res.status === 200) {
-              axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', body.data)
-                .then((confirm) => {
-                  if (confirm.data.error) {
-                    alert(confirm.data.message);
-                    return;
-                  }
-                  alert('Imagem atualizada com sucesso!');
-                  page.refetch();
-                });
-            }
-          });
+          })
+            .then((res) => {
+              if (res.status === 200) {
+                axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', body.data)
+                  .then((confirm) => {
+                    if (confirm.data.error) {
+                      alert(confirm.data.message);
+                      return;
+                    }
+                    toast.custom((t) => (
+                      <Sucess
+                        t={t}
+                        topMsg="Background updated!"
+                        bottomMsg="The background was successfully updated."
+                      />
+                    ))
+                    page.refetch();
+                  })
+                  .catch((err) => {
+                    toast.custom((t) => (
+                      <Danger
+                        t={t}
+                        topMsg="Invalid form"
+                        bottomMsg={err.message}
+                      />
+                    ))
+                  });
+              }
+            })
+            .catch((err) => {
+              toast.custom((t) => (
+                <Danger
+                  t={t}
+                  topMsg="Invalid form"
+                  bottomMsg={err.message}
+                />
+              ))
+            })
+        })
+        .catch((err) => {
+          toast.custom((t) => (
+            <Danger
+              t={t}
+              topMsg="Invalid form"
+              bottomMsg={err.message}
+            />
+          ))
         });
     }
   }

@@ -2,10 +2,37 @@
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { FileImage, X } from '@phosphor-icons/react';
+import toast from 'react-hot-toast';
+import z from 'zod';
+
+//* Component imports
+import Danger from "../../Toasts/Danger";
 
 import default_world_image from '../../../assets/default_world.jpg';
 
-export default function ImageUpload() {
+const fileTypeSchema = z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"], {
+  invalid_type_error: "Invalid file type. Please upload a PNG, JPEG, JPG or GIF file.",
+});
+
+type FileType = z.infer<typeof fileTypeSchema>;
+
+type Props = {
+  accept: FileType[];
+  maxFileSize: number;
+}
+
+//return 5MB, if size is 5000000 for example
+//or 5KB, if size is 5000 for example
+function computeImageSize(size: number): string {
+  const sizeInKB = size / 1000;
+  if (sizeInKB > 1000) {
+    return `${(sizeInKB / 1000).toFixed(2)}MB`;
+  } else {
+    return `${sizeInKB.toFixed(2)}KB`;
+  }
+}
+
+export default function ImageUpload(props: Props) {
   const [image, setImage] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -13,13 +40,25 @@ export default function ImageUpload() {
   useEffect(() => {
     if (image) {
       //validate size
-      if (image.size > 5000000) {
-        alert('A imagem deve ter no máximo 5MB');
+      if (image.size > props.maxFileSize) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid image size"
+            bottomMsg={`The image size is ${computeImageSize(image.size)}, but it should be less than ${computeImageSize(props.maxFileSize)}.`}
+          />
+        ))
         setImage(null);
       }
       //validate type
-      if (image.type !== 'image/png' && image.type !== 'image/jpeg') {
-        alert('A imagem deve ser do tipo PNG ou JPEG');
+      if (fileTypeSchema.safeParse(image.type).success === false) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid image type"
+            bottomMsg="The image type is not valid. Please upload a PNG, JPEG, JPG or GIF"
+          />
+        ))
         setImage(null);
       }
     }

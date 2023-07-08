@@ -5,7 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import z from "zod";
-import { toast } from "react-hot-toast";
+import toast from 'react-hot-toast';
 
 //* Component imports
 import ImageUpload from "../../common/ImageUpload";
@@ -66,32 +66,6 @@ function EditBackgroundModal() {
     if (formData.get('image') instanceof File) {
       const image = formData.get('image') as File;
 
-      //validate size
-      if (image.size > 8000000) {
-        toast.custom((t) => (
-          <Alert
-            t={t}
-            topMsg="Invalid image size"
-            bottomMsg="The image must be smaller than 8MB."
-          />
-        ))
-        return;
-      }
-      //validate type
-      if (image.type !== 'image/png' &&
-        image.type !== 'image/jpeg' &&
-        image.type !== 'image/jpg' &&
-        image.type !== 'image/gif') {
-        toast.custom((t) => (
-          <Alert
-            t={t}
-            topMsg="Invalid image type"
-            bottomMsg="The image must be a png, jpeg, jpg or gif file."
-          />
-        ));
-        return;
-      }
-
       if (!page.data?.id || !page.data?.worldId) {
         toast.custom((t) => (
           <Danger
@@ -123,8 +97,7 @@ function EditBackgroundModal() {
       axios.post<APIResponse>('/api/pages/updatePageImage', body.data)
         .then((data) => {
           if (data.data.error) {
-            alert(data.data.message);
-            return;
+            throw new Error(data.data.message);
           }
           axios.put(data.data.uploadLink.data.signedUrl, image, {
             headers: {
@@ -184,13 +157,9 @@ function EditBackgroundModal() {
 
   return (
     <Dialog.Root modal>
-      <Dialog.Trigger>
-        <button
-          className='flex flex-row gap-2 justify-center items-center bg-neutral-700/20 px-2 py-2 rounded-lg h-fit group-hover:bg-neutral-900/80 transition-all hover:neutral-900'
-        >
-          <Pen className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all" />
-          <span className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all">Change background</span>
-        </button>
+      <Dialog.Trigger className='flex flex-row gap-2 justify-center items-center bg-neutral-700/20 px-2 py-2 rounded-lg h-fit group-hover:bg-neutral-900/80 transition-all hover:neutral-900'>
+        <Pen className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all" />
+        <span className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all">Change background</span>
       </Dialog.Trigger>
       <Dialog.Overlay />
       <Dialog.Portal>
@@ -209,7 +178,10 @@ function EditBackgroundModal() {
                 className="flex flex-col gap-4"
                 onSubmit={handleUpload}
               >
-                <ImageUpload />
+                <ImageUpload
+                  accept={['image/png', 'image/jpeg', 'image/jpg', 'image/gif']}
+                  maxFileSize={8000000}
+                />
                 <button
                   className="bg-purple-500 hover:bg-purple-600 text-neutral-50 px-4 py-2 rounded-lg mt-4"
                   type="submit"

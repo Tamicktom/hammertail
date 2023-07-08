@@ -17,6 +17,7 @@ export default function PageBackgroundImage() {
         className='object-cover object-center w-full h-full'
         width={1920}
         height={1080}
+        priority
       />
     </div>
   );

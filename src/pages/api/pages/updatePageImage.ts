@@ -19,7 +19,7 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
 
   //verify if the user is logged in
   if (!session) {
-    return res.send({
+    return res.status(401).send({
       error: true,
       message: "Login to view the protected content on this page.",
     });
@@ -28,7 +28,7 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   const sessionUserId = session?.user?.id;
 
   if (!sessionUserId) {
-    return res.send({
+    return res.status(401).send({
       error: true,
       message: "Login to view the protected content on this page.",
     });
@@ -39,9 +39,12 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
     const parsedImageUpload = pageImageUploadSchema.safeParse(req.body);
 
     if (!parsedImageUpload.success) {
-      return res.send({
+      // concat all the error messages
+      const errorMessage = parsedImageUpload.error.issues;
+      const errorMessageString = errorMessage.map((error) => error.message);
+      return res.status(400).send({
         error: true,
-        message: "Invalid data.",
+        message: errorMessageString,
       });
     }
 
@@ -50,9 +53,9 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
     const imageExtension = image.split("/")[1];
 
     if (!imageExtension) {
-      return res.send({
+      return res.status(400).send({
         error: true,
-        message: "Invalid image.",
+        message: "Invalid image. Please upload a valid image.",
       });
     }
 
@@ -62,22 +65,22 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       .createSignedUploadUrl(url);
 
     if (uploadLink.error) {
-      return res.send({
+      return res.status(500).send({
         error: true,
-        message: "Error uploading the image.",
+        message: "Internal server error. Please try again later.",
       });
     }
 
-    return res.send({
+    return res.status(200).send({
       error: false,
       message: "Upload link created.",
       uploadLink,
     });
   }
 
-  return res.send({
+  return res.status(405).send({
     error: true,
-    message: "This is the worlds page.",
+    message: "Wrong request method.",
   });
 };
 

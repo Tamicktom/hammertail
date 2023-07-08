@@ -6,7 +6,7 @@ import toast, { type Toast } from 'react-hot-toast';
 type Props = {
   t: Toast,
   topMsg: string,
-  bottomMsg: string
+  bottomMsg: string | string[]
 }
 
 export default function Danger({ t, topMsg, bottomMsg }: Props) {
@@ -32,7 +32,17 @@ export default function Danger({ t, topMsg, bottomMsg }: Props) {
 
       <div className='flex flex-col justify-start items-start font-primary'>
         <span className="font-normal text-sm text-red-100">{topMsg}</span>
-        <span className="font-black text-base text-red-500">{bottomMsg}</span>
+        {
+          typeof bottomMsg === 'string'
+            ? <span className="font-black text-base text-red-500">{bottomMsg}</span>
+            : <div className='w-full flex flex-col'>
+              {
+                bottomMsg.map((msg, i) => (
+                  <span key={i} className="font-black text-base text-red-500">{msg}</span>
+                ))
+              }
+            </div>
+        }
       </div>
 
       <div className="w-10 flex justify-end items-start h-full">

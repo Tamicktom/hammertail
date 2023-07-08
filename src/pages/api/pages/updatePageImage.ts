@@ -4,14 +4,17 @@ import z from "zod";
 
 //* Local imports
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
-import { prisma } from "../../../server/db/client";
 import { supabase } from "../../../server/db/client";
-import { env } from "../../../env/client.mjs";
 
 const pageImageUploadSchema = z.object({
-  worldId: z.string().uuid(),
-  pageId: z.string().uuid(),
-  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"]),
+  worldId: z.string().uuid({ message: "Invalid world id." }),
+  pageId: z.string().uuid({ message: "Invalid page id." }),
+  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"], {
+    description: "Image type",
+    required_error: "Image type is required.",
+    invalid_type_error:
+      "Invalid file type. Please upload a PNG, JPEG, JPG or GIF file.",
+  }),
 });
 
 const worlds = async (req: NextApiRequest, res: NextApiResponse) => {

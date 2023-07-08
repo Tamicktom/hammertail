@@ -17,9 +17,14 @@ import Danger from "../../Toasts/Danger";
 import usePage from "../../../hooks/queries/usePage";
 
 const pageImageUploadSchema = z.object({
-  worldId: z.string().uuid(),
-  pageId: z.string().uuid(),
-  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"]),
+  worldId: z.string().uuid({ message: "Invalid world id." }),
+  pageId: z.string().uuid({ message: "Invalid page id." }),
+  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"], {
+    description: "Image type",
+    required_error: "Image type is required.",
+    invalid_type_error:
+      "Invalid file type. Please upload a PNG, JPEG, JPG or GIF file.",
+  }),
 });
 
 type APIResponse = {
@@ -144,13 +149,26 @@ function EditBackgroundModal() {
             })
         })
         .catch((err) => {
-          toast.custom((t) => (
-            <Danger
-              t={t}
-              topMsg="Invalid form"
-              bottomMsg={err.message}
-            />
-          ))
+          if (err instanceof axios.AxiosError) {
+            toast.custom((t) => {
+              const errorMessageArray: string[] = err.response?.data.message || err.message;
+              return (
+                <Danger
+                  t={t}
+                  topMsg="Error uploading image"
+                  bottomMsg={errorMessageArray}
+                />
+              )
+            })
+          } else {
+            toast.custom((t) => (
+              <Danger
+                t={t}
+                topMsg="Unknown error"
+                bottomMsg={err.message}
+              />
+            ))
+          }
         });
     }
   }

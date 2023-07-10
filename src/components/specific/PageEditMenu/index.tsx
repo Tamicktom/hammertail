@@ -9,7 +9,6 @@ import toast from 'react-hot-toast';
 
 //* Component imports
 import ImageUpload from "../../common/ImageUpload";
-import Alert from "../../Toasts/Alert";
 import Sucess from "../../Toasts/Sucess";
 import Danger from "../../Toasts/Danger";
 

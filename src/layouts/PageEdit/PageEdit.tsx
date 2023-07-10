@@ -18,7 +18,7 @@ const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMen
 import usePage from "../../hooks/queries/usePage";
 
 export default function PageEdit() {
-  const [sidebarCollapse, setSidebarCollapse] = useState(false);
+  const [sidebarCollapse, setSidebarCollapse] = useState(true);
 
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");

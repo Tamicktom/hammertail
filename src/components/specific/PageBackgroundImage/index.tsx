@@ -18,7 +18,7 @@ export default function PageBackgroundImage(props: Props) {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const pageImage = page.data?.image || "/login_screen_image.jpg";
-  const debouncedPageImage = useDebounce(pageImage, 200);
+  const debouncedPageImage = useDebounce(pageImage, 250);
 
   useMemo(() => {
     const v = new Vibrant(pageImage);

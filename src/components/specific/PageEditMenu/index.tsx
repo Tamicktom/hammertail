@@ -5,17 +5,25 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import axios from "axios";
 import z from "zod";
+import toast from 'react-hot-toast';
 
 //* Component imports
 import ImageUpload from "../../common/ImageUpload";
+import Sucess from "../../Toasts/Sucess";
+import Danger from "../../Toasts/Danger";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
 
 const pageImageUploadSchema = z.object({
-  worldId: z.string().uuid(),
-  pageId: z.string().uuid(),
-  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"]),
+  worldId: z.string().uuid({ message: "Invalid world id." }),
+  pageId: z.string().uuid({ message: "Invalid page id." }),
+  image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"], {
+    description: "Image type",
+    required_error: "Image type is required.",
+    invalid_type_error:
+      "Invalid file type. Please upload a PNG, JPEG, JPG or GIF file.",
+  }),
 });
 
 type APIResponse = {
@@ -46,6 +54,13 @@ function EditBackgroundModal() {
   const handleUpload = (e: FormEvent) => {
     e.preventDefault();
     if (!e.target || !(e.target instanceof HTMLFormElement)) {
+      toast.custom((t) => (
+        <Danger
+          t={t}
+          topMsg="Invalid form"
+          bottomMsg="Something went wrong. Please try again."
+        />
+      ))
       return;
     }
 
@@ -55,21 +70,14 @@ function EditBackgroundModal() {
     if (formData.get('image') instanceof File) {
       const image = formData.get('image') as File;
 
-      //validate size
-      if (image.size > 8000000) {
-        alert('A imagem deve ter no máximo 8MB');
-        return;
-      }
-      //validate type
-      if (image.type !== 'image/png' &&
-        image.type !== 'image/jpeg' &&
-        image.type !== 'image/jpg' &&
-        image.type !== 'image/gif') {
-        alert('A imagem deve ser do tipo PNG ou JPEG');
-        return;
-      }
-
       if (!page.data?.id || !page.data?.worldId) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid page"
+            bottomMsg="Something went wrong. Please try again."
+          />
+        ))
         return;
       }
 
@@ -80,33 +88,86 @@ function EditBackgroundModal() {
       });
 
       if (!body.success) {
+        toast.custom((t) => (
+          <Danger
+            t={t}
+            topMsg="Invalid form"
+            bottomMsg="Something went wrong. Please try again."
+          />
+        ))
         return;
       }
 
       axios.post<APIResponse>('/api/pages/updatePageImage', body.data)
         .then((data) => {
           if (data.data.error) {
-            alert(data.data.message);
-            return;
+            throw new Error(data.data.message);
           }
           axios.put(data.data.uploadLink.data.signedUrl, image, {
             headers: {
               'Content-Type': image.type,
               Authorization: `Bearer ${data.data.uploadLink.data.token}`,
             },
-          }).then((res) => {
-            if (res.status === 200) {
-              axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', body.data)
-                .then((confirm) => {
-                  if (confirm.data.error) {
-                    alert(confirm.data.message);
-                    return;
-                  }
-                  alert('Imagem atualizada com sucesso!');
-                  page.refetch();
-                });
-            }
-          });
+          })
+            .then((res) => {
+              if (res.status === 200) {
+                axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', body.data)
+                  .then((confirm) => {
+                    if (confirm.data.error) {
+                      alert(confirm.data.message);
+                      return;
+                    }
+                    toast.custom((t) => (
+                      <Sucess
+                        t={t}
+                        topMsg="Background updated!"
+                        bottomMsg="The background was successfully updated."
+                      />
+                    ))
+                    page.refetch();
+                  })
+                  .catch((err) => {
+                    toast.custom((t) => (
+                      <Danger
+                        t={t}
+                        topMsg="Invalid form"
+                        bottomMsg={err.message}
+                      />
+                    ))
+                  });
+              }
+            })
+            .catch((err) => {
+              toast.custom((t) => (
+                <Danger
+                  t={t}
+                  topMsg="Invalid form"
+                  bottomMsg={err.message}
+                />
+              ))
+            })
+        })
+        .catch((err) => {
+          if (err instanceof axios.AxiosError) {
+            toast.custom((t) => {
+              const errorMessageArray: string[] = err.response?.data.message || err.message;
+              return (
+                <Danger
+                  t={t}
+                  topMsg="Error uploading image"
+                  bottomMsg={errorMessageArray}
+                />
+              )
+            })
+          } else {
+            toast.custom((t) => (
+              <Danger
+                t={t}
+                topMsg="Unknown error"
+                bottomMsg={err.message}
+              />
+            ))
+          }
         });
     }
   }
@@ -134,7 +195,10 @@ function EditBackgroundModal() {
                 className="flex flex-col gap-4"
                 onSubmit={handleUpload}
               >
-                <ImageUpload />
+                <ImageUpload
+                  accept={['image/png', 'image/jpeg', 'image/jpg', 'image/gif']}
+                  maxFileSize={8000000}
+                />
                 <button
                   className="bg-purple-500 hover:bg-purple-600 text-neutral-50 px-4 py-2 rounded-lg mt-4"
                   type="submit"

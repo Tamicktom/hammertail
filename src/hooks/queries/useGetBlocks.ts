@@ -13,7 +13,6 @@ async function getBlocks(pageId: string): Promise<PartialBlock<BlockSchema>[]> {
       pageId,
     }
   );
-  console.log("getBlocks response", response.data);
 
   let blocks: PartialBlock<BlockSchema>[] | null = null;
 

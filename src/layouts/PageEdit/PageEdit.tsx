@@ -47,7 +47,7 @@ export default function PageEdit() {
             <div className='w-full max-w-7xl flex flex-col pt-28'>
               {/* content */}
               <div
-                className='flex p-4 flex-col min-h-screen relative items-center w-full rounded-2xl bg-neutral-900 z-10 border-2 border-neutral-600'
+                className='flex p-4 flex-col min-h-screen relative items-center w-full rounded-2xl bg-neutral-900 z-10 border-2 border-neutral-600 pb-48 transition-all'
                 style={{
                   borderColor: `hsl(${bgColor[0]}, ${bgColor[1]}%, ${bgColor[2] * 2}%)`,
                 }}
@@ -111,7 +111,7 @@ function Scrollable(props:
         onScroll={props.onScroll}
       >
         <div
-          className='w-full h-full relative flex flex-col bg-neutral-950 justify-start items-center'
+          className='w-full h-full relative flex flex-col bg-neutral-950 justify-start items-center transition-all'
           style={{
             backgroundColor: props.bgColor ? `hsl(${props.bgColor[0]}, ${props.bgColor[1]}%, ${props.bgColor[2]}%)` : colors.neutral[800],
           }}

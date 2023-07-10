@@ -32,7 +32,7 @@ export default function PageBackgroundImage(props: Props) {
   }, [pageImage]);
 
   return (
-    <div className='absolute top-20 left-0 w-full h-96 flex justify-center items-center overflow-hidden'>
+    <div className='absolute top-20 left-0 w-full h-[420px] flex justify-center items-center overflow-hidden'>
       <Image
         alt='background'
         src={pageImage}
@@ -42,7 +42,7 @@ export default function PageBackgroundImage(props: Props) {
         priority
       />
       <div
-        className='absolute bottom-0 left-0 w-full h-1/4'
+        className='absolute bottom-0 left-0 w-full h-1/2 transition-all'
         style={{
           background: props.color ? `linear-gradient(180deg, transparent 0%, hsl(${props.color[0]}, ${props.color[1]}%, ${props.color[2]}%) 100%)` : `linear-gradient(180deg, transparent 0%, ${colors.neutral[800]} 100%)`
         }}

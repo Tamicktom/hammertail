@@ -13,6 +13,7 @@ const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"
 const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
 const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
 const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'), { ssr: false });
+const TimeLine = dynamic(() => import('../../components/common/TimeLine'), { ssr: false });
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
@@ -27,15 +28,15 @@ export default function PageEdit() {
     <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
       <Allotment>
         <Allotment.Pane>
+          <Navbar
+            worldId={page.data?.worldId || ""}
+            isSidebarCollapsed={sidebarCollapse}
+            setSidebarCollapse={setSidebarCollapse}
+          />
+
           <Scrollable>
             {/* background */}
             <PageBackgroundImage />
-
-            <Navbar
-              worldId={page.data?.worldId || ""}
-              isSidebarCollapsed={sidebarCollapse}
-              setSidebarCollapse={setSidebarCollapse}
-            />
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>
               {/* content */}
@@ -60,11 +61,7 @@ export default function PageEdit() {
             </div>
 
             {/* timeline */}
-            {/* <div className='flex justify-center items-center w-full sticky left-0 bottom-0 h-28 z-10'>
-              <div className='w-full max-w-7xl h-full bg-amber-600'>
-                Timeline
-              </div>
-            </div> */}
+            <TimeLine />
           </Scrollable>
         </Allotment.Pane>
         <Allotment.Pane

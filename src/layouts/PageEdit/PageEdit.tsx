@@ -4,6 +4,7 @@ import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import colors from 'tailwindcss/colors';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -19,6 +20,7 @@ import usePage from "../../hooks/queries/usePage";
 
 export default function PageEdit() {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
+  const [bgColor, setBgColor] = useState<[number, number, number]>([0, 0, 0]);
 
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
@@ -27,9 +29,14 @@ export default function PageEdit() {
     <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
       <Allotment>
         <Allotment.Pane>
-          <Scrollable>
+          <Scrollable
+            bgColor={bgColor}
+          >
             {/* background */}
-            <PageBackgroundImage />
+            <PageBackgroundImage
+              color={bgColor}
+              setColor={setBgColor}
+            />
 
             <Navbar
               worldId={page.data?.worldId || ""}
@@ -39,7 +46,12 @@ export default function PageEdit() {
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>
               {/* content */}
-              <div className='flex p-4 flex-col relative items-center w-full rounded-2xl bg-neutral-900 z-10 border border-neutral-600'>
+              <div
+                className='flex p-4 flex-col min-h-screen relative items-center w-full rounded-2xl bg-neutral-900 z-10 border-2 border-neutral-600'
+                style={{
+                  borderColor: `hsl(${bgColor[0]}, ${bgColor[1]}%, ${bgColor[2] * 2}%)`,
+                }}
+              >
                 <PageEditMenu />
                 {/* data */}
                 <div className='flex items-start gap-4 rounded-2xl w-full'>
@@ -83,6 +95,7 @@ export default function PageEdit() {
 type ScrollableProps = {
   children: ReactNode;
   onScroll?: (event: UIEvent<HTMLDivElement>) => void;
+  bgColor?: [number, number, number];
 }
 
 function Scrollable(props:
@@ -90,14 +103,19 @@ function Scrollable(props:
 
   return (
     <ScrollArea.Root
-      className="w-full h-full overflow-hidden"
+      className="w-full min-h-screen h-full overflow-hidden"
       scrollHideDelay={750}
     >
       <ScrollArea.Viewport
         className="w-full h-full relative flex flex-col"
         onScroll={props.onScroll}
       >
-        <div className='w-full h-full relative flex flex-col bg-neutral-950 justify-start items-center'>
+        <div
+          className='w-full h-full relative flex flex-col bg-neutral-950 justify-start items-center'
+          style={{
+            backgroundColor: props.bgColor ? `hsl(${props.bgColor[0]}, ${props.bgColor[1]}%, ${props.bgColor[2]}%)` : colors.neutral[800],
+          }}
+        >
           {props.children}
         </div>
       </ScrollArea.Viewport>

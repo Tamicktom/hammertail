@@ -43,20 +43,16 @@ export default function ImageUpload(props: Props) {
     if (imageLoading) {
       // we need to reduce the image size to fit the container of 400px
       //first, we need to get the proportions of the image
-      console.log("tamanhos:", width, height);
       if (width === height) {
         setImageProportions([400, 400]);
-        console.log([400, 400])
       } else if (width > height) {
         //now we need to get the proportion of the image
         const proportion = width / height;
         setImageProportions([400, 400 / proportion]);
-        console.log([400, 400 / proportion])
       } else {
         //now we need to get the proportion of the image
         const proportion = height / width;
         setImageProportions([400 / proportion, 400]);
-        console.log([400 / proportion, 400])
       }
       setImageLoading(false);
     }

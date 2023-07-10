@@ -20,7 +20,6 @@ async function getBlocks(pageId: string): Promise<PartialBlock<BlockSchema>[]> {
     //grab the json from the url
     const { data } = await axios.get(response.data.url);
     if (data) {
-      console.log("data", data);
       blocks = data as PartialBlock<BlockSchema>[];
       return blocks;
     }

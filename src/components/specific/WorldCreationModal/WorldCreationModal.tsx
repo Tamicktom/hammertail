@@ -121,14 +121,12 @@ export default function WorldCreationModal() {
     createWorld(validationResult.data)
       .then((data) => {
         if (data) {
-          console.log("validando dados")
           if (data.error && data.message) {
             toast.error(data.message);
             return;
           }
 
           if (data.uploadLink && data.message === "World created successfully.") {
-            console.log("enviando imagem")
             const { signedUrl, path, token } = data.uploadLink.data;
             const file = formData.get('worldImage') as File;
 
@@ -155,10 +153,8 @@ export default function WorldCreationModal() {
               }
             }).catch((error) => {
               toast.error('Erro ao enviar imagem!');
-              console.log(error);
             });
           } else {
-            console.log("sem imagem")
             toast.custom((t) => (
               <Sucess
                 t={t}

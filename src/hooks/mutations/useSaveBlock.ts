@@ -20,7 +20,6 @@ async function saveBlocks(
       blocks,
     }
   );
-  console.log("Save blocks", response.data);
   return response.data;
 }
 

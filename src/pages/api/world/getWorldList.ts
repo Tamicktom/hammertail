@@ -43,7 +43,6 @@ const getOwner = async (req: NextApiRequest, res: NextApiResponse) => {
 
     Response.status = "success";
     Response.data = parseWorlds(worlds);
-    console.log("Server side Worlds: ", Response.data);
 
     return res.json(Response);
   }

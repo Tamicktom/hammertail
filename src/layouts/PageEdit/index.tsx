@@ -18,7 +18,12 @@ const TimeLine = dynamic(() => import('../../components/common/TimeLine'), { ssr
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
 
-export default function PageEdit() {
+type Props = {
+  worldId: string;
+  pageId: string;
+}
+
+export default function PageEdit(props: Props) {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
 
   const router = useRouter();
@@ -70,7 +75,10 @@ export default function PageEdit() {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          <Sidebar collapsed={sidebarCollapse} />
+          <Sidebar
+            collapsed={sidebarCollapse}
+            worldId={props.worldId}
+          />
         </Allotment.Pane>
       </Allotment>
     </div>

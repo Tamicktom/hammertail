@@ -7,7 +7,7 @@ import type { GetServerSideProps } from "next";
 import { prisma } from "../../server/db/client";
 
 //* Component imports
-import PageEdit from "../../layouts/PageEdit/PageEdit";
+import PageEdit from "../../layouts/PageEdit";
 
 // grab the page data from the database using the id from the url
 export const getServerSideProps = async (context: GetServerSideProps & {
@@ -33,11 +33,13 @@ export const getServerSideProps = async (context: GetServerSideProps & {
   return {
     props: {
       pageName: page.name,
+      pageId: page.id,
+      worldId: page.worldId,
     },
   };
 };
 
-export default function Page({ pageName }: { pageName: string }) {
+export default function Page({ pageName, pageId, worldId }: { pageName: string, worldId: string, pageId: string }) {
   return (
     <>
       <Head>
@@ -45,7 +47,10 @@ export default function Page({ pageName }: { pageName: string }) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>
-      <PageEdit />
+      <PageEdit
+        worldId={worldId}
+        pageId={pageId}
+      />
     </>
   );
 }

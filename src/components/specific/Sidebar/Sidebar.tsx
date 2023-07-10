@@ -2,27 +2,24 @@
 import Link from "next/link";
 import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
 import { CaretDown } from "@phosphor-icons/react";
-import { useRouter } from "next/router";
 
 //* Hook imports
 import useGetPagesByType from "../../../hooks/common/useGetPagesByType";
-import usePage from "../../../hooks/queries/usePage";
 
 //* Type imports
 import type { Page } from "@prisma/client";
 
 type Props = {
   collapsed: boolean;
+  worldId: string;
 }
 
 export default function Sidebar(props: Props) {
-  const router = useRouter();
-  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
-  const characters = useGetPagesByType("characters", page.data?.worldId);
-  const events = useGetPagesByType("events", page.data?.worldId);
-  const places = useGetPagesByType("places", page.data?.worldId);
-  const items = useGetPagesByType("items", page.data?.worldId);
-  const und = useGetPagesByType("undefined", page.data?.worldId);
+  const characters = useGetPagesByType("characters", props.worldId);
+  const events = useGetPagesByType("events", props.worldId);
+  const places = useGetPagesByType("places", props.worldId);
+  const items = useGetPagesByType("items", props.worldId);
+  const und = useGetPagesByType("undefined", props.worldId);
 
   return (
     <Root
@@ -54,7 +51,7 @@ const AccordionItem = (props: AccordionItemProps) => {
       <Content className='w-full overflow-hidden AccordionContent'>
         {
           props.content.map((item, index) => {
-            return <Button key={index} text={item.name} link={item.id} />
+            return <Button key={index} text={item.name} link={`page/${item.id}`} />
           })
         }
       </Content>
@@ -85,7 +82,10 @@ type ButtonProps = {
 const Button = (props: ButtonProps) => {
   return (
     <Link
-      href={props.link}
+      href={{
+        pathname: props.link,
+        slashes: true,
+      }}
     >
       <button
         className="flex flex-row items-center justify-start w-full px-4 py-1 border-b border-tertiary-400/20 hover:bg-black/20 bg-black/10"

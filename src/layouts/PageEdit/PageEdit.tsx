@@ -39,7 +39,7 @@ export default function PageEdit() {
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>
               {/* content */}
-              <div className='flex p-4 flex-col relative items-center w-full rounded-t-2xl bg-neutral-950 z-10 pb-48'>
+              <div className='flex p-4 flex-col relative items-center w-full rounded-2xl bg-neutral-900 z-10 border border-neutral-600'>
                 <PageEditMenu />
                 {/* data */}
                 <div className='flex items-start gap-4 rounded-2xl w-full'>

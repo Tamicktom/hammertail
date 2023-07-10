@@ -13,7 +13,7 @@ export default function TextEditor(props: Props) {
   const editor: BlockNoteEditor | null = useBlockNote({
     initialContent: props.initialContent as any,
     onEditorContentChange: props.onEditorChange,
-    theme: "dark"
+    theme: "dark",
   });
 
   return (

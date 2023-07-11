@@ -66,8 +66,9 @@ export default function PageEdit(props: Props) {
             </div>
 
             {/* timeline */}
-            <TimeLine />
           </Scrollable>
+
+          <TimeLine />
         </Allotment.Pane>
         <Allotment.Pane
           minSize={80}

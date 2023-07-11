@@ -187,7 +187,10 @@ export default function WorldCreationModal() {
       </Trigger>
 
       <Portal>
-        <Overlay className='fixed inset-0 z-10 flex items-center justify-center DialogOverlay' onClick={() => { setIsModalOpen(false) }} />
+        <Overlay
+          className='fixed inset-0 z-10 flex items-center justify-center DialogOverlay'
+          onClick={() => { setIsModalOpen(false) }}
+        />
 
         <Content className='fixed z-20 flex flex-col items-center justify-start max-w-md gap-4 px-4 py-8 text-white -translate-x-1/2 -translate-y-1/2 border-2 border-solid rounded-lg DialogContent bg-neutral-800 border-tertiary-600 top-1/2 left-1/2'>
           <form onSubmit={handleWorldCreation}>

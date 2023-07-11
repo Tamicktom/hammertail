@@ -1,4 +1,5 @@
 //* Libraries imports
+import { useState } from "react";
 import type { FormEvent } from "react";
 import { Pen } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -48,6 +49,7 @@ export default function PageEditMenu() {
 }
 
 function EditBackgroundModal() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
@@ -173,46 +175,53 @@ function EditBackgroundModal() {
   }
 
   return (
-    <Dialog.Root modal>
-      <Dialog.Trigger className='flex flex-row gap-2 justify-center items-center bg-neutral-700/20 px-2 py-2 rounded-lg h-fit group-hover:bg-neutral-900/80 transition-all hover:neutral-900'>
+    <Dialog.Root
+      modal
+      open={isModalOpen}
+    >
+      <Dialog.Trigger
+        className='flex flex-row gap-2 justify-center items-center bg-neutral-700/20 px-2 py-2 rounded-lg h-fit group-hover:bg-neutral-900/80 transition-all hover:neutral-900'
+        onClick={() => { setIsModalOpen(true) }}
+      >
         <Pen className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all" />
         <span className="text-neutral-100/20 group-hover:text-neutral-100/80 hover:text-neutral-50 transition-all">Change background</span>
       </Dialog.Trigger>
-      <Dialog.Overlay />
+      <Dialog.Overlay
+        className='fixed inset-0 z-10 flex items-center justify-center'
+        onClick={() => { setIsModalOpen(false) }}
+      />
       <Dialog.Portal>
         <div
           className="w-screen flex justify-center items-center h-screen bg-neutral-900/80 backdrop-blur-md absolute z-50 left-0 top-0"
         >
-          <div className="w-full max-w-2xl bg-neutral-950 rounded-lg p-4">
+          <Dialog.Content className="w-full max-w-2xl bg-neutral-950 rounded-lg p-4 data-[state=open]:animate-[dialog-show-content_300ms] data-[state=closed]:animate-[dialog-hide-content_300ms]">
             <Dialog.Title className="text-neutral-100">
               Edit background image
             </Dialog.Title>
             <Dialog.Description className="text-neutral-100">
               Select a new background image for this page from your computer.
             </Dialog.Description>
-            <Dialog.DialogContent>
-              <form
-                className="flex flex-col gap-4"
-                onSubmit={handleUpload}
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={handleUpload}
+            >
+              <ImageUpload
+                accept={['image/png', 'image/jpeg', 'image/jpg', 'image/gif']}
+                maxFileSize={8000000}
+              />
+              <button
+                className="bg-purple-500 hover:bg-purple-600 text-neutral-50 px-4 py-2 rounded-lg mt-4"
+                type="submit"
               >
-                <ImageUpload
-                  accept={['image/png', 'image/jpeg', 'image/jpg', 'image/gif']}
-                  maxFileSize={8000000}
-                />
-                <button
-                  className="bg-purple-500 hover:bg-purple-600 text-neutral-50 px-4 py-2 rounded-lg mt-4"
-                  type="submit"
-                >
-                  Upload
-                </button>
-              </form>
-            </Dialog.DialogContent>
-            {/* <Dialog.Close
+                Upload
+              </button>
+            </form>
+          </Dialog.Content>
+          {/* <Dialog.Close
               className="text-neutral-100"
             >
               Close
             </Dialog.Close> */}
-          </div>
         </div>
       </Dialog.Portal>
     </Dialog.Root >

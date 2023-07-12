@@ -8,7 +8,9 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "vercel-build": "prisma db seed && next build"
+    "vercel-build": "prisma db seed && next build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -52,6 +54,13 @@
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^10.2.2",
+    "@storybook/addon-essentials": "7.0.26",
+    "@storybook/addon-interactions": "7.0.26",
+    "@storybook/addon-links": "7.0.26",
+    "@storybook/blocks": "7.0.26",
+    "@storybook/nextjs": "7.0.26",
+    "@storybook/react": "7.0.26",
+    "@storybook/testing-library": "0.0.14-next.2",
     "@types/formidable": "^2.0.6",
     "@types/node": "^18.16.19",
     "@types/react": "^18.2.14",
@@ -61,10 +70,12 @@
     "autoprefixer": "^10.4.14",
     "eslint": "^8.44.0",
     "eslint-config-next": "13.4.0",
+    "eslint-plugin-storybook": "^0.6.12",
     "postcss": "^8.4.25",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prisma": "^4.16.2",
+    "storybook": "7.0.26",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"

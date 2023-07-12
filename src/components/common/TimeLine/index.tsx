@@ -18,34 +18,70 @@ type TimelineEvents = {
 }
 
 type TimelineData = {
-  characters: TimelineEvents[];
-  locations: TimelineEvents[];
-  items: TimelineEvents[];
-  events: TimelineEvents[];
+  character: TimelineEvents;
+  location: TimelineEvents;
+  item: TimelineEvents;
+  event: TimelineEvents;
   totalDuration: number;
 }
 
 const timelineData: TimelineData = {
-  characters: [{
+  character: {
     category: "character",
     markers: [{
       title: "Character 1",
       description: "Character 1 description",
       startTimestamp: 0,
-      endTimestamp: 50,
-    }],
-  }],
-  locations: [{
+      endTimestamp: 10,
+    }, {
+      title: "Character 2",
+      description: "Character 2 description",
+      startTimestamp: 20,
+      endTimestamp: 40,
+    }, {
+      title: "Character 3",
+      description: "Character 3 description",
+      startTimestamp: 60,
+      endTimestamp: 90,
+    }]
+  },
+  location: {
     category: "location",
     markers: [{
       title: "Location 1",
       description: "Location 1 description",
-      startTimestamp: 20,
+      startTimestamp: 40,
+      endTimestamp: 95,
+    }]
+  },
+  item: {
+    category: "item",
+    markers: [{
+      title: "Item 1",
+      description: "Item 1 description",
+      startTimestamp: 10,
       endTimestamp: 30,
-    }],
-  }],
-  items: [],
-  events: [],
+    }, {
+      title: "Item 2",
+      description: "Item 2 description",
+      startTimestamp: 50,
+      endTimestamp: 70,
+    }]
+  },
+  event: {
+    category: "event",
+    markers: [{
+      title: "Event 1",
+      description: "Event 1 description",
+      startTimestamp: 2,
+      endTimestamp: 45,
+    }, {
+      title: "Event 2",
+      description: "Event 2 description",
+      startTimestamp: 30,
+      endTimestamp: 60,
+    }]
+  },
   totalDuration: 100,
 }
 
@@ -95,17 +131,22 @@ export default function TimeLine(props: TimelineProps) {
             <LeftSideSection title="Events" />
           </div>
           {/* Timeline right side */}
-          <div className="w-full h-fit bg-blue-600">
+          <div
+            className="h-fit bg-blue-600 min-w-full"
+            style={{
+              width: timelineData.totalDuration * 10,
+            }}
+          >
             {/* timeline time stamps */}
             {/* <div className="flex w-full h-10 bg-emerald-600 border-b border-neutral-700">
               TimeStamps
             </div> */}
 
             {/* timeline events */}
-            <RightSideSection />
-            <RightSideSection />
-            <RightSideSection />
-            <RightSideSection />
+            <RightSideSection title="Characters" events={timelineData.character} totalDuration={timelineData.totalDuration} />
+            <RightSideSection title="Locations" events={timelineData.location} totalDuration={timelineData.totalDuration} />
+            <RightSideSection title="Items" events={timelineData.item} totalDuration={timelineData.totalDuration} />
+            <RightSideSection title="Events" events={timelineData.event} totalDuration={timelineData.totalDuration} />
           </div>
         </div>
       </div>
@@ -128,10 +169,38 @@ function LeftSideSection(props: LeftSideSectionProps) {
   );
 }
 
-function RightSideSection() {
+type RightSideSectionProps = {
+  title: string;
+  events: TimelineEvents;
+  totalDuration: number;
+}
+
+function RightSideSection(props: RightSideSectionProps) {
   return (
-    <div className="w-full h-12 min-h-[48px] flex justify-center items-center flex-row gap-2 border-b border-neutral-700">
-      Timeline track
+    <div
+      className="min-w-full h-12 min-h-[48px] flex relative items-center flex-row gap-2 border-b border-neutral-700"
+      style={{
+        width: props.totalDuration * 10,
+      }}
+    >
+      {
+        props.events.markers.map((marker, index) => {
+          return (
+            <div
+              key={index}
+              className="absolute h-[90%] bg-neutral-800 rounded-2xl flex-row flex justify-center items-center border border-neutral-700"
+              style={{
+                left: marker.startTimestamp * 10,
+                width: (marker.endTimestamp - marker.startTimestamp) * 10,
+              }}
+            >
+              <span className="text-neutral-50">
+                {marker.title}
+              </span>
+            </div>
+          )
+        })
+      }
     </div>
   );
 }

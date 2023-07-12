@@ -189,7 +189,7 @@ function RightSideSection(props: RightSideSectionProps) {
           return (
             <Link
               key={index}
-              className="absolute h-[90%] bg-neutral-800 rounded-2xl flex-row flex justify-center items-center border border-neutral-700"
+              className="absolute h-[90%] bg-neutral-800 rounded-2xl flex-row flex justify-start pl-2 items-center border border-neutral-700 hover:bg-neutral-600 transition-all"
               style={{
                 left: marker.startTimestamp * 10,
                 width: (marker.endTimestamp - marker.startTimestamp) * 10,

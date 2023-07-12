@@ -1,7 +1,7 @@
 //* Libraries imports
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { User, Person } from "@phosphor-icons/react";
+import { Person } from "@phosphor-icons/react";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
@@ -41,31 +41,53 @@ export default function TimeLine() {
           opacity: debouncedIsOpen ? 1 : 0,
         }}
       >
-        <div className='w-full h-full bg-red-600 flex flex-row justify-center items-center'>
+        <div className='w-full h-full bg-red-600 flex flex-row justify-start items-start overflow-auto'>
           {/* Timeline left side */}
-          <div className="w-96 h-full bg-green-600 flex flex-col">
-            <div className="w-full h-10 border-b border-neutral-700" />
-            <div className="w-full h-16 flex justify-center items-center flex-row gap-2 border-b border-neutral-700">
-              <Person className="w-8 h-8 text-white" />
-              <span>
-                Personagens
-              </span>
-            </div>
+          <div className="w-64 h-fit bg-green-600 flex flex-col">
+            {/* <div className="w-full h-10 border-b border-neutral-700" /> */}
+            <LeftSideSection title="Characters" />
+            <LeftSideSection title="Locations" />
+            <LeftSideSection title="Items" />
+            <LeftSideSection title="Events" />
           </div>
           {/* Timeline right side */}
-          <div className="w-full h-full bg-blue-600">
+          <div className="w-full h-fit bg-blue-600">
             {/* timeline time stamps */}
-            <div className="flex w-full h-10 bg-emerald-600 border-b border-neutral-700">
+            {/* <div className="flex w-full h-10 bg-emerald-600 border-b border-neutral-700">
               TimeStamps
-            </div>
+            </div> */}
 
             {/* timeline events */}
-            <div className="flex w-full h-16 bg-yellow-600 border-b border-neutral-700">
-
-            </div>
+            <RightSideSection />
+            <RightSideSection />
+            <RightSideSection />
+            <RightSideSection />
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+type LeftSideSectionProps = {
+  title: string;
+}
+
+function LeftSideSection(props: LeftSideSectionProps) {
+  return (
+    <div className="w-full h-12 min-h-[48px] flex justify-start p-2 items-center flex-row gap-2 border-b border-neutral-700">
+      <Person className="w-6 h-6 text-neutral-50" />
+      <span className="font-bold text-lg text-neutral-50">
+        {props.title}
+      </span>
+    </div>
+  );
+}
+
+function RightSideSection() {
+  return (
+    <div className="w-full h-12 min-h-[48px] flex justify-center items-center flex-row gap-2 border-b border-neutral-700">
+      Timeline track
     </div>
   );
 }

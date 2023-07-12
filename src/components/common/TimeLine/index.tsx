@@ -7,7 +7,51 @@ import { Person } from "@phosphor-icons/react";
 import usePage from "../../../hooks/queries/usePage";
 import useDebounce from "../../../hooks/common/useDebounce";
 
-export default function TimeLine() {
+type TimelineEvents = {
+  category: "character" | "location" | "item" | "event";
+  markers: {
+    title: string;
+    description: string;
+    startTimestamp: number;
+    endTimestamp: number;
+  }[];
+}
+
+type TimelineData = {
+  characters: TimelineEvents[];
+  locations: TimelineEvents[];
+  items: TimelineEvents[];
+  events: TimelineEvents[];
+  totalDuration: number;
+}
+
+const timelineData: TimelineData = {
+  characters: [{
+    category: "character",
+    markers: [{
+      title: "Character 1",
+      description: "Character 1 description",
+      startTimestamp: 0,
+      endTimestamp: 50,
+    }],
+  }],
+  locations: [{
+    category: "location",
+    markers: [{
+      title: "Location 1",
+      description: "Location 1 description",
+      startTimestamp: 20,
+      endTimestamp: 30,
+    }],
+  }],
+  items: [],
+  events: [],
+  totalDuration: 100,
+}
+
+type TimelineProps = {}
+
+export default function TimeLine(props: TimelineProps) {
   const [isOpen, setIsOpen] = useState(true);
   const debouncedIsOpen = useDebounce(isOpen, 150);
 

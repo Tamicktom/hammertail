@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Person } from "@phosphor-icons/react";
+import Link from "next/link";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
@@ -10,8 +11,8 @@ import useDebounce from "../../../hooks/common/useDebounce";
 type TimelineEvents = {
   category: "character" | "location" | "item" | "event";
   markers: {
+    id: string;
     title: string;
-    description: string;
     startTimestamp: number;
     endTimestamp: number;
   }[];
@@ -29,18 +30,18 @@ const timelineData: TimelineData = {
   character: {
     category: "character",
     markers: [{
+      id: "1",
       title: "Character 1",
-      description: "Character 1 description",
       startTimestamp: 0,
       endTimestamp: 10,
     }, {
+      id: "2",
       title: "Character 2",
-      description: "Character 2 description",
       startTimestamp: 20,
       endTimestamp: 40,
     }, {
+      id: "3",
       title: "Character 3",
-      description: "Character 3 description",
       startTimestamp: 60,
       endTimestamp: 90,
     }]
@@ -48,8 +49,8 @@ const timelineData: TimelineData = {
   location: {
     category: "location",
     markers: [{
+      id: "1",
       title: "Location 1",
-      description: "Location 1 description",
       startTimestamp: 40,
       endTimestamp: 95,
     }]
@@ -57,13 +58,13 @@ const timelineData: TimelineData = {
   item: {
     category: "item",
     markers: [{
+      id: "1",
       title: "Item 1",
-      description: "Item 1 description",
       startTimestamp: 10,
       endTimestamp: 30,
     }, {
+      id: "2",
       title: "Item 2",
-      description: "Item 2 description",
       startTimestamp: 50,
       endTimestamp: 70,
     }]
@@ -71,13 +72,13 @@ const timelineData: TimelineData = {
   event: {
     category: "event",
     markers: [{
+      id: "1",
       title: "Event 1",
-      description: "Event 1 description",
       startTimestamp: 2,
       endTimestamp: 45,
     }, {
+      id: "2",
       title: "Event 2",
-      description: "Event 2 description",
       startTimestamp: 30,
       endTimestamp: 60,
     }]
@@ -98,7 +99,7 @@ export default function TimeLine(props: TimelineProps) {
     <div
       className='flex flex-col justify-center items-center w-full sticky left-0 bottom-0 z-10 transition-all'
       style={{
-        height: isOpen ? "40vh" : "40px",
+        height: isOpen ? "auto" : "40px",
       }}
     >
       <div
@@ -186,18 +187,22 @@ function RightSideSection(props: RightSideSectionProps) {
       {
         props.events.markers.map((marker, index) => {
           return (
-            <div
+            <Link
               key={index}
               className="absolute h-[90%] bg-neutral-800 rounded-2xl flex-row flex justify-center items-center border border-neutral-700"
               style={{
                 left: marker.startTimestamp * 10,
                 width: (marker.endTimestamp - marker.startTimestamp) * 10,
               }}
+              href={{
+                pathname: `/page/${marker.id}`,
+                slashes: true,
+              }}
             >
               <span className="text-neutral-50">
                 {marker.title}
               </span>
-            </div>
+            </Link>
           )
         })
       }

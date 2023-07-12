@@ -43,9 +43,9 @@ export default function PageEdit(props: Props) {
             {/* background */}
             <PageBackgroundImage />
 
-            <div className='w-full max-w-7xl flex flex-col pt-28'>
+            <div className='w-full max-w-7xl flex flex-col pt-28 pb-48'>
               {/* content */}
-              <div className='flex p-4 flex-col relative items-center w-full rounded-2xl bg-neutral-900 z-10 border border-neutral-600'>
+              <div className='flex p-8 flex-col relative items-center w-full rounded-2xl bg-neutral-900 z-10 border border-neutral-600 pb-20'>
                 <PageEditMenu />
                 {/* data */}
                 <div className='flex items-start gap-4 rounded-2xl w-full'>

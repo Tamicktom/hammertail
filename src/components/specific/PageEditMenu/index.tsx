@@ -42,7 +42,7 @@ type APIResponse = {
 
 export default function PageEditMenu() {
   return (
-    <div className='absolute group -top-12 h-12 w-full left-0 px-4 flex flex-row items-center'>
+    <div className='absolute group -top-12 h-12 w-full left-0 px-8 flex flex-row items-center'>
       <EditBackgroundModal />
     </div>
   );

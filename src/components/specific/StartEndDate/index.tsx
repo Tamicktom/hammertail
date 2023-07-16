@@ -38,8 +38,8 @@ export default function StartEndDate(props: StartEndDateProps) {
 
   return (
     <div className='flex flex-col w-full gap-0'>
-      <p className="text-neutral-300">
-        Character's Birth and Death
+      <p className="text-neutral-300 text-sm">
+        Birth and Death years
       </p>
       <Input
         isEditing={isEditingStartDate}

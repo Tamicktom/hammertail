@@ -72,7 +72,7 @@ function StartEndDate(props: StartEndDateProps) {
   }, [debouncedStartDate]);
 
   return (
-    <div className='flex flex-col w-full gap-2'>
+    <div className='flex flex-col w-full gap-0'>
       <Input
         isEditing={isEditingStartDate}
         setIsEditing={setIsEditingStartDate}

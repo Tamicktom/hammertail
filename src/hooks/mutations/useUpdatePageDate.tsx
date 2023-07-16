@@ -13,7 +13,13 @@ type PageDate = {
 };
 
 async function updatePageDate(date: PageDate) {
-  console.log(date);
+  const { pageId, start, end } = date;
+  const { data } = await axios.put(`/api/pages/updatePageDate`, {
+    pageId,
+    start,
+    end,
+  });
+  return data;
 }
 
 export default function useUpdatePageDate() {

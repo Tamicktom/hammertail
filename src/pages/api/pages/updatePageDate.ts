@@ -33,7 +33,7 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   //verify if is a Post request
-  if (req.method === "POST") {
+  if (req.method === "PUT") {
     const parsedDateUpdate = pageDateUpdate.safeParse(req.body);
 
     if (!parsedDateUpdate.success) {

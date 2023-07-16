@@ -5,18 +5,13 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 //* Types imports
 import type { Page, PageType, World } from "@prisma/client";
 
-async function getPage(pageId: string): Promise<
-  Page & {
-    PageType: PageType;
-    world: World;
-  }
-> {
-  const response = await axios.get<
-    Page & {
-      PageType: PageType;
-      world: World;
-    }
-  >(`/api/page/${pageId}`);
+export type PageWorld = Page & {
+  PageType: PageType;
+  world: World;
+};
+
+async function getPage(pageId: string): Promise<PageWorld> {
+  const response = await axios.get<PageWorld>(`/api/page/${pageId}`);
   return response.data;
 }
 
@@ -26,7 +21,7 @@ async function getPage(pageId: string): Promise<
 
 export default function usePage(
   pageId: string
-): UseQueryResult<Page & { PageType: PageType }, unknown> {
+): UseQueryResult<PageWorld, unknown> {
   return useQuery(["page", pageId], () => getPage(pageId), {
     enabled: !!pageId, //only fetch if there is a pageId
     refetchOnWindowFocus: true,

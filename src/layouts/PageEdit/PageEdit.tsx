@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
 const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
-const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'));
+const PageInfo = dynamic(() => import('../../components/specific/PageInfo'));
 const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
 const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
 const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));

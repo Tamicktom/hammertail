@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Alert from "../../components/Toasts/Alert";
 
 type PageDate = {
+  pageId: string;
   start: number;
   end: number;
 };

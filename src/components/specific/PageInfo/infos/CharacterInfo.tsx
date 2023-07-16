@@ -32,6 +32,7 @@ export default function CharacterInfo() {
           <span className='text-lg font-bold text-white'>Mage of Cats</span>
         </div>
         <StartEndDate
+          pageId={page.data?.id || ""}
           startDate={page.data?.start || 0}
           endDate={page.data?.end || 0}
         />
@@ -41,6 +42,7 @@ export default function CharacterInfo() {
 }
 
 type StartEndDateProps = {
+  pageId: string;
   startDate: number;
   endDate: number;
 }
@@ -51,13 +53,13 @@ function StartEndDate(props: StartEndDateProps) {
     end: props.endDate
   });
   const debouncedStartDate = useDebounce(pageDate, 1200);
-
   const useUpdatePageDateMutation = useUpdatePageDate();
 
   useEffect(() => {
     useUpdatePageDateMutation.mutate({
+      pageId: props.pageId,
       start: debouncedStartDate.start,
-      end: debouncedStartDate.end
+      end: debouncedStartDate.end,
     })
   }, [debouncedStartDate]);
 

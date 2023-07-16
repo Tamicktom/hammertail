@@ -1,10 +1,8 @@
 //* Libraries imports
-import Image from "next/image";
-import { Cake, Skull } from "@phosphor-icons/react";
 import { useRouter } from "next/router";
 
 //* Types imports
-import type { Page, PageType } from "@prisma/client";
+import type { PageType } from "@prisma/client";
 
 //* Component imports
 import LocalLoading from "../../common/LocalLoading/LocalLoading";
@@ -12,7 +10,6 @@ import { CharacterInfo, EventInfo } from "./infos";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
-
 
 export default function PageInfo() {
   const router = useRouter();

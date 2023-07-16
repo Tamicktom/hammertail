@@ -1,8 +1,18 @@
 //* Libraries imports
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Cake, Skull } from "@phosphor-icons/react";
+import { useRouter } from "next/router";
+
+//* Hooks Imports
+import usePage from "../../../../hooks/queries/usePage";
+import useUpdatePageDate from "../../../../hooks/mutations/useUpdatePageDate";
+import useDebounce from "../../../../hooks/common/useDebounce";
 
 export default function CharacterInfo() {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+
   return (
     <div className="">
       <div className='flex items-center justify-center w-full'>
@@ -21,16 +31,53 @@ export default function CharacterInfo() {
         <div className='w-full'>
           <span className='text-lg font-bold text-white'>Mage of Cats</span>
         </div>
-        <div className='flex flex-col w-full gap-2'>
-          <div className='flex flex-row w-full gap-2'>
-            <Cake size={24} className="text-white" />
-            <span className='text-base text-white'>12/02/3652</span>
-          </div>
-          <div className='flex flex-row w-full gap-2'>
-            <Skull size={24} className="text-white" />
-            <span className='text-base text-white'>31/09/3698</span>
-          </div>
-        </div>
+        <StartEndDate
+          startDate={page.data?.start || 0}
+          endDate={page.data?.end || 0}
+        />
+      </div>
+    </div>
+  );
+}
+
+type StartEndDateProps = {
+  startDate: number;
+  endDate: number;
+}
+
+function StartEndDate(props: StartEndDateProps) {
+  const [pageDate, setPageDate] = useState({
+    start: props.startDate,
+    end: props.endDate
+  });
+  const debouncedStartDate = useDebounce(pageDate, 1200);
+
+  const useUpdatePageDateMutation = useUpdatePageDate();
+
+  useEffect(() => {
+    useUpdatePageDateMutation.mutate({
+      start: debouncedStartDate.start,
+      end: debouncedStartDate.end
+    })
+  }, [debouncedStartDate]);
+
+  return (
+    <div className='flex flex-col w-full gap-2'>
+      <div className='flex flex-row w-full gap-2'>
+        <Cake size={24} className="text-white" />
+        <input
+          className='text-base text-neutral-950'
+          defaultValue={props.startDate}
+          onChange={(e) => setPageDate({ ...pageDate, start: parseInt(e.target.value) })}
+        />
+      </div>
+      <div className='flex flex-row w-full gap-2'>
+        <Skull size={24} className="text-white" />
+        <input
+          className='text-base text-neutral-950'
+          defaultValue={props.endDate}
+          onChange={(e) => setPageDate({ ...pageDate, end: parseInt(e.target.value) })}
+        />
       </div>
     </div>
   );

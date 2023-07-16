@@ -64,6 +64,9 @@ dependencies:
   formidable:
     specifier: ^2.1.2
     version: 2.1.2
+  jotai:
+    specifier: ^2.2.2
+    version: 2.2.2(react@18.2.0)
   next:
     specifier: 13.4.7
     version: 13.4.7(@babel/core@7.22.8)(react-dom@18.2.0)(react@18.2.0)
@@ -103,9 +106,6 @@ dependencies:
   zod:
     specifier: ^3.21.4
     version: 3.21.4
-  zustand:
-    specifier: ^4.3.9
-    version: 4.3.9(react@18.2.0)
 
 devDependencies:
   '@mermaid-js/mermaid-cli':
@@ -4392,6 +4392,18 @@ packages:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
     dev: false
 
+  /jotai@2.2.2(react@18.2.0):
+    resolution: {integrity: sha512-Cn8hnBg1sc5ppFwEgVGTfMR5WSM0hbAasd/bdAwIwTaum0j3OUPqBSC4tyk3jtB95vicML+RRWgKFOn6gtfN0A==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /jpeg-js@0.4.4:
     resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
     dev: false
@@ -7130,22 +7142,6 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: false
-
-  /zustand@4.3.9(react@18.2.0):
-    resolution: {integrity: sha512-Tat5r8jOMG1Vcsj8uldMyqYKC5IZvQif8zetmLHs9WoZlntTHmIoNM8TpLRY31ExncuUvUOXehd0kvahkuHjDw==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      immer: '>=9.0'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      immer:
-        optional: true
-      react:
-        optional: true
-    dependencies:
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /zwitch@2.0.4:

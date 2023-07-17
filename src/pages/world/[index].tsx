@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 //* Utils imports
 import type { World } from "@prisma/client";
@@ -11,12 +11,14 @@ import { prisma } from "../../server/db/client";
 import { parseWorld } from "../../utils/parseWorld";
 
 //* Components imports
-const WorldHeader = dynamic(() => import("../../components/specific/WorldHeader/WorldHeader"), {
-  loading: () => <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4" />,
-});
-const PageList = dynamic(() => import("../../components/specific/PageList/PageList"), {
-  loading: () => <div className="w-full h-full flex flex-col justify-start items-center border-2 border-tertiary-700 rounded-lg overflow-hidden" />,
-});
+import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+import PageList from "../../components/specific/PageList/PageList";
+// const WorldHeader = dynamic(() => import("../../components/specific/WorldHeader/WorldHeader"), {
+//   loading: () => <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4" />,
+// });
+// const PageList = dynamic(() => import("../../components/specific/PageList/PageList"), {
+//   loading: () => <div className="w-full h-full flex flex-col justify-start items-center border-2 border-tertiary-700 rounded-lg overflow-hidden" />,
+// });
 
 //* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

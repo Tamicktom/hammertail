@@ -1,12 +1,13 @@
 //* libraries imports
 import { useState } from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import colors from "tailwindcss/colors";
 
-const WorldCreationModal = dynamic(() => import("../WorldCreationModal/WorldCreationModal"), {
-  loading: () => <button className="flex flex-row items-center justify-center gap-2 px-2 py-1 bg-none" />
-});
+import WorldCreationModal from "../WorldCreationModal/WorldCreationModal";
+// const WorldCreationModal = dynamic(() => import("../WorldCreationModal/WorldCreationModal"), {
+//   loading: () => <button className="flex flex-row items-center justify-center gap-2 px-2 py-1 bg-none" />
+// });
 
 type Props = {
   filterHandler: (filter: string) => void;

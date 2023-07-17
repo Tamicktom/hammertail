@@ -2,6 +2,7 @@
 import { useState, type ReactNode, type UIEvent,} from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import { useRouter } from 'next/router';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -19,7 +20,8 @@ export default function PageEdit() {
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
   const [navBarCollapse, setNavBarCollapse] = useState(false);
 
-  const page = usePage();
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const collapseNavBar = (event:
     UIEvent<HTMLDivElement>) => {
     const scrollTop = event.currentTarget.scrollTop;

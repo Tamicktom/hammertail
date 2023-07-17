@@ -130,24 +130,46 @@ export default function WorldCreationModal() {
             const { signedUrl, path, token } = data.uploadLink.data;
             const file = formData.get('worldImage') as File;
 
-  const handleWorldCreation = () => {
-    createWorld(worldName, worldStartYear, worldEndYear)
-      .then((world) => {
-        if (world) {
-          updateWorldList([...worldList, world]);
-          toast.custom((t) => (
-            <Sucess
-              t={t}
-              topMsg='Mundo criado com sucesso!'
-              bottomMsg='Comece a criar suas histórias!'
-            />
-          ), {
-            duration: 1000,
-            position: 'top-center',
-          });
-          setTimeout(() => {
-            setIsModalOpen(false);
-          }, 1000);
+            axios.put(signedUrl, file, {
+              headers: {
+                'Content-Type': file.type,
+                Authorization: `Bearer ${token}`,
+              },
+            }).then((response) => {
+              if (response.status === 200) {
+                toast.custom((t) => (
+                  <Sucess
+                    t={t}
+                    topMsg='Mundo criado com sucesso!'
+                    bottomMsg='Comece a criar suas histórias!'
+                  />
+                ), {
+                  duration: 1000,
+                  position: 'top-center',
+                });
+                setTimeout(() => {
+                  setIsModalOpen(false);
+                }, 500);
+              }
+            }).catch((error) => {
+              toast.error('Erro ao enviar imagem!');
+            });
+          } else {
+            toast.custom((t) => (
+              <Sucess
+                t={t}
+                topMsg='Mundo criado com sucesso!'
+                bottomMsg='Comece a criar suas histórias!'
+              />
+            ), {
+              duration: 1000,
+              position: 'top-center',
+            });
+            setTimeout(() => {
+              setIsModalOpen(false);
+            }, 500);
+          }
+          worldList.refetch();
         }
       });
   }
@@ -160,7 +182,7 @@ export default function WorldCreationModal() {
           onClick={() => setIsModalOpen(true)}
         >
           <Plus className="w-5 h-5 text-white" />
-          <span className="font-bold text-white uppercase">New World</span>
+          <span className="font-bold text-white uppercase">Novo Mundo</span>
         </button>
       </Trigger>
 
@@ -168,59 +190,94 @@ export default function WorldCreationModal() {
         <Overlay className='fixed inset-0 z-10 flex items-center justify-center DialogOverlay' onClick={() => { setIsModalOpen(false) }} />
 
         <Content className='fixed z-20 flex flex-col items-center justify-start max-w-md gap-4 px-4 py-8 text-white -translate-x-1/2 -translate-y-1/2 border-2 border-solid rounded-lg DialogContent bg-neutral-800 border-tertiary-600 top-1/2 left-1/2'>
-          <Title className='w-full text-2xl font-bold text-center'>
-            Criar novo mundo
-          </Title>
-          <Description>
-            Para criar um novo mundo, digite o nome dele abaixo. Em seguida adicione o ano de inicio e fim do mundo.
-          </Description>
+          <form onSubmit={handleWorldCreation}>
+            <Title className='w-full text-2xl font-bold text-center'>
+              Criar novo mundo
+            </Title>
+            <Description>
+              Para criar um novo mundo, digite o nome dele abaixo. Em seguida adicione o ano de inicio e fim do mundo.
+            </Description>
 
-          <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-            <label htmlFor="worldName" className='text-lg font-bold text-white'>Nome do mundo*</label>
-            <input
-              className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
-              onChange={(e) => { setWorldName(e.target.value); }}
-              id="worldName"
-              type="text"
-              placeholder="Flower World"
-            />
-          </fieldset>
+            <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
+              <label htmlFor="name" className='text-lg font-bold text-white'>World&apos;s name*</label>
+              <input
+                className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Flower World"
+              />
+            </fieldset>
 
-          <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
-            <label htmlFor="worldDrscription" className='text-lg font-bold text-white'>Descrição do mundo</label>
-            <textarea rows={1} maxLength={1000}
-              className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
-              placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
-            />
-          </fieldset>
+            <fieldset className='flex flex-col items-start justify-start w-full gap-2'>
+              <label htmlFor="description" className='text-lg font-bold text-white'>World&apos;s description</label>
+              <textarea
+                rows={1}
+                maxLength={512}
+                id="description"
+                name="description"
+                className='w-full px-2 py-1 rounded-lg bg-neutral-600 focus:outline-none'
+                placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled."
+              />
+            </fieldset>
 
-          <div className='flex flex-row flex-wrap items-center justify-start w-full text-white'>
-            <div className='w-full text-white'>
-              <span className='w-full text-lg font-bold text-center'>
-                Timeline
-              </span>
+            <div className='flex flex-row flex-wrap items-center justify-start w-full text-white'>
+              <div className='w-full text-white'>
+                <span className='w-full text-lg font-bold text-center'>
+                  Timeline
+                </span>
+              </div>
+              <fieldset className='flex flex-col items-start justify-start w-1/2'>
+                <label htmlFor="startYear" className='text-base font-bold text-white '>Ano de inicio*</label>
+                <input
+                  className='px-2 py-1 rounded-lg w-28 bg-neutral-600 focus:outline-none'
+                  id="startYear"
+                  name="startYear"
+                  type="number"
+                  placeholder="0"
+                  step="1"
+                  onInput={(e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLInputElement)) return;
+                    const value = target.value;
+                    if (value.length > 6) {
+                      target.value = value.slice(0, 6);
+                    }
+                    // remove leading zeros
+                    if (value.length > 1 && value[0] === '0') {
+                      target.value = value.slice(1);
+                    }
+                    // remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                  }}
+                />
+              </fieldset>
+              <fieldset className='flex flex-col items-start justify-start w-1/2'>
+                <label htmlFor="endYear" className='text-base font-bold text-white'>Ano de fim*</label>
+                <input
+                  className='px-2 py-1 rounded-lg appearance-none w-28 bg-neutral-600 focus:outline-none :-webkit-outer-spin-button'
+                  id="endYear"
+                  name="endYear"
+                  type="number"
+                  placeholder="1000"
+                  step="1"
+                  onInput={(e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLInputElement)) return;
+                    const value = target.value;
+                    if (value.length > 6) {
+                      target.value = value.slice(0, 6);
+                    }
+                    // remove leading zeros
+                    if (value.length > 1 && value[0] === '0') {
+                      target.value = value.slice(1);
+                    }
+                    // remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                  }}
+                />
+              </fieldset>
             </div>
-            <fieldset className='flex flex-col items-start justify-start w-1/2'>
-              <label htmlFor="worldStartYear" className='text-base font-bold text-white '>Ano de inicio*</label>
-              <input
-                className='px-2 py-1 rounded-lg w-28 bg-neutral-600 focus:outline-none'
-                id="worldStartYear"
-                type="number"
-                placeholder="0"
-                onChange={(e) => { setWorldStartYear(Number(e.target.value)); }}
-              />
-            </fieldset>
-            <fieldset className='flex flex-col items-start justify-start w-1/2'>
-              <label htmlFor="worldEndYear" className='text-base font-bold text-white'>Ano de fim*</label>
-              <input
-                className='px-2 py-1 rounded-lg appearance-none w-28 bg-neutral-600 focus:outline-none :-webkit-outer-spin-button'
-                id="worldEndYear"
-                type="number"
-                placeholder="1000"
-                onChange={(e) => { setWorldEndYear(Number(e.target.value)); }}
-              />
-            </fieldset>
-          </div>
 
             <div className='flex flex-col items-start justify-start w-full'>
               <span className='w-full text-lg font-bold text-white'>

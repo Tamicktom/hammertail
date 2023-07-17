@@ -15,9 +15,6 @@ import CreatePlaceForm from './components/CreatePlaceForm';
 import CreateEventForm from './components/CreateEventForm';
 import CreateItemForm from './components/CreateItemForm';
 
-//* Store imports
-import worldStore from '../../../store/common/world';
-
 type PageTypes = 'characters' | 'places' | 'events' | 'items';
 
 type Props = {

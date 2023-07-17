@@ -36,7 +36,6 @@
     "next": "13.4.10",
     "next-auth": "^4.22.1",
     "node-vibrant": "^3.1.6",
-    "prisma-erd-generator": "^1.6.2",
     "prop-types": "^15.8.1",
     "prosemirror-model": "^1.19.2",
     "prosemirror-state": "^1.4.3",

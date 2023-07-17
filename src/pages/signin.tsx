@@ -1,16 +1,16 @@
 //* Libraries imports
 import Head from "next/head";
-// import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-// import { getProviders, signIn } from "next-auth/react"
-// import { getServerSession } from "next-auth/next"
-// import { authOptions } from "./api/auth/[...nextauth]";
-// import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { getProviders, signIn } from "next-auth/react"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "./api/auth/[...nextauth]";
+import { GoogleLogo, DiscordLogo, GithubLogo } from "@phosphor-icons/react";
 
 //* Components imports
 import RainbowBorders from "../components/common/RainbowBorders/RainbowBorders";
 
-// export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-export default function SignIn() {
+export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const providerList = providers ? Object.values(providers) : [];
 
   return (
     <>
@@ -33,7 +33,7 @@ export default function SignIn() {
                   <h1 className="text-5xl font-black text-left text-white font-secondary">Login</h1>
                 </div>
                 <div className="flex flex-col items-center justify-center w-full gap-4">
-                  {/* {
+                  {
                     providerList.map((provider) => (
                       <button
                         key={provider.id}
@@ -46,7 +46,7 @@ export default function SignIn() {
                         </span>
                       </button>
                     ))
-                  } */}
+                  }
                 </div>
                 <div className="flex items-start justify-start w-full pt-2 border-t border-neutral-700">
                   <p className="text-xs text-left font-primary text-neutral-300">
@@ -63,32 +63,32 @@ export default function SignIn() {
   );
 }
 
-// function getProviderLogo(provider: string) {
-//   const size = 20;
-//   switch (provider) {
-//     case "Google":
-//       return <GoogleLogo size={size} className="text-neutral-100" />;
-//     case "Discord":
-//       return <DiscordLogo size={size} className="text-neutral-100" />;
-//     case "GitHub":
-//       return <GithubLogo size={size} className="text-neutral-100" />;
-//     default:
-//       return <></>;
-//   }
-// }
+function getProviderLogo(provider: string) {
+  const size = 20;
+  switch (provider) {
+    case "Google":
+      return <GoogleLogo size={size} className="text-neutral-100" />;
+    case "Discord":
+      return <DiscordLogo size={size} className="text-neutral-100" />;
+    case "GitHub":
+      return <GithubLogo size={size} className="text-neutral-100" />;
+    default:
+      return <></>;
+  }
+}
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const session = await getServerSession(context.req, context.res, authOptions);
-//   if (session) {
-//     return {
-//       redirect: {
-//         destination: '/worlds',
-//         permanent: false,
-//       },
-//     };
-//   }
-//   const providers = await getProviders();
-//   return {
-//     props: { providers },
-//   };
-// }
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (session) {
+    return {
+      redirect: {
+        destination: '/worlds',
+        permanent: false,
+      },
+    };
+  }
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  };
+}

@@ -36,5 +36,11 @@ const config = {
       },
     ]
   },
+
+  modularizeImports: {
+    "@phosphor-icons/react": {
+      transform: "@phosphor-icons/react/dist/icons/{{member}}",
+    },
+  },
 };
 export default config;

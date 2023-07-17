@@ -1,6 +1,7 @@
 //* Libraries imports
 import Image from "next/image";
 import { Cake, Skull } from "@phosphor-icons/react";
+import { useRouter } from "next/router";
 
 //* Types imports
 import type { Page, PageType } from "@prisma/client";
@@ -12,8 +13,9 @@ import LocalLoading from "../../common/LocalLoading/LocalLoading";
 import usePage from "../../../hooks/queries/usePage";
 
 
-export const PageInfo = () => {
-  const page = usePage();
+export default function PageInfo() {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
   if (page.isLoading) return <LocalLoading />
 

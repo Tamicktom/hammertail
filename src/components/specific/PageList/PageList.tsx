@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 //* Local imports
-import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType"
+import useGetPagesByType from "../../../hooks/common/useGetPagesByType"
 import type { PageTypes } from "../../../types/page";
 import PageTypeIcon from "../PageTypeIcon/PageTypeIcon";
 

@@ -1,6 +1,6 @@
 //* Libraries imports
 import { useState, useEffect } from 'react';
-import type { PartialBlock } from "@blocknote/core";
+import type { PartialBlock, BlockSchema } from "@blocknote/core";
 import { CircleNotch } from '@phosphor-icons/react';
 
 //* Components imports
@@ -20,7 +20,7 @@ type Props = {
 }
 
 export default function TextEditorWrapper(props: Props) {
-  const [content, setContent] = useState<PartialBlock[] | null>(null);
+  const [content, setContent] = useState<PartialBlock<BlockSchema>[] | null>(null);
   const debouncedContent = useDebounce(content, 1200);
   const initialBlocks = useGetBlocks(props.page.id);
   const saveBlocks = useSaveBlock();
@@ -37,7 +37,7 @@ export default function TextEditorWrapper(props: Props) {
     initialBlocks.refetch();
   }, [props.page.id]);
 
-  //save blocks when content changes
+  // save blocks when content changes
   useEffect(() => {
     if (debouncedContent) {
       saveBlocks.mutate({

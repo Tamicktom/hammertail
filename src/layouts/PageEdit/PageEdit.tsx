@@ -7,6 +7,12 @@ import { useRouter } from 'next/router';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
+// import PageHeader from '../../components/specific/PageEditComponents/PageHeader';
+// import PageInfo from '../../components/specific/PageEditComponents/PageInfo';
+// import Sidebar from "../../components/specific/Sidebar/Sidebar";
+// import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
+// import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
+// import PageEditMenu from '../../components/specific/PageEditMenu';
 const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
 const PageInfo = dynamic(() => import('../../components/specific/PageEditComponents/PageInfo'));
 const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
@@ -18,7 +24,7 @@ const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMen
 import usePage from "../../hooks/queries/usePage";
 
 export default function PageEdit() {
-  
+
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
 
   const router = useRouter();

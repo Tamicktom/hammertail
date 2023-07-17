@@ -23,5 +23,10 @@ if (env.NODE_ENV !== "production") {
 
 export const supabase = new SupabaseClient(
   clientEnv.NEXT_PUBLIC_SUPABASE_URL,
-  env.SUPABASE_KEY
+  env.SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: false,
+    }
+  }
 );

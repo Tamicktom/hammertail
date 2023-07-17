@@ -11,7 +11,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
     const reqType = req.method;
     const { name, worldId, action, listing, typeOfPage, pageData } = req.body;
 
-    if (action === undefined) {
+    if (!action) {
       return res.status(401).send({
         error: "You must provide an action",
       });
@@ -87,26 +87,28 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
           pages: pages,
         });
       }
-      //grab the id of the page type that has the name of the listing
-      const pageType = await prisma.pageType.findFirst({
-        where: {
-          name: tmp.listing,
-        },
-        select: {
-          id: true,
-        },
-      });
+      // //grab the id of the page type that has the name of the listing
+      // const pageType = await prisma.pageType.findFirst({
+      //   where: {
+      //     name: tmp.listing,
+      //   },
+      //   select: {
+      //     id: true,
+      //   },
+      // });
 
-      if (pageType === null) {
-        return res.status(401).send({
-          error: "This listing does not exist",
-          listing: tmp.listing,
-        });
-      }
+      // if (pageType === null) {
+      //   return res.status(401).send({
+      //     error: "This listing does not exist",
+      //     listing: tmp.listing,
+      //   });
+      // }
 
       const pages = await prisma.page.findMany({
         where: {
-          pageTypeId: pageType.id,
+          PageType: {
+            name: tmp.listing as string,
+          },
           worldId: tmp.worldId,
         },
       });

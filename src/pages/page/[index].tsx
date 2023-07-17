@@ -1,6 +1,7 @@
 //* Libraries imports
 import Head from "next/head";
 import type { Page } from "@prisma/client";
+import type { GetServerSideProps } from "next";
 
 //* Local imports
 import { prisma } from "../../server/db/client";
@@ -9,25 +10,38 @@ import { prisma } from "../../server/db/client";
 import PageEdit from "../../layouts/PageEdit/PageEdit";
 
 // grab the page data from the database using the id from the url
-// export const getServerSideProps = async (context: any) => {
-//   const page = await prisma.page.findUnique({
-//     where: {
-//       id: context.params.index,
-//     },
-//   });
+export const getServerSideProps = async (context: GetServerSideProps & {
+  params?: {
+    index?: string;
+  }
+}) => {
+  const page = await prisma.page.findUnique({
+    where: {
+      id: context.params?.index,
+    },
+  });
 
-//   return {
-//     props: {
-//       page,
-//     },
-//   };
-// };
+  if (!page) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-export default function Page({ page }: { page: Page }) {
+  return {
+    props: {
+      pageName: page.name,
+    },
+  };
+};
+
+export default function Page({ pageName }: { pageName: string }) {
   return (
     <>
       <Head>
-        {/* <title>{page.name}</title> */}
+        <title>{pageName}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>

@@ -17,7 +17,7 @@ import {
 } from "@phosphor-icons/react";
 
 //* Hook imports
-import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
+import useGetPagesByType from "../../../hooks/common/useGetPagesByType";
 import usePage from "../../../hooks/queries/usePage";
 import { useRef, useState, useLayoutEffect, ReactNode } from "react";
 
@@ -29,11 +29,9 @@ type Props = {
   collapsed: boolean;
 };
 
-export const Sidebar = (props: Props) => {
+export default function Sidebar(props: Props) {
   const router = useRouter();
-  const page = usePage(
-    typeof router.query.index === "string" ? router.query.index : ""
-  );
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const characters = useGetPagesByType("characters", page.data?.worldId);
   const events = useGetPagesByType("events", page.data?.worldId);
   const places = useGetPagesByType("places", page.data?.worldId);
@@ -118,7 +116,7 @@ export const Sidebar = (props: Props) => {
       </Root>
     </div>
   );
-};
+}
 
 type AccordionItemProps = {
   title: ReactNode;

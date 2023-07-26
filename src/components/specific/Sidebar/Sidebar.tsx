@@ -163,7 +163,7 @@ const Button = (props: ButtonProps) => {
   return (
     <Link href={props.link}>
       <button className="border-tertiary-400/20 flex w-full flex-row items-center justify-start border-b bg-black/10 px-4 py-1 hover:bg-black/20">
-        <span className="text-neutral-200">{props.text}</span>
+        <span className="text-neutral-200 whitespace-nowrap">{props.text}</span>
       </button>
     </Link>
   );

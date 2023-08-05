@@ -4,6 +4,7 @@ import { MagnifyingGlass } from "@phosphor-icons/react";
 import dynamic from "next/dynamic";
 import colors from "tailwindcss/colors";
 
+// import WorldCreationModal from "../WorldCreationModal/WorldCreationModal";
 const WorldCreationModal = dynamic(() => import("../WorldCreationModal/WorldCreationModal"), {
   loading: () => <button className="flex flex-row items-center justify-center gap-2 px-2 py-1 bg-none" />
 });
@@ -26,7 +27,7 @@ const WorldsHeader = ({ filterHandler }: Props) => {
           <input
             className="w-full outline-none text-neutral-50 font-semibold bg-transparent"
             type="text"
-            placeholder="Pesquisar"
+            placeholder="Search"
             onChange={(e) => { filterHandler(e.target.value); }}
             onFocus={() => setIsInputFocused(true)}
             onBlur={() => setIsInputFocused(false)}

@@ -11,6 +11,8 @@ import { prisma } from "../../server/db/client";
 import { parseWorld } from "../../utils/parseWorld";
 
 //* Components imports
+// import WorldHeader from "../../components/specific/WorldHeader/WorldHeader";
+// import PageList from "../../components/specific/PageList/PageList";
 const WorldHeader = dynamic(() => import("../../components/specific/WorldHeader/WorldHeader"), {
   loading: () => <div className="w-full h-[200px] flex flex-col  justify-center items-center gap-4 p-4" />,
 });

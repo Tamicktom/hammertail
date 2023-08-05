@@ -2,7 +2,8 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { Sidebar } from "@phosphor-icons/react";
-import * as Avatar from '@radix-ui/react-avatar';
+import { Plus } from "@phosphor-icons/react";
+import * as Avatar from "@radix-ui/react-avatar";
 import z from "zod";
 import toast from "react-hot-toast";
 
@@ -11,7 +12,7 @@ import Alert from "../../Toasts/Alert";
 
 const apiResponseSchema = z.object({
   page: z.object({
-    id: z.string()
+    id: z.string(),
   }),
   status: z.enum(["created"]),
 });
@@ -52,16 +53,16 @@ export const Navbar = (props: Props) => {
       method: "POST",
       body: JSON.stringify(body.data),
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     const data = apiResponseSchema.safeParse(await response.json());
 
     if (data.success) {
-      router.push(`/page/${data.data.page.id}`)
+      router.push(`/page/${data.data.page.id}`);
     }
-  }
+  };
 
   return (
     <div
@@ -76,28 +77,31 @@ export const Navbar = (props: Props) => {
         <button
           name="newPage"
           aria-label="newPage"
-          className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary-800 text-white font-bold hover:bg-primary-700 transition-all"
+          className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
           onClick={createPage}
         >
+          <Plus size={20}/>
           New Page
         </button>
+
         <button
+          className="bg-neutral-800"
           name="sidebarCollapse"
           aria-label="sidebarCollapse"
           onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
         >
-          <Sidebar size="24" />
+          <Sidebar size="20"/>
         </button>
       </div>
     </div>
   );
-}
+};
 
 type UserAvatarProps = {
   src: string;
   alt: string;
   name: string;
-}
+};
 
 function UserAvatar(props: UserAvatarProps) {
   //user can have a profile picture or not
@@ -113,8 +117,7 @@ function UserAvatar(props: UserAvatarProps) {
         firstInitial = splitedName[0].charAt(0);
       if (splitedName[1] && splitedName[1].length > 0)
         secondInitial = splitedName[1].charAt(0);
-      else
-        return firstInitial;
+      else return firstInitial;
     } else {
       if (splitedName[0] && splitedName[0].length > 0)
         firstInitial = splitedName[0].charAt(0);
@@ -122,18 +125,18 @@ function UserAvatar(props: UserAvatarProps) {
         secondInitial = splitedName[0].charAt(1);
     }
     return (firstInitial + secondInitial).toUpperCase();
-  }
+  };
 
   return (
     <div className="flex gap-5">
-      <Avatar.Root className="w-12 h-12 overflow-hidden flex justify-center items-center">
+      <Avatar.Root className="flex h-12 w-12 items-center justify-center overflow-hidden">
         <Avatar.Image
-          className="w-full h-full object-cover rounded-full"
+          className="h-full w-full rounded-full object-cover"
           src={props.src}
           alt={props.alt}
         />
         <Avatar.Fallback
-          className="w-full h-full object-cover rounded-full bg-gradient-to-b from-primary-600 to-primary-800 flex justify-center items-center text-white font-bold text-2xl"
+          className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-primary-600 to-primary-800 object-cover text-2xl font-bold text-white"
           delayMs={600}
         >
           {getInitials()}

@@ -5,6 +5,7 @@ import * as ScrollArea from '@radix-ui/react-scroll-area';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import colors from 'tailwindcss/colors';
+import { useAtom } from 'jotai';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
@@ -24,10 +25,14 @@ const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMen
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
 
+//* Atom imports
+import { pageVibrantColorAtom } from "../../store/common/page";
+
 export default function PageEdit() {
 
   const [sidebarCollapse, setSidebarCollapse] = useState(true);
-  const [bgColor, setBgColor] = useState<[number, number, number]>([0, 0, 0]);
+  // const [bgColor, setBgColor] = useState<[number, number, number]>([0, 0, 0]);
+  const [bgColor, setBgColor] = useAtom(pageVibrantColorAtom);
 
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
@@ -40,10 +45,7 @@ export default function PageEdit() {
             bgColor={bgColor}
           >
             {/* background */}
-            <PageBackgroundImage
-              color={bgColor}
-              setColor={setBgColor}
-            />
+            <PageBackgroundImage />
 
             <Navbar
               worldId={page.data?.worldId || ""}

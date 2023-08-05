@@ -33,6 +33,7 @@
     "allotment": "^1.19.0",
     "axios": "^1.4.0",
     "csstype": "^3.1.2",
+    "jotai": "^2.2.3",
     "next": "13.4.10",
     "next-auth": "^4.22.1",
     "node-vibrant": "^3.1.6",

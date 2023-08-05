@@ -29,7 +29,7 @@ export default function PageBackgroundImage(props: Props) {
       const color = palette.Vibrant?.hsl;
       // the color on the first position is in 0-1 range (porcent), but hsl
       // works in 0-360 range, so, we need to multiply it by 360
-      const color2 = color ? [color[0] * 360, color[1] * 100, color[2] * 100 / 8] : [0, 0, 0];
+      const color2 = color ? [color[0] * 360, color[1] * 100, (color[2] * 100) / 7] : [0, 0, 0];
       setPageColor(color2 as [number, number, number]);
     });
   }, [debouncedPageImage]);

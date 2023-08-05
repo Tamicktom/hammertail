@@ -68,9 +68,42 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       .createSignedUploadUrl(url);
 
     if (uploadLink.error) {
+      if (uploadLink.error.message === "The resource already exists") {
+        // if the resource already exists, delete it and create a new one
+        const deleteOldImage = await supabase.storage
+          .from("pages-images")
+          .remove([url]);
+
+        if (deleteOldImage.error) {
+          return res.status(500).send({
+            error: true,
+            message: "Internal server error. Please try again later.",
+            errorDetails: deleteOldImage.error,
+          });
+        } else {
+          const newUploadLink = await supabase.storage
+            .from("pages-images")
+            .createSignedUploadUrl(url);
+
+          if (newUploadLink.error) {
+            return res.status(500).send({
+              error: true,
+              message: "Internal server error. Please try again later.",
+              errorDetails: newUploadLink.error,
+            });
+          }
+
+          return res.status(200).send({
+            error: false,
+            message: "Upload link created.",
+            uploadLink: newUploadLink,
+          });
+        }
+      }
       return res.status(500).send({
         error: true,
         message: "Internal server error. Please try again later.",
+        errorDetails: uploadLink.error,
       });
     }
 

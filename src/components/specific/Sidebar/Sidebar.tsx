@@ -34,7 +34,6 @@ export default function Sidebar() {
   const events = useGetPagesByType("events", page.data?.worldId);
   const places = useGetPagesByType("places", page.data?.worldId);
   const items = useGetPagesByType("items", page.data?.worldId);
-  const und = useGetPagesByType("undefined", page.data?.worldId);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [showIcons, setShowIcons] = useState<boolean>(false);
 
@@ -103,13 +102,6 @@ export default function Sidebar() {
             showIcons ? <Sword size={28} className="icon text-neutral-100" /> : "Items"
           }
           content={items.data?.data.pages || []}
-        />
-        <AccordionItem
-          value="Undefined"
-          title={
-            showIcons ? <Dna size={28} className="icon text-neutral-100" /> : "Undefined"
-          }
-          content={und.data?.data.pages || []}
         />
       </Root>
     </div>

@@ -5,26 +5,14 @@ import { Sidebar } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import z from "zod";
 import toast from "react-hot-toast";
 import { useAtom } from "jotai";
+import z from "zod";
 
 //* Local imports
 import Alert from "../../Toasts/Alert";
 import { worldAtom } from "../../../atoms/world";
 import { sidebarCollapseAtom, setSidebarState } from "../../../atoms/sidebar";
-
-const apiResponseSchema = z.object({
-  page: z.object({
-    id: z.string(),
-  }),
-  status: z.enum(["created"]),
-});
-
-const pageCreationSchema = z.object({
-  action: z.enum(["createPage"]),
-  worldId: z.string(),
-});
 
 type Props = {
   loading: boolean;
@@ -117,6 +105,28 @@ function UserAvatar(props: UserAvatarProps) {
   );
 }
 
+const pageTypeSchema = z.enum([
+  "characters",
+  "places",
+  "items",
+  "events",
+]);
+
+type PageTypes = z.infer<typeof pageTypeSchema>;
+
+const createSpecificPageSchema = z.object({
+  worldId: z.string().uuid(),
+  pageType: pageTypeSchema,
+});
+
+const apiResponseSchema = z.object({
+  ok: z.boolean(),
+  error: z.string().optional(),
+  page: z.object({
+    id: z.string().uuid(),
+  }),
+});
+
 type CreatePageButtonProps = {
 }
 
@@ -124,7 +134,7 @@ function CreatePageButton(props: CreatePageButtonProps) {
   const [world] = useAtom(worldAtom);
   const router = useRouter();
 
-  const createPage = async () => {
+  const createPage = async (type: PageTypes) => {
 
     if (!world) return toast.custom((t) => (
       <Alert
@@ -137,37 +147,46 @@ function CreatePageButton(props: CreatePageButtonProps) {
       position: 'top-center',
     })
 
-    console.log(world);
+    const body = createSpecificPageSchema.safeParse({
+      worldId: world.id,
+      pageType: type,
+    });
 
-    // const body = pageCreationSchema.safeParse({
-    //   action: "createPage",
-    //   worldId: world.id,
-    // });
+    if (!body.success) return toast.custom((t) => (
+      <Alert
+        t={t}
+        topMsg='erro ao criar página!'
+        bottomMsg={body.error.message}
+      />
+    ), {
+      duration: 1000,
+      position: 'top-center',
+    })
 
-    // if (!body.success) return toast.custom((t) => (
-    //   <Alert
-    //     t={t}
-    //     topMsg='erro ao criar página!'
-    //     bottomMsg={body.error.message}
-    //   />
-    // ), {
-    //   duration: 1000,
-    //   position: 'top-center',
-    // })
+    const response = await fetch("/api/pages/createSpecificPage", {
+      method: "POST",
+      body: JSON.stringify(body.data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    // const response = await fetch("/api/pages", {
-    //   method: "POST",
-    //   body: JSON.stringify(body.data),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    const data = apiResponseSchema.safeParse(await response.json());
 
-    // const data = apiResponseSchema.safeParse(await response.json());
-
-    // if (data.success) {
-    //   router.push(`/page/${data.data.page.id}`);
-    // }
+    if (data.success) {
+      router.push(`/page/${data.data.page.id}`);
+    } else {
+      toast.custom((t) => (
+        <Alert
+          t={t}
+          topMsg='erro ao criar página!'
+          bottomMsg={data.error.message}
+        />
+      ), {
+        duration: 1000,
+        position: 'top-center',
+      })
+    }
   };
 
   return (
@@ -194,22 +213,34 @@ function CreatePageButton(props: CreatePageButtonProps) {
         >
           <DropdownMenu.Item>
             <button
-              onClick={createPage}
+              onClick={() => createPage("characters")}
             >
               Character
             </button>
           </DropdownMenu.Item>
 
           <DropdownMenu.Item>
-            Event
+            <button
+              onClick={() => createPage("events")}
+            >
+              Event
+            </button>
           </DropdownMenu.Item>
 
           <DropdownMenu.Item>
-            Place
+            <button
+              onClick={() => createPage("items")}
+            >
+              Item
+            </button>
           </DropdownMenu.Item>
 
           <DropdownMenu.Item>
-            Item
+            <button
+              onClick={() => createPage("places")}
+            >
+              Place
+            </button>
           </DropdownMenu.Item>
 
         </DropdownMenu.Content>

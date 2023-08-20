@@ -25,8 +25,9 @@ import { useRef, useState, useLayoutEffect, ReactNode } from "react";
 import type { Page } from "@prisma/client";
 import { useRouter } from "next/router";
 
+//* Atoms imports
+
 type Props = {
-  collapsed: boolean;
 };
 
 export default function Sidebar(props: Props) {

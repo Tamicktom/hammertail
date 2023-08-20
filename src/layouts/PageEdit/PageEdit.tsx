@@ -1,34 +1,47 @@
 //* Libraries imports
-import { useState, type ReactNode, type UIEvent } from 'react';
+import { useState, useMemo, type ReactNode, type UIEvent } from 'react';
 import { Allotment, LayoutPriority } from "allotment";
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useAtom } from 'jotai';
 
 //* Component imports
 import { Navbar } from "../../components/specific/Navbar/Navbar";
-// import PageHeader from '../../components/specific/PageEditComponents/PageHeader';
-// import PageInfo from '../../components/specific/PageEditComponents/PageInfo';
-// import Sidebar from "../../components/specific/Sidebar/Sidebar";
-// import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
-// import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
-// import PageEditMenu from '../../components/specific/PageEditMenu';
-const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
-const PageInfo = dynamic(() => import('../../components/specific/PageInfo'));
-const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
-const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
-const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
-const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'), { ssr: false });
+import PageHeader from '../../components/specific/PageEditComponents/PageHeader';
+import PageInfo from '../../components/specific/PageInfo';
+import Sidebar from "../../components/specific/Sidebar/Sidebar";
+import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
+import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
+import PageEditMenu from '../../components/specific/PageEditMenu';
+// const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
+// const PageInfo = dynamic(() => import('../../components/specific/PageInfo'));
+// const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
+// const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
+// const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
+// const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'), { ssr: false });
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
 
+//* Atom imports
+import { worldAtom } from "../../atoms/world";
+import { sidebarCollapseAtom } from '../../atoms/sidebar';
+
 export default function PageEdit() {
 
-  const [sidebarCollapse, setSidebarCollapse] = useState(true);
+  const [sidebarCollapse] = useAtom(sidebarCollapseAtom);
 
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+
+  const [, setWorld] = useAtom(worldAtom);
+
+  useMemo(() => {
+    if (page.data?.world) {
+      setWorld(page.data.world);
+    }
+  }, [page.data]);
 
   return (
     <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
@@ -39,9 +52,7 @@ export default function PageEdit() {
             <PageBackgroundImage />
 
             <Navbar
-              worldId={page.data?.worldId || ""}
-              isSidebarCollapsed={sidebarCollapse}
-              setSidebarCollapse={setSidebarCollapse}
+              loading={page.isLoading}
             />
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>
@@ -80,7 +91,7 @@ export default function PageEdit() {
           visible={!sidebarCollapse}
           priority={LayoutPriority.High}
         >
-          <Sidebar collapsed={sidebarCollapse} />
+          <Sidebar />
         </Allotment.Pane>
       </Allotment>
     </div>

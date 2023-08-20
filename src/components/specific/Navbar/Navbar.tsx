@@ -4,11 +4,15 @@ import { useSession } from "next-auth/react";
 import { Sidebar } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react";
 import * as Avatar from "@radix-ui/react-avatar";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import z from "zod";
 import toast from "react-hot-toast";
+import { useAtom } from "jotai";
 
 //* Local imports
 import Alert from "../../Toasts/Alert";
+import { worldAtom } from "../../../atoms/world";
+import { sidebarCollapseAtom } from "../../../atoms/sidebar";
 
 const apiResponseSchema = z.object({
   page: z.object({
@@ -23,46 +27,16 @@ const pageCreationSchema = z.object({
 });
 
 type Props = {
-  worldId: string;
-  isSidebarCollapsed: boolean;
-  setSidebarCollapse: (value: boolean) => void;
+  loading: boolean;
 }
 
 export const Navbar = (props: Props) => {
   const { data: session } = useSession();
-  const router = useRouter();
+  const [sidebarCollapse, setSidebarCollapse] = useAtom(sidebarCollapseAtom);
 
-  const createPage = async () => {
-    const body = pageCreationSchema.safeParse({
-      action: "createPage",
-      worldId: props.worldId,
-    });
-
-    if (!body.success) return toast.custom((t) => (
-      <Alert
-        t={t}
-        topMsg='erro ao criar página!'
-        bottomMsg={body.error.message}
-      />
-    ), {
-      duration: 1000,
-      position: 'top-center',
-    })
-
-    const response = await fetch("/api/pages", {
-      method: "POST",
-      body: JSON.stringify(body.data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = apiResponseSchema.safeParse(await response.json());
-
-    if (data.success) {
-      router.push(`/page/${data.data.page.id}`);
-    }
-  };
+  if (props.loading) return (
+    <div className="w-full h-20 z-20 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2 bg-neutral-800/90" />
+  );
 
   return (
     <div
@@ -74,23 +48,15 @@ export const Navbar = (props: Props) => {
         name={session?.user?.name || ""}
       />
       <div className="flex flex-row items-center gap-4">
-        <button
-          name="newPage"
-          aria-label="newPage"
-          className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
-          onClick={createPage}
-        >
-          <Plus size={20}/>
-          New Page
-        </button>
+        <CreatePageButton />
 
         <button
           className="bg-neutral-800"
           name="sidebarCollapse"
           aria-label="sidebarCollapse"
-          onClick={() => props.setSidebarCollapse(!props.isSidebarCollapsed)}
+          onClick={() => setSidebarCollapse(() => !sidebarCollapse)}
         >
-          <Sidebar size="20"/>
+          <Sidebar size="20" />
         </button>
       </div>
     </div>
@@ -143,5 +109,106 @@ function UserAvatar(props: UserAvatarProps) {
         </Avatar.Fallback>
       </Avatar.Root>
     </div>
+  );
+}
+
+type CreatePageButtonProps = {
+}
+
+function CreatePageButton(props: CreatePageButtonProps) {
+  const [world] = useAtom(worldAtom);
+  const router = useRouter();
+
+  const createPage = async () => {
+
+    if (!world) return toast.custom((t) => (
+      <Alert
+        t={t}
+        topMsg='erro ao criar página!'
+        bottomMsg='você precisa estar em um mundo para criar uma página'
+      />
+    ), {
+      duration: 1000,
+      position: 'top-center',
+    })
+
+    console.log(world);
+
+    // const body = pageCreationSchema.safeParse({
+    //   action: "createPage",
+    //   worldId: world.id,
+    // });
+
+    // if (!body.success) return toast.custom((t) => (
+    //   <Alert
+    //     t={t}
+    //     topMsg='erro ao criar página!'
+    //     bottomMsg={body.error.message}
+    //   />
+    // ), {
+    //   duration: 1000,
+    //   position: 'top-center',
+    // })
+
+    // const response = await fetch("/api/pages", {
+    //   method: "POST",
+    //   body: JSON.stringify(body.data),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    // const data = apiResponseSchema.safeParse(await response.json());
+
+    // if (data.success) {
+    //   router.push(`/page/${data.data.page.id}`);
+    // }
+  };
+
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
+          name="newPage"
+          aria-label="newPage"
+          className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
+          onClick={() => {
+            console.log("new page");
+          }}
+        >
+          <Plus size={20} />
+          New Page
+        </button>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          sideOffset={5}
+          alignOffset={-5}
+          className="min-w-[220px] bg-white rounded-md shadow-lg p-2 z-40"
+        >
+          <DropdownMenu.Item>
+            <button
+              onClick={createPage}
+            >
+              Character
+            </button>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item>
+            Event
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item>
+            Place
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item>
+            Item
+          </DropdownMenu.Item>
+
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }

@@ -19,7 +19,7 @@ export default function Alert({ t, topMsg, bottomMsg }: AlertProps) {
   return (
     <div
       className={`${visible ? "toast-enter" : "toast-leave"
-        } max-w-md bg-neutral-800 rounded-lg flex flex-row p-2 border-2 border-alert-500 min-h-14 gap-4`}
+        } max-w-md bg-neutral-800 rounded-lg flex flex-row p-2 border-2 border-alert-500 min-h-14 gap-4 z-50`}
       onAnimationEnd={() => {
         if (!visible) {
           toast.dismiss(t.id);

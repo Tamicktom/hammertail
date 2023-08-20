@@ -12,8 +12,6 @@ type Props = {
 }
 
 export default function PageInfoImage(props: Props) {
-  
-
   return (
     <Image
       src="https://th.bing.com/th/id/OIP.t3SF3TpmOxVWm-e-QnojAQHaLH?pid=ImgDet&rs=1"

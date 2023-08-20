@@ -27,8 +27,9 @@ export default function CharacterInfo() {
           endDate={page.data?.end || 0}
           page={page.data}
         />
+
+        
       </div>
     </div>
   );
 }
-

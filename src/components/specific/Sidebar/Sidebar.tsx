@@ -27,10 +27,7 @@ import { useRouter } from "next/router";
 
 //* Atoms imports
 
-type Props = {
-};
-
-export default function Sidebar(props: Props) {
+export default function Sidebar() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const characters = useGetPagesByType("characters", page.data?.worldId);

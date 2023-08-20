@@ -13,8 +13,8 @@ export default function Design() {
           toast.custom((t) => (
             <Sucess
               t={t}
-              topMsg='Mundo criado com sucesso!'
-              bottomMsg='Comece a criar suas histórias!'
+              topMsg='World created successfully!'
+              bottomMsg='Start creating your stories!'
             />
           ));
         }}>
@@ -26,8 +26,8 @@ export default function Design() {
           toast.custom((t) => (
             <Danger
               t={t}
-              topMsg='Erro ao criar mundo!'
-              bottomMsg='Tente novamente mais tarde!'
+              topMsg='Error creating world!'
+              bottomMsg='Please try again later!'
             />
           ));
         }}>
@@ -39,8 +39,8 @@ export default function Design() {
           toast.custom((t) => (
             <Info
               t={t}
-              topMsg='Novas mensagens!'
-              bottomMsg='Você tem 3 novas mensagens!'
+              topMsg='New messages!'
+              bottomMsg='You have 3 new messages!'
             />
           ));
         }}>
@@ -52,8 +52,8 @@ export default function Design() {
           toast.custom((t) => (
             <Alert
               t={t}
-              topMsg='Novas mensagens!'
-              bottomMsg='Você tem 3 novas mensagens!'
+              topMsg='New messages!'
+              bottomMsg='You have 3 new messages!'
             />
           ));
         }}>

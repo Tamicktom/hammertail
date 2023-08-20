@@ -11,7 +11,7 @@ export function WorldModalButton(props: Props) {
         className="flex h-8 w-40 flex-row items-center justify-center gap-2 rounded-md bg-primary-500 bg-gradient-to-t from-primary-700 font-primary font-bold uppercase text-black"
       >
         <Globe />
-        Criar mundo
+        Create world
       </button>
     </div>
   );

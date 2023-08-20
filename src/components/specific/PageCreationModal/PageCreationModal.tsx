@@ -15,9 +15,6 @@ import CreatePlaceForm from './components/CreatePlaceForm';
 import CreateEventForm from './components/CreateEventForm';
 import CreateItemForm from './components/CreateItemForm';
 
-//* Store imports
-import worldStore from '../../../store/common/world';
-
 type PageTypes = 'characters' | 'places' | 'events' | 'items';
 
 type Props = {
@@ -45,10 +42,10 @@ const PageCreationModal = (props: Props) => {
 
         <Content className='DialogContent bg-white rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md px-4 py-8 flex flex-col justify-start items-center gap-4'>
           <Title className='w-full text-center text-black font-bold text-2xl'>
-            Criar nova página
+            Create new page
           </Title>
           <Description>
-            Para criar uma nova página, primeiro escolha o tipo de página que deseja criar.
+            To create a new page, first choose the type of page you want.
           </Description>
 
           <div>

@@ -29,8 +29,8 @@ export const WorldCard = ({ world }: WorldCardProps) => {
           >
             <Image
               alt="World Image"
-              src={world.image || "/images/default_world.jpg"}
-              blurDataURL={world.image || "/images/default_world.jpg"}
+              src={world.image || "/images/default_world_image.svg"}
+              blurDataURL={world.image || "/images/default_world_image.svg"}
               loading="lazy"
               width={256}
               height={256}

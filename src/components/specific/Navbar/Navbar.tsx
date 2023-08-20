@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 //* Local imports
 import Alert from "../../Toasts/Alert";
 import { worldAtom } from "../../../atoms/world";
-import { sidebarCollapseAtom } from "../../../atoms/sidebar";
+import { sidebarCollapseAtom, setSidebarState } from "../../../atoms/sidebar";
 
 const apiResponseSchema = z.object({
   page: z.object({
@@ -30,13 +30,18 @@ type Props = {
   loading: boolean;
 }
 
-export const Navbar = (props: Props) => {
+export default function Navbar(props: Props) {
   const { data: session } = useSession();
   const [sidebarCollapse, setSidebarCollapse] = useAtom(sidebarCollapseAtom);
 
   if (props.loading) return (
     <div className="w-full h-20 z-20 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2 bg-neutral-800/90" />
   );
+
+  function toggleSidebar() {
+    setSidebarCollapse(() => !sidebarCollapse);
+    setSidebarState(!sidebarCollapse);
+  }
 
   return (
     <div
@@ -54,7 +59,7 @@ export const Navbar = (props: Props) => {
           className="bg-neutral-800"
           name="sidebarCollapse"
           aria-label="sidebarCollapse"
-          onClick={() => setSidebarCollapse(() => !sidebarCollapse)}
+          onClick={toggleSidebar}
         >
           <Sidebar size="20" />
         </button>

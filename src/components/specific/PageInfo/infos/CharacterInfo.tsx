@@ -22,13 +22,12 @@ export default function CharacterInfo() {
       </div>
       <div className='flex flex-col w-full gap-2'>
         <StartEndDate
+          loading={page.isLoading || page.isFetching}
           pageId={page.data?.id || ""}
           startDate={page.data?.start || 0}
           endDate={page.data?.end || 0}
           page={page.data}
         />
-
-        
       </div>
     </div>
   );

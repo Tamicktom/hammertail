@@ -9,6 +9,7 @@ import useDebounce from "../../../hooks/common/useDebounce";
 import type { PageWorld } from "../../../hooks/queries/usePage";
 
 type StartEndDateProps = {
+  loading: boolean;
   pageId: string;
   startDate: number;
   endDate: number;
@@ -29,11 +30,13 @@ export default function StartEndDate(props: StartEndDateProps) {
   const useUpdatePageDateMutation = useUpdatePageDate();
 
   useEffect(() => {
-    useUpdatePageDateMutation.mutate({
-      pageId: props.pageId,
-      start: debouncedStartDate.start,
-      end: debouncedStartDate.end,
-    })
+    if (!props.loading) {
+      useUpdatePageDateMutation.mutate({
+        pageId: props.pageId,
+        start: debouncedStartDate.start,
+        end: debouncedStartDate.end,
+      })
+    }
   }, [debouncedStartDate]);
 
   return (

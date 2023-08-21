@@ -53,7 +53,7 @@ export default function PageEdit() {
             <PageBackgroundImage />
 
             <Navbar
-              loading={page.isLoading}
+              loading={page.isLoading || page.isFetching}
             />
 
             <div className='w-full max-w-7xl flex flex-col pt-28'>

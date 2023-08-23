@@ -71,7 +71,7 @@ export default function PageEdit() {
                     }
                   </div>
                   {/* page content */}
-                  <div className='w-1/4 flex flex-col items-start'>
+                  <div className='min-w-full ssm:min-w-1/4 flex flex-col items-start'>
                     <PageInfo />
                   </div>
                 </div>

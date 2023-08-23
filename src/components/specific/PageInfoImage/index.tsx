@@ -1,8 +1,8 @@
 //* Libraries imports
-import Image from "next/image";
 import { Pen } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import z from "zod";
 
 //* Components imports
 import Sucess from "../../Toasts/Sucess";
@@ -19,6 +19,12 @@ type Props = {
 export default function PageInfoImage(props: Props) {
   const editImage = useEditImage();
 
+  /**
+   * Opens the file selector.
+   * 
+   * @returns void
+   */
+
   const handleOpenFileSelector = () => {
     const fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
@@ -29,6 +35,13 @@ export default function PageInfoImage(props: Props) {
     fileSelector.onchange = () => handleFile(fileSelector.files);
     fileSelector.click();
   }
+
+  /**
+   * Handles the image upload.
+   * 
+   * @param files The files to be uploaded. If null, will show an error toast.
+   * @returns void
+   */
 
   const handleFile = (files: FileList | null) => {
     if (!files)
@@ -43,7 +56,11 @@ export default function PageInfoImage(props: Props) {
     const formData = new FormData();
     formData.append("image", files[0]!);
 
-    editImage.mutate(formData, {
+    editImage.mutate({
+      data: formData,
+      pageId: props.page!.id,
+      worldId: props.page!.worldId
+    }, {
       onSuccess: () => toast.custom((t) => (
         <Sucess
           t={t}
@@ -86,13 +103,23 @@ export default function PageInfoImage(props: Props) {
   );
 }
 
-const editImage = async (data: FormData) => {
-  const image = validateImage(data.get("image"), {
+type EditImageProps = {
+  data: FormData;
+  pageId: string;
+  worldId: string;
+}
+
+const editImage = async (props: EditImageProps) => {
+  if (!z.string().uuid().safeParse(props.pageId).success)
+    throw new Error("PageId is not an uuid");
+
+  if (!z.string().uuid().safeParse(props.worldId).success)
+    throw new Error("WorldId is not an uuid");
+
+  const image = validateImage(props.data.get("image"), {
     maxSize: 8 * 1024 * 1024, //8MB
     types: ["jpg", "jpeg", "png", "gif"]
   });
-
-  console.log(image);
 };
 
 export function useEditImage() {

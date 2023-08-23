@@ -75,6 +75,10 @@ export default function PageInfoImage(props: Props) {
           bottomMsg="Ocorreu um erro ao alterar a imagem!"
         />
       )),
+      onSettled: () => {
+        const fileSelector = document.getElementById("fileSelector")!;
+        fileSelector.remove();
+      }
     });
   }
 

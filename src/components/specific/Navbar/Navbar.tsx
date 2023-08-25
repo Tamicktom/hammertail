@@ -22,18 +22,34 @@ export default function Navbar(props: Props) {
   const { data: session } = useSession();
   const [sidebarCollapse, setSidebarCollapse] = useAtom(sidebarCollapseAtom);
 
-  if (props.loading) return (
-    <div className="w-full h-20 z-20 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2 bg-neutral-800/90" />
-  );
-
   function toggleSidebar() {
     setSidebarCollapse(() => !sidebarCollapse);
     setSidebarState(!sidebarCollapse);
   }
 
+  // return (
+  if (props.loading) return (
+    <div className="sticky top-0 left-0 z-20 flex flex-row items-center justify-between w-full h-32 gap-4 px-4 py-2 transition-all ease-in border-b-2 lg:h-20 backdrop-blur-xl bg-neutral-800/90">
+      {/* image */}
+      <div className="flex gap-5">
+        <div className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in lg:w-12 lg:h-12">
+          <div
+            className="object-cover w-full h-full rounded-full bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse"
+          />
+        </div>
+      </div>
+
+      {/* buttons */}
+      <div className="flex flex-row items-center gap-4">
+        <button className="flex items-center w-[135px] h-10 gap-2 px-4 py-2 rounded-md bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
+        <button className="w-5 h-5 rounded-full bg-neutral-800 bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
+      </div>
+    </div>
+  );
+
   return (
     <div
-      className="w-full h-20 z-20 px-4 py-2 sticky top-0 left-0 flex flex-row gap-4 items-center justify-between transition-all backdrop-blur-xl border-b-2 bg-neutral-800/90"
+      className="sticky top-0 left-0 z-20 flex flex-row items-center justify-between w-full h-32 gap-4 px-4 py-2 transition-all ease-in border-b-2 lg:h-20 backdrop-blur-xl bg-neutral-800/90"
     >
       <UserAvatar
         src={session?.user?.image || ""}
@@ -88,14 +104,14 @@ function UserAvatar(props: UserAvatarProps) {
 
   return (
     <div className="flex gap-5">
-      <Avatar.Root className="flex h-12 w-12 items-center justify-center overflow-hidden">
+      <Avatar.Root className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in lg:w-12 lg:h-12">
         <Avatar.Image
-          className="h-full w-full rounded-full object-cover"
+          className="object-cover w-full h-full rounded-full"
           src={props.src}
           alt={props.alt}
         />
         <Avatar.Fallback
-          className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-b from-primary-600 to-primary-800 object-cover text-2xl font-bold text-white"
+          className="flex items-center justify-center object-cover w-full h-full text-2xl font-bold text-white rounded-full bg-gradient-to-b from-primary-600 to-primary-800"
           delayMs={600}
         >
           {getInitials()}
@@ -195,7 +211,7 @@ function CreatePageButton(props: CreatePageButtonProps) {
         <button
           name="newPage"
           aria-label="newPage"
-          className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 font-bold text-white transition-all hover:bg-primary-700"
+          className="flex items-center gap-2 px-4 py-2 font-bold text-white transition-all rounded-md bg-primary-700 hover:bg-primary-700"
           onClick={() => {
             console.log("new page");
           }}

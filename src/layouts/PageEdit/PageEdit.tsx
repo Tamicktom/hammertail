@@ -56,7 +56,7 @@ export default function PageEdit() {
               loading={page.isLoading || page.isFetching}
             />
 
-            <div className='flex flex-col w-full max-w-7xl pt-28'>
+            <div className='flex flex-col w-full transition-all ease-in pt-80 max-w-7xl xl:pt-32'>
               {/* content */}
               <div className='relative z-10 flex flex-col items-center w-full p-4 border rounded-2xl bg-neutral-900 border-neutral-600'>
                 <PageEditMenu />

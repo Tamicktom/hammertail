@@ -64,14 +64,16 @@ export default function PageEdit() {
                 <div className='flex flex-col-reverse items-start w-full gap-0 sm:gap-4 sm:flex-row rounded-2xl'>
                   {/* blocks holder */}
                   <div className='flex flex-col items-start w-full gap-2'>
-                    <PageHeader />
+                    <div className='hidden sm:flex'>
+                      <PageHeader />
+                    </div>
                     {page.data && <TextEditorWraper page={page.data} />}
                   </div>
                   {/* page content */}
                   <div className='flex flex-col items-start w-full sm:w-1/2 lg:w-1/4'>
                     <PageInfo />
                   </div>
-
+                  {/* page header */}
                   <div className='flex flex-col items-start w-full gap-2 sm:hidden'>
                     <PageHeader />
                   </div>

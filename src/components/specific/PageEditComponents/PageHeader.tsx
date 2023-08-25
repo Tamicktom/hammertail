@@ -55,14 +55,14 @@ export default function PageHeader() {
 
   return (
     <div className='flex flex-col w-full gap-2 mb-8'>
-      <span className='text-white'>
+      <span className='text-xl text-white'>
         {
           page.data?.PageType &&
           page.data.PageType.name.substring(0, 1).toUpperCase() + page.data.PageType.name.substring(1)
         }
       </span>
       <div
-        className='flex items-center gap-2'
+        className='flex items-center gap-2 -mt-5'
         onClick={() => {
           setIsEditing(true);
           setTimeout(() => {
@@ -88,7 +88,7 @@ export default function PageHeader() {
               onBlur={() => setIsEditing(false)}
             />
             : <h1
-              className="text-5xl font-bold text-white py-2"
+              className="py-2 text-5xl font-bold text-white"
               style={{
                 display: isEditing ? "none" : "block",
               }}

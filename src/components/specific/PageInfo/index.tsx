@@ -18,7 +18,7 @@ export default function PageInfo() {
   if (page.isLoading) return <LocalLoading />
 
   return (
-    <div className="p-2 w-80">
+    <div className="flex items-center justify-center w-full p-2">
       {renderRightInfo(page.data?.PageType)}
     </div>
   );

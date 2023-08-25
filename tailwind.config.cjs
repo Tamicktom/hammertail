@@ -18,6 +18,8 @@ module.exports = {
       screens: {
         "xsm": "320px",
         "ssm": "390px",
+        "lsm": "450px",
+        "lgsm": "512px",
       },
       fontFamily: {
         primary: "var(--primary-font)",

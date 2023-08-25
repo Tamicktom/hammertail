@@ -45,7 +45,7 @@ export default function PageEdit() {
   }, [page.data]);
 
   return (
-    <div className="w-screen h-screen bg-neutral-800 flex flex-row justify-start items-center">
+    <div className="flex flex-row items-center justify-start w-screen h-screen bg-neutral-800">
       <Allotment>
         <Allotment.Pane>
           <Scrollable>
@@ -56,31 +56,32 @@ export default function PageEdit() {
               loading={page.isLoading || page.isFetching}
             />
 
-            <div className='w-full max-w-7xl flex flex-col pt-28'>
+            <div className='flex flex-col w-full max-w-7xl pt-28'>
               {/* content */}
-              <div className='flex p-4 flex-col relative items-center w-full rounded-2xl bg-neutral-900 z-10 border border-neutral-600'>
+              <div className='relative z-10 flex flex-col items-center w-full p-4 border rounded-2xl bg-neutral-900 border-neutral-600'>
                 <PageEditMenu />
                 {/* data */}
-                <div className='flex items-start gap-4 rounded-2xl w-full'>
+                <div className='flex flex-col-reverse items-start w-full gap-0 sm:gap-4 sm:flex-row rounded-2xl'>
                   {/* blocks holder */}
-                  <div className='flex flex-col gap-2 items-start w-full'>
+                  <div className='flex flex-col items-start w-full gap-2'>
                     <PageHeader />
-                    {
-                      page.data
-                      && <TextEditorWraper page={page.data} />
-                    }
+                    {page.data && <TextEditorWraper page={page.data} />}
                   </div>
                   {/* page content */}
-                  <div className='min-w-full ssm:min-w-1/4 flex flex-col items-start'>
+                  <div className='flex flex-col items-start w-full sm:w-1/2 lg:w-1/4'>
                     <PageInfo />
+                  </div>
+
+                  <div className='flex flex-col items-start w-full gap-2 sm:hidden'>
+                    <PageHeader />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* timeline */}
-            {/* <div className='flex justify-center items-center w-full sticky left-0 bottom-0 h-28 z-10'>
-              <div className='w-full max-w-7xl h-full bg-amber-600'>
+            {/* <div className='sticky bottom-0 left-0 z-10 flex items-center justify-center w-full h-28'>
+              <div className='w-full h-full max-w-7xl bg-amber-600'>
                 Timeline
               </div>
             </div> */}
@@ -113,10 +114,10 @@ function Scrollable(props:
       scrollHideDelay={750}
     >
       <ScrollArea.Viewport
-        className="w-full h-full relative flex flex-col"
+        className="relative flex flex-col w-full h-full"
         onScroll={props.onScroll}
       >
-        <div className='w-full h-full relative flex flex-col bg-neutral-950 justify-start items-center'>
+        <div className='relative flex flex-col items-center justify-start w-full h-full bg-neutral-950'>
           {props.children}
         </div>
       </ScrollArea.Viewport>
@@ -125,7 +126,7 @@ function Scrollable(props:
         className="flex select-none h-full touch-none px-1 transition-all bg-neutral-800 hover:bg-neutral-700 relative hover:px-1.5"
       >
         <ScrollArea.Thumb
-          className="bg-neutral-600 flex-1 rounded absolute left-0 top-0"
+          className="absolute top-0 left-0 flex-1 rounded bg-neutral-600"
           style={{
             width:
               "100%",

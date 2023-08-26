@@ -1,8 +1,8 @@
 //* Libraries imports
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import z from "zod";
-import { useRouter } from "next/router";
 
 //* Local imports
 import usePage from "../../../hooks/queries/usePage";
@@ -39,7 +39,6 @@ export default function PageHeader() {
     }
 
     await axios.post("/api/pages/updatePageName", body.data);
-    page.refetch();
     pages.refetch();
   }
 
@@ -52,6 +51,21 @@ export default function PageHeader() {
   useEffect(() => {
     setPageName(page.data?.name || "NO NAME");
   }, [page.data?.name]);
+
+  if (page.isLoading || page.isRefetching)
+    return (
+      <div className='flex flex-col w-full gap-2 mb-8'>
+        <span className='text-xl text-transparent h-7 bg-gradient-to-r from-primary-600 to-primary-800 animate-pulse rounded-lg'>
+          No char
+        </span>
+        <div
+          className='flex items-center gap-2 -mt-5'
+        ><span
+          className="py-2 text-5xl font-bold text-transparent bg-gradient-to-r from-primary-600 to-primary-800 animate-pulse rounded-lg"
+        >No Name</span>
+        </div>
+      </div>
+    );
 
   return (
     <div className='flex flex-col w-full gap-2 mb-8'>

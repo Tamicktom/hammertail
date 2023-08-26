@@ -1,8 +1,7 @@
 //* Libraries imports
-import { useMemo, type ReactNode, type UIEvent } from 'react';
+import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Allotment, LayoutPriority } from "allotment";
-import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 
@@ -14,6 +13,7 @@ import { useAtom } from 'jotai';
 // import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
 // import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
 // import PageEditMenu from '../../components/specific/PageEditMenu';
+// import Scrollable from '../../components/common/Scrollable';
 
 const Navbar = dynamic(() => import('../../components/specific/Navbar/Navbar'));
 const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
@@ -22,6 +22,7 @@ const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"
 const TextEditorWraper = dynamic(() => import('../../components/TextEditor/TextEditorWraper'));
 const PageBackgroundImage = dynamic(() => import('../../components/specific/PageBackgroundImage'));
 const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'), { ssr: false });
+const Scrollable = dynamic(() => import('../../components/common/Scrollable'));
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
@@ -96,45 +97,5 @@ export default function PageEdit() {
         </Allotment.Pane>
       </Allotment>
     </div>
-  );
-}
-
-type ScrollableProps = {
-  children: ReactNode;
-  onScroll?: (event: UIEvent<HTMLDivElement>) => void;
-}
-
-function Scrollable(props:
-  ScrollableProps) {
-
-  return (
-    <ScrollArea.Root
-      className="w-full h-full overflow-hidden"
-      scrollHideDelay={750}
-    >
-      <ScrollArea.Viewport
-        className="relative flex flex-col w-full h-full"
-        onScroll={props.onScroll}
-      >
-        <div className='relative flex flex-col items-center justify-start w-full h-full bg-neutral-950'>
-          {props.children}
-        </div>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar
-        orientation="vertical"
-        className="flex select-none h-full touch-none px-1 transition-all bg-neutral-800 hover:bg-neutral-700 relative hover:px-1.5 z-10"
-      >
-        <ScrollArea.Thumb
-          className="absolute top-0 left-0 flex-1 rounded bg-neutral-600"
-          style={{
-            width:
-              "100%",
-          }}
-        />
-      </ScrollArea.Scrollbar>
-      <ScrollArea.Corner
-        className="bg-blue-400"
-      />
-    </ScrollArea.Root>
   );
 }

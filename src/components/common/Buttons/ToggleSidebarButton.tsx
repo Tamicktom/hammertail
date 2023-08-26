@@ -23,7 +23,8 @@ export default function ToggleSidebarButton() {
       name="sidebarCollapse"
       aria-label="sidebarCollapse"
       onClick={toggleSidebar}
-      children={<Sidebar className="w-8 h-8 text-neutral-500" />}
-    />
+    >
+      <Sidebar className="w-8 h-8 text-neutral-500" />
+    </button>
   );
 }

@@ -129,8 +129,7 @@ export default function ImageUpload(props: Props) {
             filter: image ? 'none' : 'blur(10px)',
             height: imageProportions[1],
           }}
-          width={imageProportions[0]}
-          height={imageProportions[1]}
+          priority
         />
       </div>
       <div className='p-4 absolute right-0 top-0'>

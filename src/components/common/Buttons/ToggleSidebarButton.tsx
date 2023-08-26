@@ -20,11 +20,10 @@ export default function ToggleSidebarButton() {
 
   return (
     <button
-      className="w-5 h-5 rounded-full"
       name="sidebarCollapse"
       aria-label="sidebarCollapse"
       onClick={toggleSidebar}
-      children={<Sidebar className="w-5 h-5 text-neutral-500" />}
+      children={<Sidebar className="w-8 h-8 text-neutral-500" />}
     />
   );
 }

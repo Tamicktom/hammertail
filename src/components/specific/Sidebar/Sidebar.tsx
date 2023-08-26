@@ -10,11 +10,11 @@ import {
 import {
   CaretDown,
   Person,
-  Dna,
   Sword,
   Globe,
   Calendar,
 } from "@phosphor-icons/react";
+import { useAtom } from "jotai";
 
 //* Hook imports
 import useGetPagesByType from "../../../hooks/common/useGetPagesByType";
@@ -26,6 +26,7 @@ import type { Page } from "@prisma/client";
 import { useRouter } from "next/router";
 
 //* Atoms imports
+import { sidebarCollapseAtom } from "../../../atoms/sidebar";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Sidebar() {
   const items = useGetPagesByType("items", page.data?.worldId);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [showIcons, setShowIcons] = useState<boolean>(false);
+  const [sidebarCollapse] = useAtom(sidebarCollapseAtom);
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -64,7 +66,10 @@ export default function Sidebar() {
   return (
     <div
       ref={sidebarRef}
-      className="container flex h-full w-full flex-col bg-neutral-700"
+      className="container flex h-full flex-col bg-neutral-700 transition-all ease-in-out duration-300"
+      style={{
+        width: sidebarCollapse ? "80px" : "320px",
+      }}
     >
       <Root type="multiple" defaultValue={["Characters"]} className="w-full">
         <AccordionItem

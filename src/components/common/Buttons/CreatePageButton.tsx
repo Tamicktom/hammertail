@@ -1,6 +1,5 @@
 //* Libraries imports
 import { useRouter } from "next/router";
-import { useAtom } from "jotai";
 import toast from "react-hot-toast";
 import { Plus } from "@phosphor-icons/react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -11,10 +10,6 @@ import Alert from "../../Toasts/Alert";
 
 //* Hooks imports
 import usePage from "../../../hooks/queries/usePage";
-
-//* Atom imports
-import { worldAtom } from "../../../atoms/world";
-
 
 const pageTypeSchema = z.enum([
   "characters",
@@ -41,14 +36,13 @@ const apiResponseSchema = z.object({
 export default function CreatePageButton() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
-  const [world] = useAtom(worldAtom);
 
   if (page.isLoading || page.isFetching) return (
     <button className="flex items-center w-[135px] h-10 gap-2 px-4 py-2 rounded-md bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
   );
 
   const createPage = async (type: PageTypes) => {
-    if (!world) return toast.custom((t) => (
+    if (!page.data?.worldId) return toast.custom((t) => (
       <Alert
         t={t}
         topMsg='erro ao criar página!'
@@ -60,7 +54,7 @@ export default function CreatePageButton() {
     })
 
     const body = createSpecificPageSchema.safeParse({
-      worldId: world.id,
+      worldId: page.data?.worldId,
       pageType: type,
     });
 

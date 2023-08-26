@@ -15,7 +15,7 @@ import { useAtom } from 'jotai';
 // import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
 // import PageEditMenu from '../../components/specific/PageEditMenu';
 
-const Navbar = dynamic(() => import('../../components/specific/Navbar/Navbar'), { ssr: false });
+const Navbar = dynamic(() => import('../../components/specific/Navbar/Navbar'));
 const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
 const PageInfo = dynamic(() => import('../../components/specific/PageInfo'));
 const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"));
@@ -51,10 +51,7 @@ export default function PageEdit() {
           <Scrollable>
             {/* background */}
             <PageBackgroundImage />
-
-            <Navbar
-              loading={page.isLoading || page.isFetching}
-            />
+            <Navbar />
 
             <div className='flex flex-col w-full transition-all ease-in pt-80 max-w-7xl xl:pt-32'>
               {/* content */}
@@ -125,7 +122,7 @@ function Scrollable(props:
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="vertical"
-        className="flex select-none h-full touch-none px-1 transition-all bg-neutral-800 hover:bg-neutral-700 relative hover:px-1.5"
+        className="flex select-none h-full touch-none px-1 transition-all bg-neutral-800 hover:bg-neutral-700 relative hover:px-1.5 z-10"
       >
         <ScrollArea.Thumb
           className="absolute top-0 left-0 flex-1 rounded bg-neutral-600"

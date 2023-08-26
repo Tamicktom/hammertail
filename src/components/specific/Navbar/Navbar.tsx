@@ -13,13 +13,23 @@ import z from "zod";
 import Alert from "../../Toasts/Alert";
 import { worldAtom } from "../../../atoms/world";
 import { sidebarCollapseAtom, setSidebarState } from "../../../atoms/sidebar";
+import usePage from "../../../hooks/queries/usePage";
 
-type Props = {
-  loading: boolean;
-}
+export default function Navbar() {
+  return (
+    <div
+      className="sticky top-0 left-0 z-20 flex flex-row items-center justify-between w-full h-32 gap-4 px-4 py-2 transition-all ease-in border-b-2 border-neutral-700 xl:h-20 backdrop-blur-xl bg-neutral-800/90"
+    >
+      <UserAvatar />
+      <div className="flex flex-row items-center gap-4">
+        <CreatePageButton />
+        <ToggleSidebarButton />
+      </div>
+    </div>
+  );
+};
 
-export default function Navbar(props: Props) {
-  const { data: session } = useSession();
+function ToggleSidebarButton() {
   const [sidebarCollapse, setSidebarCollapse] = useAtom(sidebarCollapseAtom);
 
   function toggleSidebar() {
@@ -27,64 +37,27 @@ export default function Navbar(props: Props) {
     setSidebarState(!sidebarCollapse);
   }
 
-  // return (
-  if (props.loading) return (
-    <div className="sticky top-0 left-0 z-20 flex flex-row items-center justify-between w-full h-32 gap-4 px-4 py-2 transition-all ease-in border-b-2 lg:h-20 backdrop-blur-xl bg-neutral-800/90">
-      {/* image */}
-      <div className="flex gap-5">
-        <div className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in lg:w-12 lg:h-12">
-          <div
-            className="object-cover w-full h-full rounded-full bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse"
-          />
-        </div>
-      </div>
-
-      {/* buttons */}
-      <div className="flex flex-row items-center gap-4">
-        <button className="flex items-center w-[135px] h-10 gap-2 px-4 py-2 rounded-md bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
-        <button className="w-5 h-5 rounded-full bg-neutral-800 bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
-      </div>
-    </div>
-  );
-
   return (
-    <div
-      className="sticky top-0 left-0 z-20 flex flex-row items-center justify-between w-full h-32 gap-4 px-4 py-2 transition-all ease-in border-b-2 lg:h-20 backdrop-blur-xl bg-neutral-800/90"
-    >
-      <UserAvatar
-        src={session?.user?.image || ""}
-        alt={session?.user?.name || "User avatar"}
-        name={session?.user?.name || ""}
-      />
-      <div className="flex flex-row items-center gap-4">
-        <CreatePageButton />
-
-        <button
-          className="bg-neutral-800"
-          name="sidebarCollapse"
-          aria-label="sidebarCollapse"
-          onClick={toggleSidebar}
-        >
-          <Sidebar size="20" />
-        </button>
-      </div>
-    </div>
+    <button
+      className="w-5 h-5 rounded-full"
+      name="sidebarCollapse"
+      aria-label="sidebarCollapse"
+      onClick={toggleSidebar}
+      children={<Sidebar className="w-5 h-5 text-neutral-500" />}
+    />
   );
-};
+}
 
-type UserAvatarProps = {
-  src: string;
-  alt: string;
-  name: string;
-};
+function UserAvatar() {
+  const session = useSession();
+  const user = session?.data?.user;
 
-function UserAvatar(props: UserAvatarProps) {
   //user can have a profile picture or not
   //if not, we will use the first two letters of the name and the last name.
   //but, the user can have a name with only one word, so we will use the first two letters of the name.
 
   const getInitials = () => {
-    const splitedName = props.name.split(" ");
+    const splitedName = user?.name?.split(" ") || [];
     let firstInitial = "";
     let secondInitial = "";
     if (splitedName.length > 1) {
@@ -102,13 +75,23 @@ function UserAvatar(props: UserAvatarProps) {
     return (firstInitial + secondInitial).toUpperCase();
   };
 
+  if (session.status === "loading") return (
+    <div className="flex gap-5">
+      <div className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in xl:w-12 xl:h-12">
+        <div
+          className="object-cover w-full h-full rounded-full bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex gap-5">
-      <Avatar.Root className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in lg:w-12 lg:h-12">
+      <Avatar.Root className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in xl:w-12 xl:h-12">
         <Avatar.Image
           className="object-cover w-full h-full rounded-full"
-          src={props.src}
-          alt={props.alt}
+          src={user?.image || ""}
+          alt="User avatar"
         />
         <Avatar.Fallback
           className="flex items-center justify-center object-cover w-full h-full text-2xl font-bold text-white rounded-full bg-gradient-to-b from-primary-600 to-primary-800"
@@ -147,11 +130,15 @@ type CreatePageButtonProps = {
 }
 
 function CreatePageButton(props: CreatePageButtonProps) {
-  const [world] = useAtom(worldAtom);
   const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+  const [world] = useAtom(worldAtom);
+
+  if (page.isLoading || page.isFetching) return (
+    <button className="flex items-center w-[135px] h-10 gap-2 px-4 py-2 rounded-md bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
+  );
 
   const createPage = async (type: PageTypes) => {
-
     if (!world) return toast.custom((t) => (
       <Alert
         t={t}

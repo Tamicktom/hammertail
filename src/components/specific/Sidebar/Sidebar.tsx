@@ -66,9 +66,9 @@ export default function Sidebar() {
   return (
     <div
       ref={sidebarRef}
-      className="container flex h-full flex-col bg-neutral-700 transition-all ease-in-out duration-300"
+      className="container flex h-full flex-col bg-neutral-700 transition-all ease-in-out duration-300 overflow-hidden"
       style={{
-        width: sidebarCollapse ? "80px" : "320px",
+        width: sidebarCollapse ? "0px" : "320px",
       }}
     >
       <Root type="multiple" defaultValue={["Characters"]} className="w-full">

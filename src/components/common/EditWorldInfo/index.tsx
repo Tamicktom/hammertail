@@ -14,7 +14,7 @@ export default function EditWorldInfo() {
 
   if (page.isLoading) return (
     <div>
-      <div className="flex items-center justify-center w-20 h-20 overflow-hidden transition-all ease-in xl:w-12 xl:h-12">
+      <div className="flex items-center justify-center w-16 h-16 overflow-hidden transition-all ease-in xl:w-12 xl:h-12">
         <div
           className="object-cover w-full h-full rounded-lg bg-gradient-to-b dark:from-primary-600 dark:to-primary-800 from-primary-300 to-primary-600 animate-pulse"
         />
@@ -24,7 +24,7 @@ export default function EditWorldInfo() {
 
   return (
     <div>
-      <div className="flex items-center justify-center w-20 h-20 hover:shadow-lg overflow-hidden xl:w-12 xl:h-12">
+      <div className="flex items-center justify-center w-16 h-16 hover:shadow-lg overflow-hidden xl:w-12 xl:h-12">
         <Image
           className="object-cover w-full h-full rounded-lg"
           src={page.data?.world?.image || "/images/default_world_image.svg"}

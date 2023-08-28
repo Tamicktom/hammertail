@@ -10,7 +10,7 @@ export default function PageBackgroundImage() {
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
   return (
-    <div className='absolute left-0 flex items-center justify-center w-full overflow-hidden transition-all ease-in top-32 xl:top-20 h-96'>
+    <div className='absolute left-0 flex items-center justify-center w-full overflow-hidden transition-all ease-in top-24 xl:top-20 h-96'>
       <Image
         alt='background'
         src={page.data?.image || "/login_screen_image.jpg"}

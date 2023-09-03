@@ -1,13 +1,23 @@
 //* Libraries imports
+import { useState, useEffect, useMemo, forwardRef } from "react";
+import type { ReactNode, Ref, ElementRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import * as Select from "@radix-ui/react-select";
+import { ArrowDown, ArrowUp, Check, Plus } from "@phosphor-icons/react";
 
 //* Components imports
 import PageInfoImage from "../../PageInfoImage";
 import StartEndDate from "../../../specific/StartEndDate";
+import MultiRangeSlider from "../../../common/MultRangeSlider";
+
+//* Utils imports
+import { timelineSchema, type TimelineItem } from "../../../../schemas/timeline";
 
 //* Hooks Imports
 import usePage from "../../../../hooks/queries/usePage";
+import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
+import useGetPagesByType from "../../../../hooks/common/useGetPagesByType";
 
 const characterItems = [
   {
@@ -28,44 +38,6 @@ const characterItems = [
   }
 ]
 
-const characterEvents = [
-  {
-    id: "1",
-    name: "The battle of the 5 armies",
-    image: "/images/battle.png",
-    description: "A battle that is used to kill people.",
-    start: 0,
-    end: 20,
-  },
-  {
-    id: "2",
-    name: "The battle of the 5 armies",
-    image: "/images/battle.png",
-    description: "A battle that is used to kill people.",
-    start: 0,
-    end: 20,
-  }
-]
-
-const characterPlaces = [
-  {
-    id: "1",
-    name: "Okami's house",
-    image: "/images/house.png",
-    description: "His house.",
-    start: 0,
-    end: 20,
-  },
-  {
-    id: "2",
-    name: "Okami's house",
-    image: "/images/house.png",
-    description: "His house.",
-    start: 0,
-    end: 20,
-  }
-]
-
 export default function CharacterInfo() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
@@ -78,83 +50,153 @@ export default function CharacterInfo() {
         />
       </div>
       <div className='flex flex-col w-full gap-2'>
-        <StartEndDate
-          loading={page.isLoading || page.isFetching}
-          pageId={page.data?.id || ""}
-          startDate={page.data?.start || 0}
-          endDate={page.data?.end || 0}
-          page={page.data}
-        />
-
-        <div className="flex flex-col w-full">
-          <span className='text-white'>Inventory</span>
-          <span className="text-white">Items that this character has.</span>
-          <ul>
-            {characterItems.map((item) => (
-              <li key={item.id} className='flex flex-row items-center justify-start w-full gap-2'>
-                <div className='flex items-center justify-center w-12 h-12 rounded-full bg-neutral-700'>
-                  {/* <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={48}
-                    height={48}
-                  /> */}
-                </div>
-                <div className='flex flex-col items-start justify-center w-full gap-1'>
-                  <span className='text-white'>{item.name}</span>
-                  <span className='text-neutral-200'>{item.description}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex flex-col w-full">
-          <span className='text-white'>Events</span>
-          <span className="text-white">Events that this character is involved.</span>
-          <ul>
-            {characterEvents.map((event) => (
-              <li key={event.id} className='flex flex-row items-center justify-start w-full gap-2'>
-                <div className='flex items-center justify-center w-12 h-12 rounded-full bg-neutral-700'>
-                  {/* <Image
-                    src={event.image}
-                    alt={event.name}
-                    width={48}
-                    height={48}
-                  /> */}
-                </div>
-                <div className='flex flex-col items-start justify-center w-full gap-1'>
-                  <span className='text-white'>{event.name}</span>
-                  <span className='text-neutral-200'>{event.description}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex flex-col w-full">
-          <span className='text-white'>Places</span>
-          <span className="text-white">Places that this character is involved.</span>
-          <ul>
-            {characterPlaces.map((place) => (
-              <li key={place.id} className='flex flex-row items-center justify-start w-full gap-2'>
-                <div className='flex items-center justify-center w-12 h-12 rounded-full bg-neutral-700'>
-                  {/* <Image
-                    src={place.image}
-                    alt={place.name}
-                    width={48}
-                    height={48}
-                  /> */}
-                </div>
-                <div className='flex flex-col items-start justify-center w-full gap-1'>
-                  <span className='text-white'>{place.name}</span>
-                  <span className='text-neutral-200'>{place.description}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <StartEndDate />
+        <PageItems />
       </div>
     </div>
   );
 }
+
+
+
+function PageItems() {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+  const updateTimeline = useUpdateTimeline();
+  const [items, setItems] = useState<TimelineItem[]>([]);
+  const availableItems = useGetPagesByType("items", page.data?.world?.id);
+
+  useMemo(() => {
+    if (page.data?.other) {
+      const timeline = timelineSchema.parse(page.data.other);
+      console.log("timeline", timeline);
+      setItems(timeline.items);
+    }
+  }, [page.data?.other]);
+
+  const handleAddItem = (itemId: string) => {
+    const newItems: TimelineItem[] = [...items];
+    const item = availableItems.data?.data.pages.find((item) => item.id === itemId);
+
+    if (!item) return;
+    newItems.push({
+      id: item.id,
+      name: item.name,
+      image: item.image,
+      description: "",
+      start: 0,
+      end: 0,
+    });
+
+    setItems(() => newItems);
+  }
+
+  const handleRemoveItem = (itemId: string) => { }
+
+  useEffect(() => {
+    console.log("items", items);
+  }, [items]);
+
+  return (
+    <div className="flex flex-col w-full">
+      <Select.Root
+        onValueChange={handleAddItem}
+        onOpenChange={(open) => {
+          console.log("open", open);
+        }}
+      >
+        <Select.Trigger className="inline-flex items-center justify-center bg-white">
+          <Select.Value placeholder="Select an item to add" />
+          <Select.Icon>
+            <Plus size={24} />
+          </Select.Icon>
+        </Select.Trigger>
+
+        <Select.Portal>
+          <Select.Content className="overflow-hidden bg-white z-50">
+            <Select.ScrollUpButton>
+              <ArrowUp size={24} />
+            </Select.ScrollUpButton>
+            <Select.Viewport>
+              {/* <SelectItem value="1" children="Sword" /> */}
+              {
+                availableItems.data?.data.pages.map((item) => (
+                  <SelectItem
+                    key={item.id}
+                    value={item.id}
+                    children={item.name}
+                    className="text-neutral-900 bg-white hover:bg-neutral-100 transition-all duration-300"
+                  />
+                ))
+              }
+              <Select.Separator />
+            </Select.Viewport>
+            <Select.ScrollDownButton>
+              <ArrowDown size={24} />
+            </Select.ScrollDownButton>
+            <Select.Arrow />
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+
+      <div>
+        {
+          items.map((item) => (
+            <div key={item.id} className="flex flex-col w-full gap-2 bg-white">
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center justify-start gap-2">
+                  {
+                    item.image &&
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={32}
+                      height={32}
+                    />
+                  }
+                  <p className="text-neutral-900">{item.name}</p>
+                </div>
+                <button onClick={() => handleRemoveItem(item.id)}>
+                  <p className="text-neutral-900">Remove</p>
+                </button>
+              </div>
+              <div className="flex flex-col w-full gap-2">
+                <input
+                  type="text"
+                  placeholder="Description"
+                  className="w-full p-2 bg-neutral-100 rounded-md"
+                />
+                <div className="flex items-center justify-between w-full">
+                  <MultiRangeSlider
+                    min={page.data?.world?.start || 0}
+                    max={page.data?.world?.end || 0}
+                    onChange={(value) => {
+                      console.log("value", value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  );
+}
+
+type SelectItemProps = {
+  children: ReactNode;
+  className?: string;
+  value: string;
+}
+
+const SelectItem = forwardRef(function SelectItem({ children, className, value, ...props }: SelectItemProps, forwardedRef: Ref<ElementRef<typeof Select.Item>>) {
+  return (
+    <Select.Item className={className} value={value} {...props} ref={forwardedRef}>
+      <Select.ItemText>{children}</Select.ItemText>
+      <Select.ItemIndicator className="SelectItemIndicator">
+        <Check />
+      </Select.ItemIndicator>
+    </Select.Item>
+  );
+});

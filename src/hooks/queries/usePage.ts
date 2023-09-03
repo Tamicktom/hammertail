@@ -12,6 +12,7 @@ export type PageWorld = Page & {
 
 async function getPage(pageId: string): Promise<PageWorld> {
   const response = await axios.get<PageWorld>(`/api/page/${pageId}`);
+  console.log(response.data);
   return response.data;
 }
 

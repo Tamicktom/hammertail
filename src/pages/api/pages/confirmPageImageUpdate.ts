@@ -11,6 +11,7 @@ import { env } from "../../../env/client.mjs";
 const pageImageUploadSchema = z.object({
   worldId: z.string().uuid(),
   pageId: z.string().uuid(),
+  url: z.string(),
   image: z.enum(["image/png", "image/jpeg", "image/jpg", "image/gif"]),
 });
 
@@ -45,16 +46,40 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    const { worldId, pageId, image } = parsedImageUpload.data;
+    const { worldId, pageId, image, url } = parsedImageUpload.data;
 
     const imageExtension = image.split("/")[1];
+
+    const deleteOldImage = async () => {
+      //delete old image
+      const oldImage = await prisma.page.findUnique({
+        where: {
+          id: pageId,
+        },
+        select: {
+          image: true,
+        },
+      });
+
+      if (oldImage?.image) {
+        const oldImageName = oldImage.image.replace(
+          `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/pages-images/`,
+          ""
+        );
+        await supabase.storage.from("pages-images").remove([oldImageName]);
+      }
+    };
+
+    try {
+      await deleteOldImage();
+    } catch (error) {}
 
     const page = await prisma.page.update({
       where: {
         id: pageId,
       },
       data: {
-        image: `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/pages-images/${sessionUserId}/${worldId}/${pageId}/background.${imageExtension}`,
+        image: `${env.NEXT_PUBLIC_SUPABASE_URL}storage/v1/object/public/pages-images/${url}`,
       },
     });
 

@@ -1,10 +1,11 @@
 //* Libraries imports
 import type { NextApiRequest, NextApiResponse } from "next";
+import * as uuid from "uuid";
 import z from "zod";
 
 //* Local imports
 import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
-import { supabase } from "../../../server/db/client";
+import { supabase, prisma } from "../../../server/db/client";
 
 const pageImageUploadSchema = z.object({
   worldId: z.string().uuid({ message: "Invalid world id." }),
@@ -62,21 +63,31 @@ const worlds = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    const url = `${sessionUserId}/${worldId}/${pageId}/background.${imageExtension}`;
+    const url = `${sessionUserId}/${worldId}/${pageId}/background${uuid.v4()}.${imageExtension}`;
     const uploadLink = await supabase.storage
       .from("pages-images")
       .createSignedUploadUrl(url);
 
     if (uploadLink.error) {
+      const msg = uploadLink.error.message;
+      if (msg === "The resource already exists") {
+        return res.status(400).send({
+          error: true,
+          message: "The resource already exists. Please try again later.",
+        });
+      }
       return res.status(500).send({
         error: true,
-        message: "Internal server error. Please try again later.",
+        message:
+          "Internal server error. Please try again later. Supabase error. " +
+          msg,
       });
     }
 
     return res.status(200).send({
       error: false,
       message: "Upload link created.",
+      url,
       uploadLink,
     });
   }

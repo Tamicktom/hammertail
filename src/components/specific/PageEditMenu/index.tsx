@@ -37,6 +37,7 @@ type APIResponse = {
   };
   error: boolean;
   message: string;
+  url: string;
 };
 
 export default function PageEditMenu() {
@@ -111,7 +112,7 @@ function EditBackgroundModal() {
           })
             .then((res) => {
               if (res.status === 200) {
-                axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', body.data)
+                axios.post<APIResponse>('/api/pages/confirmPageImageUpdate', { ...body.data, url: data.data.url })
                   .then((confirm) => {
                     if (confirm.data.error) {
                       alert(confirm.data.message);

@@ -125,6 +125,8 @@ export default function ImageUpload(props: Props) {
           src={image ? URL.createObjectURL(image) : default_world_image}
           alt="world image"
           className='w-auto h-auto object-cover transition-all'
+          width={256}
+          height={256}
           style={{
             filter: image ? 'none' : 'blur(10px)',
             height: imageProportions[1],

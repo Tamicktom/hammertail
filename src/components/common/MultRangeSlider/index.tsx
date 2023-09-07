@@ -75,7 +75,7 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
           setMinVal(value);
           minValRef.current = value;
         }}
-        className="thumb thumb--left"
+        className="thumb z-[3]"
         style={{
           zIndex: minVal > max - 100 ? "5" : "3",
           width: `${width}px`,
@@ -92,7 +92,7 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
           setMaxVal(value);
           maxValRef.current = value;
         }}
-        className="thumb thumb--right"
+        className="thumb z-[4]"
         style={{
           width: `${width}px`,
         }}
@@ -104,10 +104,10 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
           width: `${width}px`,
         }}
       >
-        <div className="slider__track" />
-        <div ref={range} className="slider__range" />
-        <div className="slider__left-value">{minVal}</div>
-        <div className="slider__right-value">{maxVal}</div>
+        <div className="absolute rounded-sm h-[5px] bg-white w-full z-[1]" />
+        <div ref={range} className="absolute rounded-sm h-[5px] bg-primary-500 z-[2]" />
+        <div className="absolute text-neutral-700 text-xs mt-5 left-0">{minVal}</div>
+        <div className="absolute text-neutral-700 text-xs mt-5 right-0">{maxVal}</div>
       </div>
     </div>
   );

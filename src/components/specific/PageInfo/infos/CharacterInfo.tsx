@@ -19,6 +19,9 @@ import usePage from "../../../../hooks/queries/usePage";
 import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
 import useGetPagesByType from "../../../../hooks/common/useGetPagesByType";
 
+//* Type imports
+import type { Page } from "@prisma/client";
+
 const characterItems = [
   {
     id: "1",
@@ -63,18 +66,33 @@ function PageItems() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const updateTimeline = useUpdateTimeline();
+  const [selected, setSelected] = useState<string>("");
   const [items, setItems] = useState<TimelineItem[]>([]);
   const availableItems = useGetPagesByType("items", page.data?.world?.id);
+  const [filteredAvailableItems, setFilteredAvailableItems] = useState<Page[]>([]);
+
+  useEffect(() => {
+    if (availableItems.data) {
+      const filteredItems = availableItems.data.data.pages.filter((item) => {
+        return !items.find((item2) => item2.id === item.id);
+      });
+
+      setFilteredAvailableItems(() => filteredItems);
+    }
+  }, [availableItems.data, items]);
 
   useMemo(() => {
     if (page.data?.other) {
-      const timeline = timelineSchema.parse(page.data.other);
+      const timeline = timelineSchema.safeParse(page.data.other);
       console.log("timeline", timeline);
-      setItems(timeline.items);
+      if (timeline.success) {
+        setItems(() => timeline.data.items);
+      }
     }
   }, [page.data?.other]);
 
   const handleAddItem = (itemId: string) => {
+    setSelected(itemId);
     const newItems: TimelineItem[] = [...items];
     const item = availableItems.data?.data.pages.find((item) => item.id === itemId);
 
@@ -89,9 +107,18 @@ function PageItems() {
     });
 
     setItems(() => newItems);
+    setSelected("");
   }
 
-  const handleRemoveItem = (itemId: string) => { }
+  const handleRemoveItem = (itemId: string) => {
+    const newItems: TimelineItem[] = [...items];
+    const itemIndex = newItems.findIndex((item) => item.id === itemId);
+
+    if (itemIndex === -1) return;
+    newItems.splice(itemIndex, 1);
+
+    setItems(() => newItems);
+  }
 
   useEffect(() => {
     console.log("items", items);
@@ -104,6 +131,7 @@ function PageItems() {
         onOpenChange={(open) => {
           console.log("open", open);
         }}
+        value={selected}
       >
         <Select.Trigger className="inline-flex items-center justify-center bg-white">
           <Select.Value placeholder="Select an item to add" />
@@ -120,7 +148,7 @@ function PageItems() {
             <Select.Viewport>
               {/* <SelectItem value="1" children="Sword" /> */}
               {
-                availableItems.data?.data.pages.map((item) => (
+                filteredAvailableItems.map((item) => (
                   <SelectItem
                     key={item.id}
                     value={item.id}

@@ -26,7 +26,7 @@ function renderRightInfo(page: PageWorld) {
   if (page.PageType.name === "characters") return <CharacterInfo page={page} />
   if (page.PageType.name === "places") return <PlaceInfo />
   if (page.PageType.name === "items") return <ItemInfo />
-  if (page.PageType.name === "events") return <EventInfo />
+  if (page.PageType.name === "events") return <EventInfo page={page} />
 }
 
 function ItemInfo() {

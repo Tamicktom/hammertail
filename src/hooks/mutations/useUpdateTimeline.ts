@@ -1,12 +1,13 @@
 //* Libraries imports
 import axios from "axios";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 //* Utils imports
 import {
   updateTimelineSchema,
   type UpdateTimeline,
 } from "../../schemas/timeline";
+import { queryClient } from "../../utils/queryClient";
 
 async function updateTimeline(timeline: UpdateTimeline) {
   const data = updateTimelineSchema.parse(timeline);
@@ -21,7 +22,8 @@ async function updateTimeline(timeline: UpdateTimeline) {
 export default function useUpdateTimeline() {
   return useMutation(["updateTimeline"], updateTimeline, {
     onSuccess: () => {
-      // Invalidate and refetch
+      queryClient.invalidateQueries(["page", "pages"]);
+      queryClient.refetchQueries(["page", "pages"]);
     },
   });
 }

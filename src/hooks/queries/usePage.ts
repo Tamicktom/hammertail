@@ -4,15 +4,24 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 //* Types imports
 import type { Page, PageType, World } from "@prisma/client";
+import type { Timeline } from "../../schemas/timeline";
 
-export type PageWorld = Page & {
+// export type PageWorld = Page & {
+//   PageType: PageType;
+//   world: World;
+// };
+interface PageOther extends Page {
+  other: null | {
+    timeline: Timeline;
+  };
+}
+export interface PageWorld extends PageOther {
   PageType: PageType;
   world: World;
-};
+}
 
 async function getPage(pageId: string): Promise<PageWorld> {
   const response = await axios.get<PageWorld>(`/api/page/${pageId}`);
-  console.log(response.data);
   return response.data;
 }
 

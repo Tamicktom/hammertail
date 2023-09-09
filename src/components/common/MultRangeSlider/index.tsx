@@ -11,20 +11,20 @@ type Props = {
   onChange: (value: { min: number; max: number }) => void;
 }
 
-export default function MultiRangeSlider({ min, max, onChange }: Props) {
+export default function MultiRangeSlider(props: Props) {
   const window = useWindowSize();
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
+  const [minVal, setMinVal] = useState(props.min);
+  const [maxVal, setMaxVal] = useState(props.max);
   const [width, setWidth] = useState(200);
-  const minValRef = useRef(min);
-  const maxValRef = useRef(max);
+  const minValRef = useRef(props.min);
+  const maxValRef = useRef(props.max);
   const range = useRef<ElementRef<"div">>(null);
   const father = useRef<ElementRef<"div">>(null);
 
   // Convert to percentage
   const getPercent = useCallback(
-    (value: number) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max]
+    (value: number) => Math.round(((value - props.min) / (props.max - props.min)) * 100),
+    [props.min, props.max]
   );
 
   // Set width of the range to decrease from the left side
@@ -50,8 +50,8 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
 
   // Get min and max values when their state changes
   useEffect(() => {
-    onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
+    props.onChange({ min: minVal, max: maxVal });
+  }, [minVal, maxVal]);
 
   // Set width on resize
   useEffect(() => {
@@ -67,8 +67,8 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
     >
       <input
         type="range"
-        min={min}
-        max={max}
+        min={props.min}
+        max={props.max}
         value={minVal}
         onChange={(event) => {
           const value = Math.min(Number(event.target.value), maxVal - 1);
@@ -77,15 +77,15 @@ export default function MultiRangeSlider({ min, max, onChange }: Props) {
         }}
         className="thumb z-[3]"
         style={{
-          zIndex: minVal > max - 100 ? "5" : "3",
+          zIndex: minVal > props.max - 100 ? "5" : "3",
           width: `${width}px`,
         }}
       />
 
       <input
         type="range"
-        min={min}
-        max={max}
+        min={props.min}
+        max={props.max}
         value={maxVal}
         onChange={(event) => {
           const value = Math.max(Number(event.target.value), minVal + 1);

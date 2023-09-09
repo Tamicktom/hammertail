@@ -10,24 +10,30 @@ import { ArrowDown, ArrowUp, Check, Plus } from "@phosphor-icons/react";
 import MultiRangeSlider from "../../../common/MultRangeSlider";
 
 //* Utils imports
-import { timelineSchema, type TimelineItem } from "../../../../schemas/timeline";
+import { timelineSchema, type TimelineItem, type Timeline } from "../../../../schemas/timeline";
 
 //* Hooks Imports
 import usePage from "../../../../hooks/queries/usePage";
 import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
 import useGetPagesByType from "../../../../hooks/common/useGetPagesByType";
+import useDebounce from "../../../../hooks/common/useDebounce";
 
 //* Type imports
 import type { Page } from "@prisma/client";
 
-export default function PageItems() {
+type Props = {
+  timeline: Timeline;
+}
+
+export default function PageItems(props: Props) {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const updateTimeline = useUpdateTimeline();
   const [selected, setSelected] = useState<string>("");
-  const [items, setItems] = useState<TimelineItem[]>([]);
+  const [items, setItems] = useState<TimelineItem[]>(props.timeline.items);
   const availableItems = useGetPagesByType("items", page.data?.world?.id);
   const [filteredAvailableItems, setFilteredAvailableItems] = useState<Page[]>([]);
+  const debouncedItems = useDebounce(items, 750);
 
   useEffect(() => {
     if (availableItems.data) {
@@ -42,7 +48,6 @@ export default function PageItems() {
   useMemo(() => {
     if (page.data?.other) {
       const timeline = timelineSchema.safeParse(page.data.other);
-      console.log("timeline", timeline);
       if (timeline.success) {
         setItems(() => timeline.data.items);
       }
@@ -79,16 +84,22 @@ export default function PageItems() {
   }
 
   useEffect(() => {
-    console.log("items", items);
-  }, [items]);
+    if (page.data?.id) {
+      console.log("salvando timeline dos items");
+      updateTimeline.mutate({
+        pageId: page.data.id,
+        timeline: {
+          ...props.timeline,
+          items: debouncedItems,
+        }
+      });
+    }
+  }, [debouncedItems]);
 
   return (
     <div className="flex flex-col w-full">
       <Select.Root
         onValueChange={handleAddItem}
-        onOpenChange={(open) => {
-          console.log("open", open);
-        }}
         value={selected}
       >
         <Select.Trigger className="inline-flex items-center justify-center bg-white">
@@ -151,13 +162,33 @@ export default function PageItems() {
                   type="text"
                   placeholder="Description"
                   className="w-full p-2 bg-neutral-100 rounded-md"
+                  onChange={(e) => {
+                    const newItems = [...items];
+                    const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
+
+                    if (itemIndex < 0 || !newItems[itemIndex]) return;
+                    if (newItems && newItems[itemIndex]) {
+                      (newItems[itemIndex] as TimelineItem).description = e.target.value;
+                    }
+
+                    setItems(() => newItems);
+                  }}
                 />
                 <div className="flex items-center justify-between w-full">
                   <MultiRangeSlider
-                    min={page.data?.world?.start || 0}
-                    max={page.data?.world?.end || 0}
+                    min={page.data?.start || page.data?.world.start || 0}
+                    max={page.data?.end || page.data?.world.end || 0}
                     onChange={(value) => {
-                      console.log("value", value);
+                      const newItems = [...items];
+                      const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
+
+                      if (itemIndex < 0 || !newItems[itemIndex]) return;
+                      if (newItems && newItems[itemIndex]) {
+                        (newItems[itemIndex] as TimelineItem).start = value.min;
+                        (newItems[itemIndex] as TimelineItem).end = value.max;
+                      }
+
+                      setItems(() => newItems);
                     }}
                   />
                 </div>

@@ -19,6 +19,7 @@ const WorldHeader = dynamic(() => import("../../components/specific/WorldHeader/
 const PageList = dynamic(() => import("../../components/specific/PageList/PageList"), {
   loading: () => <div className="w-full h-full flex flex-col justify-start items-center border-2 border-tertiary-700 rounded-lg overflow-hidden" />,
 });
+const EmptyPageEdit = dynamic(() => import("../../layouts/EmptyPageEdit/index"));
 
 //* Server side ----------------------------------------------
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -83,7 +84,10 @@ export default function World(props: Props) {
       <Head>
         <title>{props.world.name}</title>
       </Head>
-      <div className="w-screen h-screen flex flex-col justify-center items-center bg-neutral-800 font-primary">
+      <EmptyPageEdit
+        worldId={props.world.id}
+      />
+      {/* <div className="w-screen h-screen flex flex-col justify-center items-center bg-neutral-800 font-primary">
         <WorldHeader
           filterHandler={filterHandler}
           world={props.world}
@@ -115,7 +119,7 @@ export default function World(props: Props) {
             filterWord={filterWord}
           />
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

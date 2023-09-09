@@ -4,10 +4,10 @@ import type { Page } from "@prisma/client";
 import type { GetServerSideProps } from "next";
 
 //* Local imports
-import { prisma } from "../../server/db/client";
+import { prisma } from "../server/db/client";
 
 //* Component imports
-import PageEdit from "../../layouts/PageEdit";
+import EmptyPageEdit from "../layouts/EmptyPageEdit";
 
 // grab the page data from the database using the id from the url
 export const getServerSideProps = async (context: GetServerSideProps & {
@@ -32,24 +32,21 @@ export const getServerSideProps = async (context: GetServerSideProps & {
 
   return {
     props: {
-      pageName: page.name,
-      pageId: page.id,
       worldId: page.worldId,
     },
   };
 };
 
-export default function Page({ pageName, pageId, worldId }: { pageName: string, worldId: string, pageId: string }) {
+export default function Page({ worldId }: { worldId: string }) {
   return (
     <>
       <Head>
-        <title>{pageName}</title>
+        <title>World Home</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Page of an world" />
+        <meta name="description" content="World Home" />
       </Head>
-      <PageEdit
+      <EmptyPageEdit
         worldId={worldId}
-        pageId={pageId}
       />
     </>
   );

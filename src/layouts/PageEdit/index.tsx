@@ -13,6 +13,7 @@ const PageBackgroundImage = dynamic(() => import('../../components/specific/Page
 const Scrollable = dynamic(() => import('../../components/common/Scrollable'));
 const PageEditMenu = dynamic(() => import('../../components/specific/PageEditMenu'));
 const Sidebar = dynamic(() => import("../../components/specific/Sidebar/Sidebar"), { ssr: false });
+const TimeLine = dynamic(() => import('../../components/common/TimeLine'), { ssr: false });
 
 //* Hooks imports
 import usePage from "../../hooks/queries/usePage";
@@ -75,6 +76,7 @@ export default function PageEdit() {
               </div>
             </div> */}
         </Scrollable>
+        <TimeLine />
       </div>
       <Sidebar />
     </div>

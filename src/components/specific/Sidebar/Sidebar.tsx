@@ -28,13 +28,18 @@ import { useRouter } from "next/router";
 //* Atoms imports
 import { sidebarCollapseAtom } from "../../../atoms/sidebar";
 
-export default function Sidebar() {
+type Props = {
+  worldId?: string;
+}
+
+export default function Sidebar(props: Props) {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
-  const characters = useGetPagesByType("characters", page.data?.worldId);
-  const events = useGetPagesByType("events", page.data?.worldId);
-  const places = useGetPagesByType("places", page.data?.worldId);
-  const items = useGetPagesByType("items", page.data?.worldId);
+  const worldId = props.worldId || page.data?.worldId;
+  const characters = useGetPagesByType("characters", worldId);
+  const events = useGetPagesByType("events", worldId);
+  const places = useGetPagesByType("places", worldId);
+  const items = useGetPagesByType("items", worldId);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [showIcons, setShowIcons] = useState<boolean>(false);
   const [sidebarCollapse] = useAtom(sidebarCollapseAtom);
@@ -156,7 +161,10 @@ type ButtonProps = {
 
 const Button = (props: ButtonProps) => {
   return (
-    <Link href={props.link}>
+    <Link href={{
+      pathname: "/page/[index]",
+      query: { index: props.link },
+    }}>
       <button className="border-tertiary-400/20 flex w-full flex-row items-center justify-start border-b bg-black/10 px-4 py-1 hover:bg-black/20">
         <span className="text-neutral-200">{props.text}</span>
       </button>

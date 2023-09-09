@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import z from "zod";
 
-//* Types imports
-import type { Block as DbBlock } from "@prisma/client";
-
 // export type DbBlock = {
 //   id: string
 //   path: string
@@ -21,8 +18,6 @@ async function getBlocks(pageId: string) {
   };
 
   const { data, status } = await axios.post("/api/text/getBlocks", body);
-
-  console.log("data:", data); // data: {blocks: []}
 
   if (status !== 200) {
     throw new Error("Something went wrong");
@@ -41,7 +36,6 @@ async function getBlocks(pageId: string) {
 
   try {
     const dbBlocks = dbBlocksSchema.parse(data.blocks);
-    console.log("dbBlocks:", dbBlocks); // dbBlocks: []
     return dbBlocks;
   } catch (error) {
     throw new Error("Something went wrong");

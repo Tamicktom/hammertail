@@ -11,10 +11,10 @@
 const config = {
   reactStrictMode: true,
   swcMinify: true,
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
+  // i18n: {
+  //   locales: ["en"],
+  //   defaultLocale: "en",
+  // },
   images: {
     //5 minutes cache
     minimumCacheTTL: 300,
@@ -29,7 +29,23 @@ const config = {
         hostname: "*.pinimg.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*",
+        pathname: "/**",
+      }
     ]
-  }
+  },
+
+  modularizeImports: {
+    "@phosphor-icons/react": {
+      transform: "@phosphor-icons/react/dist/icons/{{member}}",
+    },
+  },
 };
 export default config;

@@ -1,96 +1,173 @@
 //* Libraries imports
 import Link from "next/link";
-import { Root, Item, Header, Content, Trigger } from '@radix-ui/react-accordion';
-import { CaretDown } from "@phosphor-icons/react";
-
+import {
+  Root,
+  Item,
+  Header,
+  Content,
+  Trigger,
+} from "@radix-ui/react-accordion";
+import {
+  CaretDown,
+  Person,
+  Sword,
+  Globe,
+  Calendar,
+} from "@phosphor-icons/react";
+import { useAtom } from "jotai";
 
 //* Hook imports
-import { useGetPagesByType } from "../../../hooks/common/useGetPagesByType";
+import useGetPagesByType from "../../../hooks/common/useGetPagesByType";
 import usePage from "../../../hooks/queries/usePage";
+import { useRef, useState, useLayoutEffect, ReactNode } from "react";
 
 //* Type imports
 import type { Page } from "@prisma/client";
+import { useRouter } from "next/router";
+
+//* Atoms imports
+import { sidebarCollapseAtom } from "../../../atoms/sidebar";
 
 type Props = {
-  collapsed: boolean;
+  worldId?: string;
 }
 
-export const Sidebar = (props: Props) => {
-  const page = usePage();
-  const characters = useGetPagesByType("characters", page.data?.worldId);
-  const events = useGetPagesByType("events", page.data?.worldId);
-  const places = useGetPagesByType("places", page.data?.worldId);
-  const items = useGetPagesByType("items", page.data?.worldId);
-  const und = useGetPagesByType("undefined", page.data?.worldId);
+export default function Sidebar(props: Props) {
+  const router = useRouter();
+  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+  const worldId = props.worldId || page.data?.worldId;
+  const characters = useGetPagesByType("characters", worldId);
+  const events = useGetPagesByType("events", worldId);
+  const places = useGetPagesByType("places", worldId);
+  const items = useGetPagesByType("items", worldId);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [showIcons, setShowIcons] = useState<boolean>(false);
+  const [sidebarCollapse] = useAtom(sidebarCollapseAtom);
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      if (
+        sidebarRef.current?.clientWidth &&
+        sidebarRef.current.clientWidth <= 148
+      ) {
+        setShowIcons(true);
+      } else {
+        setShowIcons(false);
+      }
+    };
+
+    handleResize();
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (sidebarRef.current) {
+      resizeObserver.observe(sidebarRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   return (
-    <Root
-      type="multiple"
-      defaultValue={["Characters"]}
-      className='container flex flex-col h-full bg-neutral-700 w-full'
+    <div
+      ref={sidebarRef}
+      className="container flex h-full flex-col bg-neutral-700 transition-all ease-in-out duration-300 overflow-hidden"
+      style={{
+        width: sidebarCollapse ? "0px" : "320px",
+      }}
     >
-      <AccordionItem title="Characters" content={characters.data?.data.pages || []} />
-      <AccordionItem title="Events" content={events.data?.data.pages || []} />
-      <AccordionItem title="Places" content={places.data?.data.pages || []} />
-      <AccordionItem title="Items" content={items.data?.data.pages || []} />
-      <AccordionItem title="Undefined" content={und.data?.data.pages || []} />
-    </Root>
+      <Root type="multiple" defaultValue={["Characters"]} className="w-full">
+        <AccordionItem
+          value="Characters"
+          title={
+            showIcons ? (
+              <Person size={28} className="icon text-neutral-100" />
+            ) : (
+              "Characters"
+            )
+          }
+          content={characters.data?.data.pages || []}
+        />
+        <AccordionItem
+          value="Events"
+          title={
+            showIcons ? (
+              <Calendar size={28} className="icon text-neutral-100" />
+            ) : (
+              "Events"
+            )
+          }
+          content={events.data?.data.pages || []}
+        />
+        <AccordionItem
+          value="Places"
+          title={
+            showIcons ? <Globe size={28} className="icon text-neutral-100" /> : "Places"
+          }
+          content={places.data?.data.pages || []}
+        />
+        <AccordionItem
+          value="Items"
+          title={
+            showIcons ? <Sword size={28} className="icon text-neutral-100" /> : "Items"
+          }
+          content={items.data?.data.pages || []}
+        />
+      </Root>
+    </div>
   );
-};
+}
 
 type AccordionItemProps = {
-  title: string;
+  title: ReactNode;
+  value: string;
   content: Page[];
-}
+};
 
 const AccordionItem = (props: AccordionItemProps) => {
   return (
-    <Item
-      value={props.title}
-      className='w-full'
-    >
+    <Item value={props.value} className="w-full">
       <HeaderTrigger title={props.title} />
-      <Content className='w-full overflow-hidden AccordionContent'>
-        {
-          props.content.map((item, index) => {
-            return <Button key={index} text={item.name} link={item.id} />
-          })
-        }
+      <Content className="AccordionContent w-full overflow-hidden">
+        {props.content.map((item, index) => {
+          return <Button key={index} text={item.name} link={item.id} />;
+        })}
       </Content>
     </Item>
   );
 };
 
 type HeaderTriggerProps = {
-  title: string;
-}
+  title: ReactNode;
+};
 
 const HeaderTrigger = (props: HeaderTriggerProps) => {
   return (
-    <Header className='w-full border-b hover:bg-black/10 border-tertiary-400/50'>
-      <Trigger className='flex flex-row justify-between w-full px-4 py-2 AccordionTrigger'>
-        <span className="text-xl font-bold text-neutral-100">{props.title}</span>
-        <CaretDown className="text-neutral-200 icon" />
+    <Header className="border-tertiary-400/50 w-full border-b hover:bg-black/10">
+      <Trigger className="AccordionTrigger flex w-full flex-row justify-between px-4 py-2">
+        <span className="text-lg font-bold text-neutral-100">
+          {props.title}
+        </span>
+        <CaretDown className="icon w-6 h-6 text-neutral-200" />
       </Trigger>
     </Header>
   );
-}
+};
 
 type ButtonProps = {
   text: string;
   link: string;
-}
+};
 
 const Button = (props: ButtonProps) => {
   return (
-    <Link
-      href={props.link}
-    >
-      <button
-        className="flex flex-row items-center justify-start w-full px-4 py-1 border-b border-tertiary-400/20 hover:bg-black/20 bg-black/10"
-      >
+    <Link href={{
+      pathname: "/page/[index]",
+      query: { index: props.link },
+    }}>
+      <button className="border-tertiary-400/20 flex w-full flex-row items-center justify-start border-b bg-black/10 px-4 py-1 hover:bg-black/20">
         <span className="text-neutral-200">{props.text}</span>
       </button>
     </Link>
   );
-}
+};

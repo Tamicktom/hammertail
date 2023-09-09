@@ -1,22 +1,27 @@
 //* Libraries imports
 import axios from "axios";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 //* Types imports
-import type { Page, PageType } from "@prisma/client";
+import type { Page, PageType, World } from "@prisma/client";
+import type { Timeline } from "../../schemas/timeline";
 
-async function getPage(pageId: string): Promise<
-  Page & {
-    PageType: PageType;
-  }
-> {
-  const response = await axios.get<
-    Page & {
-      PageType: PageType;
-    }
-  >(`/api/page/${pageId}`);
+// export type PageWorld = Page & {
+//   PageType: PageType;
+//   world: World;
+// };
+interface PageOther extends Page {
+  other: null | {
+    timeline: Timeline;
+  };
+}
+export interface PageWorld extends PageOther {
+  PageType: PageType;
+  world: World;
+}
+
+async function getPage(pageId: string): Promise<PageWorld> {
+  const response = await axios.get<PageWorld>(`/api/page/${pageId}`);
   return response.data;
 }
 
@@ -25,23 +30,10 @@ async function getPage(pageId: string): Promise<
  */
 
 export default function usePage(
-  pageId?: string
-): UseQueryResult<Page & { PageType: PageType }, unknown> {
-  const router = useRouter();
-  const session = useSession();
-  if (!session.data?.user?.id) {
-    router.push("/");
-  }
-  let id = pageId || "";
-  if (!pageId) {
-    const index = router.query.index;
-    if (typeof index === "string") {
-      id = index;
-    }
-  }
-
-  return useQuery(["page", id], () => getPage(id), {
-    enabled: !!id, //only fetch if there is a pageId
+  pageId: string
+): UseQueryResult<PageWorld, unknown> {
+  return useQuery(["page", pageId], () => getPage(pageId), {
+    enabled: !!pageId, //only fetch if there is a pageId
     refetchOnWindowFocus: true,
   });
 }

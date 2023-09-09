@@ -1,11 +1,15 @@
 //* Libraries imports
-import { MagnifyingGlass, Plus } from "@phosphor-icons/react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
+import dynamic from "next/dynamic";
 
 //* Type import
 import type { World } from "@prisma/client";
 
 //* Components imports
-import PageCreationModal from "../../specific/PageCreationModal/PageCreationModal";
+// import PageCreationModal from "../../specific/PageCreationModal/PageCreationModal";
+const PageCreationModal = dynamic(() => import("../../specific/PageCreationModal/PageCreationModal"), {
+  loading: () => <button className="flex flex-row items-center justify-center gap-2 px-2 py-1 rounded-lg bg-transparent" />,
+});
 
 type Props = {
   filterHandler: (filter: string) => void;
@@ -21,7 +25,7 @@ const WorldsHeader = (props: Props) => {
           <input
             className="w-full outline-none"
             type="text"
-            placeholder="Pesquisar"
+            placeholder="Search"
             onChange={(e) => { props.filterHandler(e.target.value); }}
           />
           <MagnifyingGlass className="w-5 h-5" />

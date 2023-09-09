@@ -28,6 +28,7 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         include: {
           PageType: true,
+          world: true,
         },
       });
 

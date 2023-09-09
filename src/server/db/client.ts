@@ -1,6 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { env } from "../../env/server.mjs";
+import { env as clientEnv } from "../../env/client.mjs";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -20,4 +21,12 @@ if (env.NODE_ENV !== "production") {
   global.prisma = prisma;
 }
 
-export const supabase = new SupabaseClient(env.SUPABASE_URL, env.SUPABASE_KEY);
+export const supabase = new SupabaseClient(
+  clientEnv.NEXT_PUBLIC_SUPABASE_URL,
+  env.SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: false,
+    }
+  }
+);

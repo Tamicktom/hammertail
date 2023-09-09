@@ -1,7 +1,7 @@
 //* Library Imports
 import z from "zod";
 
-export const timelineItemSchema = z.object({
+export const genericTimelineObjectSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   image: z.string().nullable(),
@@ -9,39 +9,22 @@ export const timelineItemSchema = z.object({
   start: z.number(),
   end: z.number(),
 });
+
+export type GenericTimelineObject = z.infer<typeof genericTimelineObjectSchema>;
+
+export const timelineItemSchema = genericTimelineObjectSchema;
 
 export type TimelineItem = z.infer<typeof timelineItemSchema>;
 
-export const timelineEventSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  image: z.string().nullable(),
-  description: z.string(),
-  start: z.number(),
-  end: z.number(),
-});
+export const timelineEventSchema = genericTimelineObjectSchema;
 
 export type TimelineEvent = z.infer<typeof timelineEventSchema>;
 
-export const timelinePlaceSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  image: z.string().nullable(),
-  description: z.string(),
-  start: z.number(),
-  end: z.number(),
-});
+export const timelinePlaceSchema = genericTimelineObjectSchema;
 
 export type TimelinePlace = z.infer<typeof timelinePlaceSchema>;
 
-export const timelineCharacterSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  image: z.string().nullable(),
-  description: z.string(),
-  start: z.number(),
-  end: z.number(),
-});
+export const timelineCharacterSchema = genericTimelineObjectSchema;
 
 export type TimelineCharacter = z.infer<typeof timelineCharacterSchema>;
 

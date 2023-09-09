@@ -1,6 +1,7 @@
 //* Libraries imports
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useAtom } from "jotai";
 
 //* Components imports
 import PageInfoImage from "../../PageInfoImage";
@@ -9,12 +10,18 @@ import PageItems from "./PageItems";
 
 //* Hooks Imports
 import usePage from "../../../../hooks/queries/usePage";
+import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
 import { timelineSchema, type Timeline } from "../../../../schemas/timeline";
+
+//* Atoms imports
+import { timelineAtom } from "../../../../atoms/timeline";
 
 export default function CharacterInfo() {
   const [timeline, setTimeline] = useState<Timeline | null>(null);
+  const [timelineAtomValue] = useAtom(timelineAtom);
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+  const updateTimeline = useUpdateTimeline();
 
   useMemo(() => {
     if (page.data?.other?.timeline) {
@@ -33,6 +40,16 @@ export default function CharacterInfo() {
       }
     }
   }, [page.data]);
+
+  useEffect(() => {
+    if (timeline && page.data?.id && timelineAtomValue) {
+      updateTimeline.mutate({
+        pageId: page.data.id,
+        timeline: timelineAtomValue,
+      });
+      page.refetch();
+    }
+  }, [timelineAtomValue]);
 
   return (
     <div className="flex flex-col items-start justify-start w-full gap-4">

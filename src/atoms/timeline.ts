@@ -4,4 +4,11 @@ import { atom } from "jotai";
 //* Types imports
 import type { Timeline } from "../schemas/timeline";
 
-export const timelineAtom = atom<null | Timeline>(null);
+const defaultTimeline: Timeline = {
+  characters: [],
+  events: [],
+  items: [],
+  places: [],
+};
+
+export const timelineAtom = atom<Timeline>(defaultTimeline);

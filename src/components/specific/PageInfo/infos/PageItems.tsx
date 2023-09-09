@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import * as Select from "@radix-ui/react-select";
 import { ArrowDown, ArrowUp, Check, Plus } from "@phosphor-icons/react";
+import { useAtom } from "jotai";
 
 //* Components imports
 import MultiRangeSlider from "../../../common/MultRangeSlider";
@@ -14,12 +15,14 @@ import { timelineSchema, type TimelineItem, type Timeline, type GenericTimelineO
 
 //* Hooks Imports
 import usePage from "../../../../hooks/queries/usePage";
-import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
 import useGetPagesByType from "../../../../hooks/common/useGetPagesByType";
 import useDebounce from "../../../../hooks/common/useDebounce";
 
 //* Type imports
 import type { Page } from "@prisma/client";
+
+//* Atoms imports
+import { timelineAtom } from "../../../../atoms/timeline";
 
 type Props = {
   timeline: Timeline;
@@ -28,7 +31,7 @@ type Props = {
 export default function PageItems(props: Props) {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
-  const updateTimeline = useUpdateTimeline();
+  const [, setTimeline] = useAtom(timelineAtom);
   const [selected, setSelected] = useState<string>("");
   const [items, setItems] = useState<TimelineItem[]>(props.timeline.items);
   const availableItems = useGetPagesByType("items", page.data?.world?.id);
@@ -85,11 +88,9 @@ export default function PageItems(props: Props) {
 
   useEffect(() => {
     if (page.data?.id) {
-      console.log("salvando timeline dos items");
-      updateTimeline.mutate({
-        pageId: page.data.id,
-        timeline: {
-          ...props.timeline,
+      setTimeline((prev) => {
+        return {
+          ...prev,
           items: debouncedItems,
         }
       });
@@ -136,67 +137,13 @@ export default function PageItems(props: Props) {
         </Select.Portal>
       </Select.Root>
 
-      <div>
-        {
-          items.map((item) => (
-            <div key={item.id} className="flex flex-col w-full gap-2 bg-white">
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center justify-start gap-2">
-                  {
-                    item.image &&
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={32}
-                      height={32}
-                    />
-                  }
-                  <p className="text-neutral-900">{item.name}</p>
-                </div>
-                <button onClick={() => handleRemoveItem(item.id)}>
-                  <p className="text-neutral-900">Remove</p>
-                </button>
-              </div>
-              <div className="flex flex-col w-full gap-2">
-                <input
-                  type="text"
-                  placeholder="Description"
-                  className="w-full p-2 bg-neutral-100 rounded-md"
-                  onChange={(e) => {
-                    const newItems = [...items];
-                    const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
-
-                    if (itemIndex < 0 || !newItems[itemIndex]) return;
-                    if (newItems && newItems[itemIndex]) {
-                      (newItems[itemIndex] as TimelineItem).description = e.target.value;
-                    }
-
-                    setItems(() => newItems);
-                  }}
-                />
-                <div className="flex items-center justify-between w-full">
-                  <MultiRangeSlider
-                    min={page.data?.start || page.data?.world.start || 0}
-                    max={page.data?.end || page.data?.world.end || 0}
-                    onChange={(value) => {
-                      const newItems = [...items];
-                      const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
-
-                      if (itemIndex < 0 || !newItems[itemIndex]) return;
-                      if (newItems && newItems[itemIndex]) {
-                        (newItems[itemIndex] as TimelineItem).start = value.min;
-                        (newItems[itemIndex] as TimelineItem).end = value.max;
-                      }
-
-                      setItems(() => newItems);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          ))
-        }
-      </div>
+      <Cards
+        items={items}
+        removeItem={handleRemoveItem}
+        min={page.data?.start || page.data?.world?.start || 0}
+        max={page.data?.end || page.data?.world?.end || 0}
+        setItems={setItems}
+      />
     </div>
   );
 }
@@ -251,6 +198,8 @@ function Cards(props: CardsProps) {
               />
               <div className="flex items-center justify-between w-full">
                 <MultiRangeSlider
+                  defaultMin={item.start}
+                  defaultMax={item.end}
                   min={props.min}
                   max={props.max}
                   onChange={(value) => {

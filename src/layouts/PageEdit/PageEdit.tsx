@@ -64,7 +64,7 @@ export default function PageEdit() {
                 </div>
                 {/* page content */}
                 <div className='flex flex-col items-start w-full sm:w-1/2 lg:w-1/4'>
-                  <PageInfo />
+                  {page.data && <PageInfo page={page.data} />}
                 </div>
                 {/* page header */}
                 <div className='flex flex-col items-start w-full gap-2 sm:hidden'>

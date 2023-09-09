@@ -1,17 +1,16 @@
 //* Libraries imports
 import { useState, useEffect, useMemo, forwardRef } from "react";
 import type { ReactNode, Ref, ElementRef } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import * as Select from "@radix-ui/react-select";
 import { ArrowDown, ArrowUp, Check, Plus } from "@phosphor-icons/react";
 import { useAtom } from "jotai";
 
 //* Components imports
-import MultiRangeSlider from "../../../common/MultRangeSlider";
+import Cards from "./Cards";
 
 //* Utils imports
-import { timelineSchema, type TimelineItem, type Timeline, type GenericTimelineObject } from "../../../../schemas/timeline";
+import { timelineSchema, type Timeline, type GenericTimelineObject } from "../../../../schemas/timeline";
 
 //* Hooks Imports
 import usePage from "../../../../hooks/queries/usePage";
@@ -20,21 +19,23 @@ import useDebounce from "../../../../hooks/common/useDebounce";
 
 //* Type imports
 import type { Page } from "@prisma/client";
+import type { PageTypes } from "../../../../hooks/common/useGetPagesByType";
 
 //* Atoms imports
 import { timelineAtom } from "../../../../atoms/timeline";
 
 type Props = {
-  timeline: Timeline;
+  items: GenericTimelineObject[];
+  type: PageTypes;
 }
 
 export default function PageItems(props: Props) {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+  const availableItems = useGetPagesByType(props.type, page.data?.world?.id);
   const [, setTimeline] = useAtom(timelineAtom);
   const [selected, setSelected] = useState<string>("");
-  const [items, setItems] = useState<TimelineItem[]>(props.timeline.items);
-  const availableItems = useGetPagesByType("items", page.data?.world?.id);
+  const [items, setItems] = useState<GenericTimelineObject[]>(props.items);
   const [filteredAvailableItems, setFilteredAvailableItems] = useState<Page[]>([]);
   const debouncedItems = useDebounce(items, 750);
 
@@ -59,7 +60,7 @@ export default function PageItems(props: Props) {
 
   const handleAddItem = (itemId: string) => {
     setSelected(itemId);
-    const newItems: TimelineItem[] = [...items];
+    const newItems: GenericTimelineObject[] = [...items];
     const item = availableItems.data?.data.pages.find((item) => item.id === itemId);
 
     if (!item) return;
@@ -77,7 +78,7 @@ export default function PageItems(props: Props) {
   }
 
   const handleRemoveItem = (itemId: string) => {
-    const newItems: TimelineItem[] = [...items];
+    const newItems: GenericTimelineObject[] = [...items];
     const itemIndex = newItems.findIndex((item) => item.id === itemId);
 
     if (itemIndex === -1) return;
@@ -91,7 +92,7 @@ export default function PageItems(props: Props) {
       setTimeline((prev) => {
         return {
           ...prev,
-          items: debouncedItems,
+          [props.type]: debouncedItems,
         }
       });
     }
@@ -146,82 +147,6 @@ export default function PageItems(props: Props) {
       />
     </div>
   );
-}
-
-type CardsProps = {
-  items: GenericTimelineObject[];
-  removeItem: (itemId: string) => void;
-  min: number;
-  max: number;
-  setItems: (items: GenericTimelineObject[]) => void;
-}
-
-function Cards(props: CardsProps) {
-  return (
-    <div>
-      {
-        props.items.map((item) => (
-          <div key={item.id} className="flex flex-col w-full gap-2 bg-white">
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center justify-start gap-2">
-                {
-                  item.image &&
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={32}
-                    height={32}
-                  />
-                }
-                <p className="text-neutral-900">{item.name}</p>
-              </div>
-              <button onClick={() => props.removeItem(item.id)}>
-                <p className="text-neutral-900">Remove</p>
-              </button>
-            </div>
-            <div className="flex flex-col w-full gap-2">
-              <input
-                type="text"
-                placeholder="Description"
-                className="w-full p-2 bg-neutral-100 rounded-md"
-                onChange={(e) => {
-                  const newItems = [...props.items];
-                  const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
-
-                  if (itemIndex < 0 || !newItems[itemIndex]) return;
-                  if (newItems && newItems[itemIndex]) {
-                    (newItems[itemIndex] as GenericTimelineObject).description = e.target.value;
-                  }
-
-                  props.setItems(newItems);
-                }}
-              />
-              <div className="flex items-center justify-between w-full">
-                <MultiRangeSlider
-                  defaultMin={item.start}
-                  defaultMax={item.end}
-                  min={props.min}
-                  max={props.max}
-                  onChange={(value) => {
-                    const newItems = [...props.items];
-                    const itemIndex = newItems.findIndex((item2) => item2.id === item.id);
-
-                    if (itemIndex < 0 || !newItems[itemIndex]) return;
-                    if (newItems && newItems[itemIndex]) {
-                      (newItems[itemIndex] as GenericTimelineObject).start = value.min;
-                      (newItems[itemIndex] as GenericTimelineObject).end = value.max;
-                    }
-
-                    props.setItems(newItems);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  )
 }
 
 type SelectItemProps = {

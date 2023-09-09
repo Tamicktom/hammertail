@@ -1,35 +1,32 @@
-//* Libraries imports
-import { useRouter } from "next/router";
-
-//* Types imports
-import type { PageType } from "@prisma/client";
-
 //* Component imports
-import LocalLoading from "../../common/LocalLoading/LocalLoading";
 import { CharacterInfo, EventInfo } from "./infos";
 
 //* Hooks imports
-import usePage from "../../../hooks/queries/usePage";
+import type { PageWorld } from "../../../hooks/queries/usePage";
 
-export default function PageInfo() {
-  const router = useRouter();
-  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
+type Props = {
+  page: PageWorld
+}
 
-  if (page.isLoading) return <LocalLoading />
+export default function PageInfo(props: Props) {
 
   return (
     <div className="flex items-center justify-center w-full p-2">
-      {renderRightInfo(page.data?.PageType)}
+      {
+        props.page
+          ? renderRightInfo(props.page)
+          : <></>
+      }
     </div>
   );
 }
 
-function renderRightInfo(type: PageType | null | undefined) {
-  if (!type) return <NoPageType />
-  if (type.name === "characters") return <CharacterInfo />
-  if (type.name === "places") return <PlaceInfo />
-  if (type.name === "items") return <ItemInfo />
-  if (type.name === "events") return <EventInfo />
+function renderRightInfo(page: PageWorld) {
+  if (!page) return <NoPageType />
+  if (page.PageType.name === "characters") return <CharacterInfo page={page} />
+  if (page.PageType.name === "places") return <PlaceInfo />
+  if (page.PageType.name === "items") return <ItemInfo />
+  if (page.PageType.name === "events") return <EventInfo />
 }
 
 function ItemInfo() {

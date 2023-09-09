@@ -1,6 +1,5 @@
 //* Libraries imports
-import { useState, useMemo, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useAtom } from "jotai";
 
 //* Components imports
@@ -9,45 +8,33 @@ import StartEndDate from "../../../specific/StartEndDate";
 import PageItems from "./PageItems";
 
 //* Hooks Imports
-import usePage from "../../../../hooks/queries/usePage";
+import { type PageWorld } from "../../../../hooks/queries/usePage";
 import useUpdateTimeline from "../../../../hooks/mutations/useUpdateTimeline";
-import { timelineSchema, type Timeline } from "../../../../schemas/timeline";
+import useTimeline from "../../../../hooks/queries/useTimeline";
 
 //* Atoms imports
 import { timelineAtom } from "../../../../atoms/timeline";
 
-export default function CharacterInfo() {
-  const [timeline, setTimeline] = useState<Timeline | null>(null);
+type Props = {
+  page: PageWorld
+}
+
+export default function CharacterInfo(props: Props) {
+  const timeline = useTimeline(props.page.id);
   const [timelineAtomValue] = useAtom(timelineAtom);
-  const router = useRouter();
-  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
   const updateTimeline = useUpdateTimeline();
 
-  useMemo(() => {
-    if (page.data?.other?.timeline) {
-      const timeline = timelineSchema.safeParse(page.data.other?.timeline);
-      if (timeline.success) {
-        setTimeline(() => timeline.data);
-      } else {
-        setTimeline(() => {
-          return {
-            characters: [],
-            items: [],
-            places: [],
-            events: [],
-          }
-        });
-      }
-    }
-  }, [page.data]);
+  useEffect(() => {
+    timeline.remove();
+    timeline.refetch();
+  }, [props.page.id]);
 
   useEffect(() => {
-    if (timeline && page.data?.id && timelineAtomValue) {
+    if (timeline && props.page.id && timelineAtomValue) {
       updateTimeline.mutate({
-        pageId: page.data.id,
+        pageId: props.page.id,
         timeline: timelineAtomValue,
       });
-      page.refetch();
     }
   }, [timelineAtomValue]);
 
@@ -55,16 +42,19 @@ export default function CharacterInfo() {
     <div className="flex flex-col items-start justify-start w-full gap-4">
       <div className='flex items-center justify-center w-full'>
         <PageInfoImage
-          page={page.data}
+          page={props.page}
         />
       </div>
       <div className='flex flex-col w-full gap-2'>
         <StartEndDate />
         {
-          timeline &&
-          <PageItems
-            timeline={timeline}
-          />
+          // props.page && props.page.other?.timeline && timeline &&
+          timeline.data && !timeline.isLoading &&
+          <>
+            <PageItems items={timeline.data.timeline.items} type="items" />
+            <PageItems items={timeline.data.timeline.events} type="events" />
+            <PageItems items={timeline.data.timeline.places} type="places" />
+          </>
         }
       </div>
     </div>

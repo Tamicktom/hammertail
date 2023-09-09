@@ -86,9 +86,8 @@ const timelineData: TimelineData = {
   totalDuration: 100,
 }
 
-type TimelineProps = {}
 
-export default function TimeLine(props: TimelineProps) {
+export default function TimeLine() {
   const [isOpen, setIsOpen] = useState(true);
   const debouncedIsOpen = useDebounce(isOpen, 150);
 

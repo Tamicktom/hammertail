@@ -47,10 +47,7 @@ export default function Page({ pageName, pageId, worldId }: { pageName: string, 
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Page of an world" />
       </Head>
-      <PageEdit
-        worldId={worldId}
-        pageId={pageId}
-      />
+      <PageEdit />
     </>
   );
 }

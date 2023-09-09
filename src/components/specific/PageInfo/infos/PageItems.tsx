@@ -123,9 +123,10 @@ export default function PageItems(props: Props) {
                   <SelectItem
                     key={item.id}
                     value={item.id}
-                    children={item.name}
                     className="text-neutral-900 bg-white hover:bg-neutral-100 transition-all duration-300"
-                  />
+                  >
+                    {item.name}
+                  </SelectItem>
                 ))
               }
               <Select.Separator />

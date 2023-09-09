@@ -113,4 +113,4 @@ export default function MultiRangeSlider(props: Props) {
       </div>
     </div>
   );
-};
+}

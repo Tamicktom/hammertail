@@ -68,13 +68,6 @@ export default function PageEdit() {
               </div>
             </div>
           </div>
-
-          {/* timeline */}
-          {/* <div className='sticky bottom-0 left-0 z-10 flex items-center justify-center w-full h-28'>
-              <div className='w-full h-full max-w-7xl bg-amber-600'>
-                Timeline
-              </div>
-            </div> */}
         </Scrollable>
         <TimeLine />
       </div>

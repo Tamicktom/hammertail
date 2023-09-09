@@ -5,15 +5,6 @@ import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 
 //* Component imports
-// import { Navbar } from "../../components/specific/Navbar/Navbar";
-// import PageHeader from '../../components/specific/PageEditComponents/PageHeader';
-// import PageInfo from '../../components/specific/PageInfo';
-// import Sidebar from "../../components/specific/Sidebar/Sidebar";
-// import TextEditorWraper from '../../components/TextEditor/TextEditorWraper';
-// import PageBackgroundImage from '../../components/specific/PageBackgroundImage';
-// import PageEditMenu from '../../components/specific/PageEditMenu';
-// import Scrollable from '../../components/common/Scrollable';
-
 const Navbar = dynamic(() => import('../../components/specific/Navbar/Navbar'));
 const PageHeader = dynamic(() => import('../../components/specific/PageEditComponents/PageHeader'));
 const PageInfo = dynamic(() => import('../../components/specific/PageInfo'));
@@ -28,16 +19,19 @@ import usePage from "../../hooks/queries/usePage";
 
 //* Atom imports
 import { worldAtom } from "../../atoms/world";
+import { pageAtom } from "../../atoms/page";
 
 export default function PageEdit() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
   const [, setWorld] = useAtom(worldAtom);
+  const [, setPage] = useAtom(pageAtom);
 
   useMemo(() => {
     if (page.data?.world) {
       setWorld(page.data.world);
+      setPage(page.data);
     }
   }, [page.data]);
 

@@ -46,11 +46,11 @@ export default function CharacterInfo(props: Props) {
         />
       </div>
       <div className='flex flex-col w-full gap-2'>
-        <StartEndDate />
         {
           // props.page && props.page.other?.timeline && timeline &&
           timeline.data && !timeline.isLoading &&
           <>
+            <StartEndDate page={props.page} />
             <PageItems items={timeline.data.timeline.items} type="items" />
             <PageItems items={timeline.data.timeline.events} type="events" />
             <PageItems items={timeline.data.timeline.places} type="places" />

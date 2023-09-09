@@ -1,42 +1,36 @@
 //* Libraries imports
 import { useState, useEffect } from "react";
 import { Cake, Skull } from "@phosphor-icons/react";
-import { useRouter } from "next/router";
 import colors from "tailwindcss/colors";
 
 //* Hooks Imports
 import useUpdatePageDate from "../../../hooks/mutations/useUpdatePageDate";
 import useDebounce from "../../../hooks/common/useDebounce";
-import usePage from "../../../hooks/queries/usePage";
 import type { PageWorld } from "../../../hooks/queries/usePage";
 
 type StartEndDateProps = {
+  page: PageWorld
 }
 
 export default function StartEndDate(props: StartEndDateProps) {
-  const router = useRouter();
-  const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
-
   const [isEditingStartDate, setIsEditingStartDate] = useState(false);
   const [isStartDateInvalid, setIsStartDateInvalid] = useState(false);
 
   const [isEditingEndDate, setIsEditingEndDate] = useState(false);
   const [isEndDateInvalid, setIsEndDateInvalid] = useState(false);
   const [pageDate, setPageDate] = useState({
-    start: page.data?.start || 0,
-    end: page.data?.end || 0,
+    start: props.page.start,
+    end: props.page.end,
   });
   const debouncedStartDate = useDebounce(pageDate, 1200);
   const useUpdatePageDateMutation = useUpdatePageDate();
 
   useEffect(() => {
-    if (!page.isLoading) {
-      useUpdatePageDateMutation.mutate({
-        pageId: page.data?.id || "",
-        start: debouncedStartDate.start,
-        end: debouncedStartDate.end,
-      })
-    }
+    useUpdatePageDateMutation.mutate({
+      pageId: props.page.id || "",
+      start: debouncedStartDate.start,
+      end: debouncedStartDate.end,
+    })
   }, [debouncedStartDate]);
 
   return (
@@ -48,10 +42,10 @@ export default function StartEndDate(props: StartEndDateProps) {
         isEditing={isEditingStartDate}
         setIsEditing={setIsEditingStartDate}
         isInvalid={isStartDateInvalid}
-        defaultValue={page.data?.start || 0}
+        defaultValue={props.page.start}
         onChange={(value) => {
-          const worldStartDate = page.data?.world?.start || 0;
-          const worldEndDate = page.data?.world?.end || 0;
+          const worldStartDate = props.page.world.start;
+          const worldEndDate = props.page.world.end;
           if (value < worldStartDate || value > worldEndDate || value > pageDate.end)
             setIsStartDateInvalid(true);
           else
@@ -69,10 +63,10 @@ export default function StartEndDate(props: StartEndDateProps) {
         isEditing={isEditingEndDate}
         setIsEditing={setIsEditingEndDate}
         isInvalid={isEndDateInvalid}
-        defaultValue={page.data?.end || 0}
+        defaultValue={props.page.end}
         onChange={(value) => {
-          const worldStartDate = page.data?.world?.start || 0;
-          const worldEndDate = page.data?.world?.end || 0;
+          const worldStartDate = props.page.world.start;
+          const worldEndDate = props.page.world.end;
           if (value < worldStartDate || value > worldEndDate || value < pageDate.start)
             setIsEndDateInvalid(true);
           else

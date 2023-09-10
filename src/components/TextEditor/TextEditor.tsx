@@ -11,14 +11,14 @@ type Props = {
 export default function TextEditor(props: Props) {
 
   const editor: BlockNoteEditor | null = useBlockNote({
-    initialContent: props.initialContent as any,
+    initialContent: props.initialContent as any, // TODO: fix type
     onEditorContentChange: props.onEditorChange,
-    theme: "dark",
   });
 
   return (
     <BlockNoteView
       editor={editor}
+      theme="dark"
     />
   );
 }

@@ -42,19 +42,11 @@ export default function CreatePageButton() {
   );
 
   const createPage = async (type: PageTypes) => {
-    if (!page.data?.worldId) return toast.custom((t) => (
-      <Alert
-        t={t}
-        topMsg='erro ao criar página!'
-        bottomMsg='você precisa estar em um mundo para criar uma página'
-      />
-    ), {
-      duration: 1000,
-      position: 'top-center',
-    })
+    const path: ("world" | "page" | string)[] = router.asPath.split("/");
+    const worldOrPage = path[1] === "world" ? "world" : "page";
 
     const body = createSpecificPageSchema.safeParse({
-      worldId: page.data?.worldId,
+      worldId: worldOrPage === "world" ? path[2] : page.data?.worldId,
       pageType: type,
     });
 

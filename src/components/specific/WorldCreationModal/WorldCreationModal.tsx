@@ -153,7 +153,7 @@ export default function WorldCreationModal() {
               }
             }).catch((error) => {
               toast.error('Erro ao enviar imagem!');
-            });
+            })
           } else {
             toast.custom((t) => (
               <Sucess
@@ -169,7 +169,9 @@ export default function WorldCreationModal() {
               setIsModalOpen(false);
             }, 500);
           }
-          worldList.refetch();
+          setTimeout(() => {
+            worldList.refetch();
+          }, 500);
         }
       });
   }

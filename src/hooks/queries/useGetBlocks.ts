@@ -43,6 +43,9 @@ export default function useGetBlocks(
 ): UseQueryResult<PartialBlock<BlockSchema>[], unknown> {
   return useQuery(["getBlocks", pageId], () => getBlocks(pageId), {
     enabled: !!pageId, //only fetch if there is a pageId
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
+    cacheTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 }

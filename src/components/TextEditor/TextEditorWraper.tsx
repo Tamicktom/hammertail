@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import type { PartialBlock, BlockSchema } from "@blocknote/core";
 import { CircleNotch } from '@phosphor-icons/react';
+import { useAtom } from 'jotai';
 
 //* Components imports
 import TextEditor from './TextEditor';
@@ -15,6 +16,9 @@ import useGetBlocks from '../../hooks/queries/useGetBlocks';
 //* Types imports
 import type { Page } from "@prisma/client";
 
+//* Atom imports
+import { saveStateAtom } from '../../atoms/saveStates';
+
 type Props = {
   page: Page;
 }
@@ -24,6 +28,7 @@ export default function TextEditorWrapper(props: Props) {
   const debouncedContent = useDebounce(content, 1200);
   const initialBlocks = useGetBlocks(props.page.id);
   const saveBlocks = useSaveBlock();
+  const setSaving = useAtom(saveStateAtom)[1]
 
   useDidMountEffect(() => {
     if (initialBlocks.isSuccess) {
@@ -40,9 +45,17 @@ export default function TextEditorWrapper(props: Props) {
   // save blocks when content changes
   useEffect(() => {
     if (debouncedContent) {
+      setSaving('saving');
       saveBlocks.mutate({
         pageId: props.page.id,
         blocks: debouncedContent
+      }, {
+        onSuccess: () => {
+          setSaving('saved');
+        },
+        onError: () => {
+          setSaving('error');
+        },
       });
     }
   }, [debouncedContent]);

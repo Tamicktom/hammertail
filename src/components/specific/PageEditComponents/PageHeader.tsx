@@ -52,7 +52,7 @@ export default function PageHeader() {
     setPageName(page.data?.name || "NO NAME");
   }, [page.data?.name]);
 
-  if (page.isLoading || page.isRefetching)
+  if (page.isLoading)
     return (
       <div className='flex flex-col w-full gap-2 mb-8'>
         <span className='text-xl text-transparent h-7 bg-gradient-to-r from-primary-600 to-primary-800 animate-pulse rounded-lg'>

@@ -37,7 +37,7 @@ export default function CreatePageButton() {
   const router = useRouter();
   const page = usePage(typeof router.query.index === "string" ? router.query.index : "");
 
-  if (page.isLoading || page.isFetching) return (
+  if (page.isLoading) return (
     <button className="flex items-center w-[135px] h-10 gap-2 px-4 py-2 rounded-md bg-gradient-to-b from-primary-600 to-primary-800 animate-pulse" />
   );
 

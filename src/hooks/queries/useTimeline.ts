@@ -20,6 +20,7 @@ export default function useTimeline(pageId: string) {
   return useQuery(["timeline", pageId], () => getTimeline(pageId), {
     staleTime: 1000 * 60 * 5, // 5 minutes
     cacheTime: 1000 * 60 * 5, // 5 minutes
-    refetchOnWindowFocus: true,
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 }
